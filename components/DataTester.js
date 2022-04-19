@@ -1,11 +1,11 @@
 import Editor from "../components/Editor";
 import Table from "../components/Table";
 import Loader from "../components/Loader";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
-import { doc, getDoc } from "firebase/firestore";
+// import { doc, getDoc } from "firebase/firestore";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import {
   firestore,
@@ -13,23 +13,8 @@ import {
   sessionToJSON,
   fromMillis,
 } from "../lib/firebase";
-import DataTester from "../components/DataTester";
 
-export async function getServerSideProps(context) {
-  const postsQuery = firestore
-    .collection("agSched")
-
-    .orderBy("createdAt", "desc")
-    .limit(10);
-
-  const posts = (await postsQuery.get()).docs.map(sessionToJSON);
-
-  return {
-    props: { posts },
-  };
-}
-
-export default function Home(props) {
+const DataTester = (props) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [posts, setPosts] = useState(props.posts);
@@ -76,30 +61,30 @@ export default function Home(props) {
 
   // console.log("newSessions", newSessions);
 
-  const getMorePosts = async () => {
-    setLoading(true);
-    const last = posts[posts.length - 1];
+  // const getMorePosts = async () => {
+  //   setLoading(true);
+  //   const last = posts[posts.length - 1];
 
-    const cursor =
-      typeof last.createdAt === "number"
-        ? fromMillis(last.createdAt)
-        : last.createdAt;
+  //   const cursor =
+  //     typeof last.createdAt === "number"
+  //       ? fromMillis(last.createdAt)
+  //       : last.createdAt;
 
-    const query = firestore
-      .collection("agSched")
-      .orderBy("createdAt", "desc")
-      .startAfter(cursor)
-      .limit(5);
+  //   const query = firestore
+  //     .collection("agSched")
+  //     .orderBy("createdAt", "desc")
+  //     .startAfter(cursor)
+  //     .limit(5);
 
-    const newPosts = (await query.get()).docs.map((doc) => doc.data());
+  //   const newPosts = (await query.get()).docs.map((doc) => doc.data());
 
-    setPosts(posts.concat(newPosts));
-    setLoading(false);
+  //   setPosts(posts.concat(newPosts));
+  //   setLoading(false);
 
-    if (newPosts.length < 5) {
-      setPostsEnd(true);
-    }
-  };
+  //   if (newPosts.length < 5) {
+  //     setPostsEnd(true);
+  //   }
+  // };
 
   const batchSubmitHandler = (e) => {
     setLoading(true);
@@ -108,14 +93,11 @@ export default function Home(props) {
       scheduleRef.add(newSessions[i]);
     }
     setLoading(false);
-    return notify("Success!");
+    // return notify("Success!");
   };
-
-  // console.log("dtatbase check", scheduleRef);
 
   return (
     <>
-      {/* <Toaster /> */}
       <div className="flex-col">
         <div className="flex">
           <Editor submitHandler={submitHandler} />
@@ -139,17 +121,15 @@ export default function Home(props) {
                   Submit Data to Server
                 </button>
               )}
+              {/* {isSubmit && toast.success("Data was successfully submitted!")} */}
               {loading && <loading show />}
             </div>
           </div>
         </div>
         {loading && <Loader show />}
       </div>
-      {/* <DataTester props={props.props} /> */}
     </>
   );
-}
+};
 
-{
-  /* {isSubmit && toast.success("Data was successfully submitted!")} */
-}
+export default DataTester;
