@@ -161,3 +161,8 @@ th {
   box-shadow: var(--box-shadow);
   padding: 0.5rem;
 }
+
+.push-left {
+  display: flex;
+  gap: 1rem;
+}

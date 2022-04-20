@@ -1,7 +1,9 @@
 import Link from "next/link";
+import { useContext } from "react";
+import { UserContext } from "../lib/context";
 
 export default function NavBar() {
-  const user = true;
+  const { user } = useContext(UserContext);
 
   return (
     <nav className="navbar">
@@ -13,13 +15,18 @@ export default function NavBar() {
         </li>
 
         {user && (
-          <>
+          <div className="push-left">
             <li>
-              <Link href="/admin">
-                <button className="btn btn-login">Edit Schedules</button>
+              <Link href="/enter">
+                <button className="btn btn-login">Profile</button>
               </Link>
             </li>
-          </>
+            {/* <li>
+              <Link href="/enter">
+                <button className="btn btn-login">Sign Out</button>
+              </Link>
+            </li> */}
+          </div>
         )}
 
         {!user && (
