@@ -1,44 +1,48 @@
 import Editor from "../components/Editor";
-import Table from "../components/Table";
+import Table, { TableRow } from "../components/Table";
 import Loader from "../components/Loader";
 import { toast } from "react-hot-toast";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../lib/context";
+import Modal from "../components/Modal";
 
-import { useState } from "react";
+import { firestore, serverTimestamp, sessionToJSON, db } from "../lib/firebase";
+import { deleteDoc, doc } from "firebase/firestore";
+import SimpleTable from "../components/SimpleTable";
 
-import {
-  firestore,
-  serverTimestamp,
-  sessionToJSON,
-  fromMillis,
-} from "../lib/firebase";
+// /////////////////////////
+// READ FROM DATABASE (GET)
+// /////////////////////////
 
 export async function getServerSideProps(context) {
   const postsQuery = firestore
     .collection("agSched")
-
     .orderBy("createdAt", "desc")
-    .limit(10);
-
+    .limit(20);
+  // return postsQuery;
   const posts = (await postsQuery.get()).docs.map(sessionToJSON);
-
+  // const docIds = {await postsQuery.get(doc.id)}
   return {
     props: { posts },
   };
 }
+
+const btnFilterClickHandler = (e) => {
+  // setBtnName(e.target.innerHTML);
+  // getServerSideProps(e.target.innerHTML);
+};
 
 export default function Home(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [posts, setPosts] = useState(props.posts);
   const [newSessions, setNewSessions] = useState([]);
   const [isSubmit, setIsSubmit] = useState(false);
+  const [btnName, setBtnName] = useState(null);
+  const [sessionsToDelete, setSessionsToDelete] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [modalContent, setModalContent] = useState({});
 
   const { user } = useContext(UserContext);
-
-  const notify = (message) => {
-    toast(message);
-  };
 
   // server communication
   let scheduleRef;
@@ -46,7 +50,6 @@ export default function Home(props) {
 
   scheduleRef = firestore.collection("agSched");
 
-  // write to database
   const submitHandler = (e) => {
     e.preventDefault();
 
@@ -64,8 +67,6 @@ export default function Home(props) {
       },
     ]);
 
-    console.log(newSessions);
-
     e.target.subject.value = "";
     e.target.course.value = "";
     e.target.dayTime.value = "";
@@ -74,112 +75,96 @@ export default function Home(props) {
     e.target.mode.value = "";
   };
 
-  // console.log("newSessions", newSessions);
-
-  // const getMorePosts = async () => {
-  //   setLoading(true);
-  //   const last = posts[posts.length - 1];
-
-  //   const cursor =
-  //     typeof last.createdAt === "number"
-  //       ? fromMillis(last.createdAt)
-  //       : last.createdAt;
-
-  //   const query = firestore
-  //     .collection("agSched")
-  //     .orderBy("createdAt", "desc")
-  //     .startAfter(cursor)
-  //     .limit(5);
-
-  //   const newPosts = (await query.get()).docs.map((doc) => doc.data());
-
-  //   setPosts(posts.concat(newPosts));
-  //   setLoading(false);
-
-  //   if (newPosts.length < 5) {
-  //     setPostsEnd(true);
-  //   }
-  // };
-
-  // FIXME: buggy! For some reason the batch commit will only write the last object in the array to the database...? Not sure if it's an issue with batch.set inside of the for loop. try pushing all batch.set into promises arr, maybe writing the batch.commit without the await, then using await on the promise array?
-  // NOTE: Cant tell if its an issue with use state and updating the state based on prev state or not... Probably?
+  const deleteSessionsHandler = async (e) => {
+    docRef = firestore.collection("agSched");
+    docRef.doc();
+  };
 
   const batchSubmitHandler = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setIsSubmit(true);
-
-    const docRef = firestore.collection("agSched").doc();
+    // toast.loading("Sending...");
 
     const batch = firestore.batch();
-    const promises = [];
-    // console.log("enter for loop to batch");
+
     for (let i = 0; i < newSessions.length; i++) {
-      promises.push(batch.set(docRef, newSessions[i]));
-      // if (i >= newSessions.length - 1) {
-      //   console.log(`Committing batch of ${i}`);
-      //   promises.push(batch.commit());
-      // }
-      // console.log("in for loop at #", i);
-      console.log(`promises`, promises);
+      const docRef = firestore.collection("agSched").doc();
+      batch.set(docRef, newSessions[i]);
     }
-    // console.log("exit for loop, counter =");
 
-    await batch.commit();
-    // console.log("after batch.commit");
+    // notify("Success!");
+    // useToast("success", "Success!");
+
+    toast.success("Sucussfully submitted to the server!");
     setIsLoading(false);
-    return notify("Success!");
-
-    // newSessions.forEach((s) => {
-    //   batch.set(docRef, {
-    //     subject: s.subject,
-    //     course: s.course,
-    //     dayTime: s.dayTime,
-    //     host: s.host,
-    //     link: s.link,
-    //     mode: s.mode,
-    //     createdAt: s.createdAt,
-    //     id: s.id,
-    //   });
-    // });
+    await batch.commit();
+    return setNewSessions([]);
   };
 
-  // console.log("dtatbase check", scheduleRef);
+  const radioSeectHandler = () => {};
+
+  const modalTrigger = (e) => {
+    setShowModal(true);
+    setModalContent({
+      action: e.target.innerHTML,
+      session: e.target.id,
+      id: e.target.parentElement.getAttribute("data-id"),
+    });
+  };
+  const onCloseModal = () => {
+    setShowModal(false);
+  };
 
   return (
     <>
+      {showModal && (
+        <Modal
+          onClose={onCloseModal}
+          action={modalContent.action}
+          session={modalContent.session}
+          onConfirm={deleteSessionsHandler}
+        />
+      )}
       <div className="flex-col">
         <div className="flex">
-          {user && <Editor submitHandler={submitHandler} />}
+          <SimpleTable />
+          {/* {user && <Editor submitHandler={submitHandler} />}
+          <div className="btn-box">
+            <button onClick={modalTrigger}>Music</button>
+            <button onClick={btnFilterClickHandler}>Philosophy</button>
+            <button onClick={btnFilterClickHandler}>Biology</button>
+          </div>
           <div>
             <h1>TABLE</h1>
             <div>
               <h2>Current (server) Data</h2>
               <table>
                 <tbody>
-                  <Table posts={posts} />
+                  <Table
+                    posts={posts}
+                    deleteSessionsHandler={deleteSessionsHandler}
+                    triggerModal={modalTrigger}
+                  />
+                </tbody>
+              </table> */}
+          {user && (
+            <>
+              <h2>New Data</h2>
+              <table>
+                <tbody>
+                  <Table posts={newSessions} />
                 </tbody>
               </table>
-              {user && (
-                <>
-                  <h2>New Data</h2>
-                  <table>
-                    <tbody>
-                      <Table posts={newSessions} />
-                    </tbody>
-                  </table>
-                </>
-              )}
-              {newSessions.length && !isSubmit ? (
-                <button className="btn btn-login" onClick={batchSubmitHandler}>
-                  Submit Data to Server
-                </button>
-              ) : null}
-              {isLoading && <Loader show />}
-            </div>
-          </div>
+            </>
+          )}
+          {newSessions.length && !isSubmit ? (
+            <button className="btn btn-login" onClick={batchSubmitHandler}>
+              Submit Data to Server
+            </button>
+          ) : null}
+          {isLoading && <Loader show />}
         </div>
-        {isLoading && <Loader show />}
       </div>
     </>
   );

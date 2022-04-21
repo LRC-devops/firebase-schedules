@@ -1,15 +1,17 @@
-export default function Table({ posts }) {
-  return posts
-    ? posts.map((post) => <TableRow post={post} key={Math.random()} />)
-    : null;
-}
+import { doc } from "firebase/firestore";
+import { useState } from "react";
+import Modal from "../components/Modal";
+import TableRow from "../components/TableRow";
 
-function TableRow({ post }) {
-  return (
-    <tr key={post.key}>
-      <td>{post.host}</td>
-      <td>{post.dayTime}</td>
-      <td>{post.mode}</td>
-    </tr>
-  );
+export default function Table(props) {
+  return props.posts
+    ? props.posts.map((post) => (
+        <TableRow
+          post={post}
+          key={doc.id}
+          triggerModal={props.triggerModal}
+          dataId={doc.id}
+        />
+      ))
+    : null;
 }

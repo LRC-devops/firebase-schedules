@@ -18,7 +18,8 @@ export default function NavBar() {
           <div className="push-left">
             <li>
               <Link href="/enter">
-                <button className="btn btn-login">Profile</button>
+                {/* <button className="btn btn-login">Profile</button> */}
+                <img src={user?.photoURL || "/hacker/png"} alt="user photo" />
               </Link>
             </li>
             {/* <li>
