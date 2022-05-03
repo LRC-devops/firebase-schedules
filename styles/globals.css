@@ -45,6 +45,7 @@ a {
   justify-content: space-around;
   align-items: flex-start;
   width: 100%;
+  gap: 2rem;
 }
 .flex-col {
   display: flex;
@@ -69,7 +70,7 @@ a {
 td,
 th {
   padding: 1rem;
-  border: 1px solid #000;
+  /* border: 1px solid #000; */
 }
 
 /* LOADING SPINNER */
@@ -236,3 +237,72 @@ th {
 .modal__icon:hover {
   color: red;
 }
+
+.is-deleted {
+  background-color: red;
+}
+
+main {
+  padding: 2rem 3rem;
+}
+
+.zoom-session {
+  background-color: var(--clr-green);
+}
+.in-person-session {
+  background-color: var(--clr-gold);
+}
+.cancel-session {
+  background-color: rgba(182, 52, 52, 0.5);
+}
+
+/* Table Styling */
+table {
+  border-collapse: collapse;
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 0.5rem;
+  width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  border: none;
+  outline: none;
+
+  height: 100px;
+  /* overflow-y: scroll; */
+
+  box-shadow: var(--box-shadow);
+}
+td,
+th {
+  /* border: 1px solid var(--clr-white); */
+  padding: 1rem;
+}
+th {
+  text-align: left;
+}
+/* tr:nth-child(odd) {
+  background-color: rgb(255, 255, 255);
+} */
+
+tr:not(:last-child) {
+  border-bottom: 1px solid var(--clr-white);
+}
+td:not(:last-child) {
+  border-right: 1px solid var(--clr-white);
+}
+
+.table--link:link,
+.table--link:visited {
+  color: black;
+  border-bottom: 1px solid black;
+  transition: var(--transition);
+}
+
+.table--link:hover,
+.table-link:active {
+  color: blue;
+  border-bottom: 1px solid blue;
+}
+
+/* .table--box {
+} */
