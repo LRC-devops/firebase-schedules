@@ -8,27 +8,6 @@ function TableRow(props) {
 
   const { user } = useContext(UserContext);
 
-  // let sessionToEdit = [];
-  // const radioSelectHandler = (e) => {
-  //   // setSessionToEdit([...sessionToEdit, e.target.id]);
-  //   // setSessionToEdit((prevData) => [...prevData, e.target.id]);
-  //   // setSessionToEdit([...sessionToEdit, e.target.id]);
-  //   // sessionToEdit.push(e.target.id);
-  //   // console.log(e.target.id);
-  //   // setSessionToEdit([e.target.id]);
-  //   // console.log(
-  //   //   "session added to radioselectHandler in Table.js",
-  //   //   sessionToEdit
-  //   // );
-  // };
-
-  // const deleteHandler = (e) => {
-  //   // setShowModal(true);
-  //   // console.log("target", e.target.id);
-  //   // setSessionToEdit(e.target.id);
-  //   // console.log("sessionToEdit", sessionToEdit);
-  // };
-
   let trClass;
   if (props.post.cancel) {
     trClass = "cancel-session";

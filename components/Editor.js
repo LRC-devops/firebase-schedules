@@ -1,15 +1,11 @@
 import { firestore, db } from "../lib/firebase";
+import { useState } from "react";
 
 export default function Editor(props) {
-  // if (props.value) {
-  //   console.log("props.value", true);
-  // } else {
-  //   console.log("props.value", false);
-  // }
-
-  // console.log(db.collection("agSched").doc(props.value).data());
-
-  // console.log("props.value", props.value);
+  let optionUpdate = props.isCancelled;
+  const updateOption = () => {
+    return !optionUpdate;
+  };
   return (
     <div>
       <h1>EDITOR</h1>
@@ -22,9 +18,12 @@ export default function Editor(props) {
         <input type="text" placeholder="host" name="host" />
         <input type="text" placeholder="link" name="link" />
         <input type="text" placeholder="mode" name="mode" />
-        <select name="isCancel" value={props.value}>
+        {/* FIXME Cant get the select value to update onChange. When I try to useState, it triggers an infinite loop somehow and I get stuck. Does the entire component really need to rerender (must use useState) in order to update the select value? */}
+        <select name="isCancel" value={optionUpdate} onChange={updateOption}>
           <option value={true}>Is Cancelled</option>
-          <option value={false}>Is Not Cancelled</option>
+          <option value={false} selected>
+            Is NOT Cancelled
+          </option>
         </select>
         <button>Submit</button>
       </form>

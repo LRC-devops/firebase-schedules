@@ -14,7 +14,12 @@ const Modal = (props) => {
   } else if (props.action === "EDIT") {
     modalContent = (
       <>
-        <Editor value={props.session} onSubmit={props.submitEditHandler} />
+        <Editor
+          value={props.session}
+          onSubmit={props.submitEditHandler}
+          posts={props.posts}
+          isCancelled={props.modalContent.isCancelled}
+        />
       </>
     );
   } else if (props.action === "CANCEL") {

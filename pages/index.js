@@ -27,10 +27,12 @@ export async function getServerSideProps(context) {
   };
 }
 
-const btnFilterClickHandler = (e) => {
-  // setBtnName(e.target.innerHTML);
-  // getServerSideProps(e.target.innerHTML);
-};
+// const btnFilterClickHandler = (e) => {
+//   // setBtnName(e.target.innerHTML);
+//   // getServerSideProps(e.target.innerHTML);
+// };
+
+// NOTE NEED TO ADD FUNCTIONALITY THAT ADDS A USER TO THE USER COLLECTION IN FIRESTORE SO THAT I CAN SET SELECT USERS AS ADMIN: TRUE, AND ONLY WHEN ADMIN === TRUE WILL THE INTERFACE SHOW THE EDIT FEATURES.
 
 export default function Home(props) {
   const [isLoading, setIsLoading] = useState(false);
@@ -114,7 +116,6 @@ export default function Home(props) {
     e.preventDefault();
     setIsLoading(true);
     setIsSubmit(true);
-    // toast.loading("Sending...");
 
     const batch = firestore.batch();
 
@@ -122,9 +123,6 @@ export default function Home(props) {
       const docRef = firestore.collection("agSched").doc();
       batch.set(docRef, newSessions[i]);
     }
-
-    // notify("Success!");
-    // useToast("success", "Success!");
 
     toast.success("Sucussfully submitted to the server!");
     setIsLoading(false);
@@ -144,12 +142,28 @@ export default function Home(props) {
     setShowModal(false);
   };
 
+  const isCancelled = () => {
+    const session = posts.filter((session) => session.docId === target);
+    return session.cancel;
+  };
+
+  const checkIsCancelled = (target) => {
+    const session = posts.filter((session) => {
+      return session.docId === target;
+    });
+    return session[0].cancel;
+  };
+  // console.log("checkIsCancelled", checkIsCancelled());
+
   const triggerEdit = (e) => {
     setShowModal(true);
+    const sessionCancel = checkIsCancelled(e.target.id);
+    console.log("sessionCancel in triggerEdit()", sessionCancel);
     setModalContent({
       action: e.target.innerHTML,
       session: e.target.id,
       id: e.target.parentElement.getAttribute("data-id"),
+      isCancelled: sessionCancel,
     });
   };
 
@@ -165,6 +179,7 @@ export default function Home(props) {
       const newArr = [];
 
       // Create array from target form (Editor)
+
       Array.from(e.target.elements).forEach((session) => {
         newArr.push(session.value);
       });
@@ -187,6 +202,7 @@ export default function Home(props) {
         newArr.forEach((session, index) => {
           if (session.length > 0) {
             const updateData = docRef.update(editRefArr[index], session);
+            // console.log("updatedData", updateData);
           } else {
             null;
           }
@@ -225,9 +241,11 @@ export default function Home(props) {
           onClose={onCloseModal}
           action={modalContent.action}
           session={modalContent.session}
+          modalContent={modalContent}
           onConfirm={deleteSessionsHandler}
           cancelSubmitHandler={cancelSubmitHandler}
           submitEditHandler={submitEditHandler}
+          posts={posts}
         />
       )}
       <div className="flex-col">
