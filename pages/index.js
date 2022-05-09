@@ -7,8 +7,6 @@ import { UserContext } from "../lib/context";
 import Modal from "../components/Modal";
 
 import { firestore, serverTimestamp, sessionToJSON, db } from "../lib/firebase";
-import { deleteDoc, doc } from "firebase/firestore";
-import SimpleTable from "../components/SimpleTable";
 
 // /////////////////////////
 // READ FROM DATABASE (GET)
@@ -227,7 +225,7 @@ export default function Home(props) {
     setIsLoading(true);
     const id = e.target.id;
     const docRef = db.collection("agSched").doc(id);
-    docRef.update("cancel", true);
+    // docRef.update("cancel", true);
     docRef.update("initCancel", e.target.initCancel.value);
     docRef.update("revertCancel", e.target.revertCancel.value);
     setIsLoading(false);
