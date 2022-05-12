@@ -1,16 +1,19 @@
 import Editor from "../components/Editor";
-import Table, { TableRow } from "../components/Table";
+import Table from "../components/Table";
 import Loader from "../components/Loader";
 import { toast } from "react-hot-toast";
 import { useContext, useState } from "react";
-import { UserContext } from "../lib/context";
+import { SessionsContext, UserContext } from "../lib/context";
 import Modal from "../components/Modal";
+import { useAddSession } from "../lib/hooks";
 
 import { firestore, serverTimestamp, sessionToJSON, db } from "../lib/firebase";
 
 // /////////////////////////
 // READ FROM DATABASE (GET)
 // /////////////////////////
+
+// NOTE maybe I should switch this UI so that `!user ? serverSideProps : onSnapshotChange`
 
 export async function getServerSideProps(context) {
   const postsQuery = firestore
@@ -25,78 +28,23 @@ export async function getServerSideProps(context) {
   };
 }
 
-// const btnFilterClickHandler = (e) => {
-//   // setBtnName(e.target.innerHTML);
-//   // getServerSideProps(e.target.innerHTML);
-// };
-
 // NOTE NEED TO ADD FUNCTIONALITY THAT ADDS A USER TO THE USER COLLECTION IN FIRESTORE SO THAT I CAN SET SELECT USERS AS ADMIN: TRUE, AND ONLY WHEN ADMIN === TRUE WILL THE INTERFACE SHOW THE EDIT FEATURES.
 
 export default function Home(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [posts, setPosts] = useState(props.posts);
-  const [newSessions, setNewSessions] = useState([]);
-  const [editSession, setEditSession] = useState([]);
+  // const [newSessions, setNewSessions] = useState([]);
   const [isSubmit, setIsSubmit] = useState(false);
-
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState({});
   const [isDeleted, setIsDeleted] = useState([]);
   const [isValid, setIsValid] = useState(true);
-  const [radioArr, setRadioArr] = useState([]);
 
   const { user } = useContext(UserContext);
-
-  // console.log(props.posts);
-
+  const { newSessions, setNewSessions } = useContext(SessionsContext);
   // server communication
-  let scheduleRef;
-  let unsubscribe;
-
-  scheduleRef = firestore.collection("agSched");
-
-  const submitHandler = (e) => {
-    e.preventDefault();
-
-    const s = e.target;
-    // console.log(s.host.value.length);
-
-    if (
-      s.subject.value.length < 0 ||
-      s.course.value.length < 0 ||
-      s.dayTime.value.length < 0 ||
-      s.host.value.length < 0 ||
-      s.mode.value.length < 0
-    ) {
-      setIsValid(false);
-    }
-
-    if (!isValid) {
-      return toast.error("session data is incomplete");
-    } else if (isValid) {
-      setNewSessions([
-        ...newSessions,
-        {
-          subject: e.target.subject.value,
-          course: e.target.course.value,
-          dayTime: e.target.dayTime.value,
-          host: e.target.host.value,
-          link: e.target.link.value,
-          mode: e.target.mode.value,
-          createdAt: serverTimestamp(),
-          id: `agSched${String(Math.random())}`,
-        },
-      ]);
-
-      // reset inputs
-      e.target.subject.value = "";
-      e.target.course.value = "";
-      e.target.dayTime.value = "";
-      e.target.host.value = "";
-      e.target.link.value = "";
-      e.target.mode.value = "";
-    }
-  };
+  // let scheduleRef;
+  // scheduleRef = firestore.collection("agSched");
 
   const deleteSessionsHandler = async (e) => {
     // docRef = firestore.collection("agSched");
@@ -134,6 +82,7 @@ export default function Home(props) {
       action: e.target.innerHTML,
       session: e.target.id,
       id: e.target.parentElement.getAttribute("data-id"),
+      name: e.target.subject,
     });
   };
   const onCloseModal = () => {
@@ -156,12 +105,14 @@ export default function Home(props) {
   const triggerEdit = (e) => {
     setShowModal(true);
     const sessionCancel = checkIsCancelled(e.target.id);
-    console.log("sessionCancel in triggerEdit()", sessionCancel);
+    // console.log("sessionCancel in triggerEdit()", sessionCancel);
+    console.log(e.target.id);
     setModalContent({
       action: e.target.innerHTML,
       session: e.target.id,
       id: e.target.parentElement.getAttribute("data-id"),
       isCancelled: sessionCancel,
+      name: e.target.session,
     });
   };
 
@@ -184,7 +135,7 @@ export default function Home(props) {
 
       const docRef = firestore.collection("agSched").doc(modalContent.session);
 
-      // CONVERT DATA INTO OBJECT - NOTE keep getting error that firestore wont take an array, however, the adat is being transfered perfectly fine even with the thrown error message
+      // CONVERT DATA INTO OBJECT - NOTE keep getting error that firestore wont take an array, however, the edit is being transfered perfectly fine even with the thrown error message
       // const convToObj = newArr.map((obj) => {
       //   return Object.assign({}, obj);
       // });
@@ -229,7 +180,7 @@ export default function Home(props) {
     docRef.update("initCancel", e.target.initCancel.value);
     docRef.update("revertCancel", e.target.revertCancel.value);
     setIsLoading(false);
-    toast.success("Session was successfully deleted");
+    toast.success("Session was successfully cancelled");
   };
 
   return (
@@ -239,6 +190,7 @@ export default function Home(props) {
           onClose={onCloseModal}
           action={modalContent.action}
           session={modalContent.session}
+          name={modalContent.name}
           modalContent={modalContent}
           onConfirm={deleteSessionsHandler}
           cancelSubmitHandler={cancelSubmitHandler}
@@ -250,7 +202,8 @@ export default function Home(props) {
         <div className="flex">
           {/* <SimpleTable /> */}
           {user && (
-            <Editor submitHandler={submitHandler} setIsValid={setIsValid} />
+            // <Editor submitHandler={submitHandler} setIsValid={setIsValid} />
+            <Editor setIsValid={setIsValid} />
           )}
 
           <div>
@@ -282,6 +235,7 @@ export default function Home(props) {
                 </button>
               ) : null}
               {isLoading && <Loader show />}
+              {/* <Loader show /> */}
             </div>
           </div>
         </div>

@@ -1,13 +1,39 @@
+import { useAddSession } from "../lib/hooks";
+import { SessionsContext } from "../lib/context";
+import { useContext } from "react";
+import toast from "react-hot-toast";
+
 export default function Editor(props) {
+  const { setNewSessions } = useContext(SessionsContext);
   let optionUpdate = props.isCancelled;
   const updateOption = () => {
     return !optionUpdate;
   };
+  const submitHandler = (e) => {
+    e.preventDefault();
+    let s = e.target;
+
+    if (
+      s.subject.value.length === 0 ||
+      s.course.value.length === 0 ||
+      s.dayTime.value.length === 0 ||
+      s.host.value.length === 0 ||
+      s.mode.value.length === 0
+    ) {
+      return toast.error("session data is incomplete");
+    } else {
+      const newSessions = useAddSession(e);
+      setNewSessions(newSessions);
+      return newSessions;
+    }
+  };
+
   return (
     <div>
       <h1>EDITOR</h1>
       {props.value ? <h2>{props.value}</h2> : null}
-      <form onSubmit={props.onSubmit} className="form-basic">
+      {/* <form onSubmit={props.onSubmit} className="form-basic"> */}
+      <form onSubmit={submitHandler} className="form-basic">
         {/* <label htmlFor="course">Course</label> */}
         <input type="text" placeholder="Subject" name="subject" />
         <input type="text" placeholder="Course" name="course" />
@@ -15,17 +41,6 @@ export default function Editor(props) {
         <input type="text" placeholder="host" name="host" />
         <input type="text" placeholder="link" name="link" />
         <input type="text" placeholder="mode" name="mode" />
-        {/* FIXME Cant get the select value to update onChange. When I try to useState, it triggers an infinite loop somehow and I get stuck. Does the entire component really need to rerender (must use useState) in order to update the select value? */}
-        <select
-          name="isCancel"
-          defaultValue={optionUpdate}
-          onChange={updateOption}
-        >
-          <option value={true}>Is Cancelled</option>
-          <option value={false} selected>
-            Is NOT Cancelled
-          </option>
-        </select>
         <button>Submit</button>
       </form>
     </div>

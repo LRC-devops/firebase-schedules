@@ -9,35 +9,10 @@ function TableRow(props) {
   const { user } = useContext(UserContext);
 
   let trClass;
-  // if (props.post.cancel) {
-  //   trClass = "cancel-session";
-  // } else if (props.post.mode === "Zoom") {
-  //   trClass = "zoom-session";
-  // } else {
-  //   trClass = "in-person-session";
-  // }
-  // const returnCancelSession = (data) => {
-  //   const today = new Date();
-  //   const todayMonth =
-  //     today.getMonth() < 10 ? `0${today.getMonth() + 1}` : today.getMonth() + 1;
-  //   const todayDay =
-  //     today.getDate() < 10 ? `0${today.getDate()}` : today.getDate();
-  //   const todayStr = `${todayMonth}-${todayDay}`;
 
-  //   // REMOVE FIRST 5 LETTERS FROM STRING (Typically year + '-')
-  //   const dataStr = data.slice(5);
-
-  //   if (todayStr === dataStr) {
-  //     // console.log("return true inside returnCancelSession", true);
-  //     return true;
-  //   } else {
-  //     // console.log("return false inside returnCancelSession", false);
-  //     return false;
-  //   }
-  // };
-  console.log(props.post.revertCancel);
+  // console.log(props.post.revertCancel);
   const dataTest = String(props.post.revertCancel);
-  console.log(dataTest.slice(5));
+  // console.log(dataTest.slice(5));
 
   const returnCancelSession = (initCancel, revertCancel) => {
     const today = new Date();
@@ -45,7 +20,6 @@ function TableRow(props) {
       today.getMonth() < 10 ? `0${today.getMonth() + 1}` : today.getMonth() + 1;
     const todayDay =
       today.getDate() < 10 ? `0${today.getDate()}` : today.getDate();
-    // const todayStr = `${todayMonth}-${todayDay}`;
 
     // REMOVE FIRST 5 LETTERS FROM STRING (Typically year + '-')
     const stringInit = String(initCancel);
@@ -53,23 +27,23 @@ function TableRow(props) {
     const dataStrInit = stringInit.slice(5);
     const dataStrRevert = stringRevert.slice(5);
 
-    console.log("dataStrInit", dataStrInit);
-    console.log("dataStrRevert", dataStrRevert);
+    // console.log("dataStrInit", dataStrInit);
+    // console.log("dataStrRevert", dataStrRevert);
 
     if (Number(dataStrInit.slice(0, 2)) === Number(todayMonth)) {
-      // console.log(true);
       if (
         Number(todayDay) >= Number(dataStrInit.slice(3)) &&
         Number(todayDay) < Number(dataStrRevert.slice(3))
       ) {
-        console.log("Session Should be Cancelled!");
+        // console.log("Session Should be Cancelled!");
         return true;
       } else {
-        console.log("Session should not be cancelled");
+        // console.log("Session should not be cancelled");
         return false;
       }
     }
   };
+
   if (returnCancelSession(props.post.initCancel, props.post.revertCancel)) {
     trClass = "cancel-session";
   } else if (props.post.mode === "Zoom") {
@@ -78,34 +52,12 @@ function TableRow(props) {
     trClass = "in-person-session";
   }
 
-  // console.log(returnCancelSession("2022-05-09"));
-  // console.log("props.post.initCancel", props.post.initCancel);
-  // console.log("props.post.initCancel", props.post.host);
-  // console.log(returnCancelSession(props.post.initCancel));
-
   if (props.post.initCancel) {
-    // console.log(props.post.initCancel);
     returnCancelSession(props.post.initCancel);
     let trCancelClassDate = props.post.initCancel;
     let trCancelClass = props.post.docId;
-    console.log("trCancelClass", trCancelClass, trCancelClassDate);
+    // console.log("trCancelClass", trCancelClass, trCancelClassDate);
   }
-
-  // if (
-  //   props.post.initCancel.length > 0 &&
-  //   returnCancelSession(props.post.initCancel)
-  // ) {
-  //   trClass = "cancel-session";
-  // } else if (props.post.mode === "Zoom") {
-  //   trClass = "zoom-session";
-  // } else {
-  //   trClass = "in-person-session";
-  // }
-
-  // console.log("test returnCancelSession", returnCancelSession("2022-05-05"));
-
-  // if (props.post.initCancel) {
-  // }
 
   let mode;
   if (props.post.mode === "Zoom") {
@@ -127,6 +79,7 @@ function TableRow(props) {
               className="danger-link"
               onClick={props.triggerModal}
               id={props.post.docId}
+              session={`${props.post.host}-${props.post.course}`}
             >
               CANCEL
             </a>

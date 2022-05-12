@@ -7,7 +7,7 @@ const Modal = (props) => {
   if (props.action === "DELETE") {
     modalContent = (
       <>
-        <p>{`Are you sure you want to ${props.action} "${props.session}"?`}</p>
+        <p>{`Are you sure you want to ${props.action} "${props.name}"?`}</p>
         <button onClick={props.onConfirm}>Confirm {props.action}</button>
       </>
     );
