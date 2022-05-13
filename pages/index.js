@@ -5,7 +5,7 @@ import { toast } from "react-hot-toast";
 import { useContext, useState } from "react";
 import { SessionsContext, UserContext } from "../lib/context";
 import Modal from "../components/Modal";
-import { useAddSession } from "../lib/hooks";
+import { useAddSession, useDeleteSession } from "../lib/hooks";
 
 import { firestore, serverTimestamp, sessionToJSON, db } from "../lib/firebase";
 
@@ -32,31 +32,34 @@ export async function getServerSideProps(context) {
 
 export default function Home(props) {
   const [isLoading, setIsLoading] = useState(false);
-  const [posts, setPosts] = useState(props.posts);
-  // const [newSessions, setNewSessions] = useState([]);
   const [isSubmit, setIsSubmit] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState({});
   const [isDeleted, setIsDeleted] = useState([]);
-  const [isValid, setIsValid] = useState(true);
+  // const [posts, setPosts] = useState(props.posts);
+  // const [newSessions, setNewSessions] = useState([]);
+  // const [isValid, setIsValid] = useState(true);
 
   const { user } = useContext(UserContext);
   const { newSessions, setNewSessions } = useContext(SessionsContext);
-  // server communication
-  // let scheduleRef;
-  // scheduleRef = firestore.collection("agSched");
 
-  const deleteSessionsHandler = async (e) => {
-    // docRef = firestore.collection("agSched");
+  const posts = props.posts;
+  // server communication
+
+  const deleteSessionsHandler = (e) => {
     setIsLoading(true);
     const id = modalContent.session;
-    console.log(id);
-    await db.collection("agSched").doc(id).delete();
-    setIsLoading(false);
-    setShowModal(false);
-    setIsDeleted([...isDeleted, id]);
-    return toast.success(`${id} was successfully removed from the database`);
+    if (useDeleteSession(id)) {
+      setIsLoading(false);
+      setShowModal(false);
+      setIsDeleted([...isDeleted, id]);
+      return toast.success(`${id} was successfully removed from the database`);
+    } else {
+      return toast.error(`${id} was not from the database`);
+    }
   };
+
+  // Look into useReducer! Maybe use it for all of these submitHandlers, where i can set the type of action (edit, delete, cancel) then it always triggers one fn, will setLoading and modal content regardless, then specific fn for action
 
   const batchSubmitHandler = async (e) => {
     e.preventDefault();
@@ -75,7 +78,7 @@ export default function Home(props) {
     await batch.commit();
     return setNewSessions([]);
   };
-
+  // The reducer would house this modal trigger as well
   const modalTrigger = (e) => {
     setShowModal(true);
     setModalContent({
@@ -89,36 +92,35 @@ export default function Home(props) {
     setShowModal(false);
   };
 
-  const isCancelled = () => {
-    const session = posts.filter((session) => session.docId === target);
-    return session.cancel;
-  };
+  // const isCancelled = () => {
+  //   const session = posts.filter((session) => session.docId === target);
+  //   return session.cancel;
+  // };
 
-  const checkIsCancelled = (target) => {
-    const session = posts.filter((session) => {
-      return session.docId === target;
-    });
-    return session[0].cancel;
-  };
+  // const checkIsCancelled = (target) => {
+  //   const session = posts.filter((session) => {
+  //     return session.docId === target;
+  //   });
+  //   return session[0].cancel;
+  // };
   // console.log("checkIsCancelled", checkIsCancelled());
 
   const triggerEdit = (e) => {
     setShowModal(true);
-    const sessionCancel = checkIsCancelled(e.target.id);
+    // const sessionCancel = checkIsCancelled(e.target.id);
     // console.log("sessionCancel in triggerEdit()", sessionCancel);
     console.log(e.target.id);
     setModalContent({
       action: e.target.innerHTML,
       session: e.target.id,
       id: e.target.parentElement.getAttribute("data-id"),
-      isCancelled: sessionCancel,
+      // isCancelled: sessionCancel,
       name: e.target.session,
     });
   };
 
-  const editRefArr = ["subject", "course", "dayTime", "host", "link", "mode"];
-
   const submitEditHandler = async (e) => {
+    const editRefArr = ["subject", "course", "dayTime", "host", "link", "mode"];
     // Prevent Reload
     e.preventDefault();
     setIsLoading(true);
@@ -203,7 +205,7 @@ export default function Home(props) {
           {/* <SimpleTable /> */}
           {user && (
             // <Editor submitHandler={submitHandler} setIsValid={setIsValid} />
-            <Editor setIsValid={setIsValid} />
+            <Editor action={`add`} />
           )}
 
           <div>
@@ -215,7 +217,7 @@ export default function Home(props) {
                 <Table
                   key={String(Math.random())}
                   posts={posts}
-                  deleteSessionsHandler={deleteSessionsHandler}
+                  // deleteSessionsHandler={deleteSessionsHandler}
                   triggerModal={modalTrigger}
                   idDeleted={isDeleted}
                   triggerEdit={triggerEdit}

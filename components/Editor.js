@@ -6,25 +6,28 @@ import toast from "react-hot-toast";
 export default function Editor(props) {
   const { setNewSessions } = useContext(SessionsContext);
   let optionUpdate = props.isCancelled;
-  const updateOption = () => {
-    return !optionUpdate;
-  };
+  // const updateOption = () => {
+  //   return !optionUpdate;
+  // };
   const submitHandler = (e) => {
     e.preventDefault();
     let s = e.target;
-
-    if (
-      s.subject.value.length === 0 ||
-      s.course.value.length === 0 ||
-      s.dayTime.value.length === 0 ||
-      s.host.value.length === 0 ||
-      s.mode.value.length === 0
-    ) {
-      return toast.error("session data is incomplete");
+    if (props.action === `add`) {
+      if (
+        s.subject.value.length === 0 ||
+        s.course.value.length === 0 ||
+        s.dayTime.value.length === 0 ||
+        s.host.value.length === 0 ||
+        s.mode.value.length === 0
+      ) {
+        return toast.error("session data is incomplete");
+      } else {
+        const newSessions = useAddSession(e);
+        setNewSessions(newSessions);
+        return newSessions;
+      }
     } else {
-      const newSessions = useAddSession(e);
-      setNewSessions(newSessions);
-      return newSessions;
+      props.onSubmit(e);
     }
   };
 

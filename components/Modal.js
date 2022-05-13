@@ -1,9 +1,33 @@
+import { useContext } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import Editor from "./Editor";
-
+import { useDeleteSession } from "../lib/hooks";
+import { toast } from "react-hot-toast";
+import { SessionsProvider } from "../lib/context";
 const Modal = (props) => {
+  // const { setIsLoading, setShowModal, setIsDeleted } =
+  //   useContext(SessionsContext);
+
   let modalContent;
-  const modalFill = () => {};
+
+  const btnClickHandler = () => {
+    setIsLoading(true);
+
+    if (useDeleteSession()) {
+      const objRet = {
+        isLoading: false,
+        showModal: false,
+        isDeleted: [...isDeleted, id],
+      };
+      setIsLoading(false);
+      setShowModal(false);
+      setIsDeleted([...isDeleted, id]);
+      return toast.success(`${id} was successfully removed from the database`);
+    } else {
+      return toast.success(`${id} was not from the database`);
+    }
+  };
+  // const modalFill = () => {};
   if (props.action === "DELETE") {
     modalContent = (
       <>
@@ -19,6 +43,7 @@ const Modal = (props) => {
           onSubmit={props.submitEditHandler}
           posts={props.posts}
           isCancelled={props.modalContent.isCancelled}
+          action={`edit`}
         />
       </>
     );
@@ -41,7 +66,7 @@ const Modal = (props) => {
     );
   }
   return (
-    <>
+    <SessionsProvider>
       <div className="modal__background"></div>
       <div className="modal">
         <div className="modal__title">
@@ -51,19 +76,8 @@ const Modal = (props) => {
 
         <AiOutlineCloseCircle className="modal__icon" onClick={props.onClose} />
       </div>
-    </>
+    </SessionsProvider>
   );
 };
 
 export default Modal;
-
-// {props.action === "DELETE" ? (
-//   <>
-//     <p>{`Are you sure you want to ${props.action} "${props.session}"?`}</p>
-//     <button onClick={props.onConfirm}>Confirm {props.action}</button>
-//   </>
-// ) : (
-//   <>
-//     <Editor value={props.session} />
-//   </>
-// )}
