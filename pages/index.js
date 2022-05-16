@@ -1,13 +1,12 @@
 import Editor from "../components/Editor";
 import Table from "../components/Table";
 import Loader from "../components/Loader";
-import { toast } from "react-hot-toast";
 import { useContext, useState } from "react";
 import { SessionsContext, UserContext } from "../lib/context";
 import Modal from "../components/Modal";
-import { useAddSession, useDeleteSession } from "../lib/hooks";
+import { useBatchSubmitHandler, useCancelSubmitHandler } from "../lib/hooks";
 
-import { firestore, serverTimestamp, sessionToJSON, db } from "../lib/firebase";
+import { firestore, sessionToJSON } from "../lib/firebase";
 
 // /////////////////////////
 // READ FROM DATABASE (GET)
@@ -31,53 +30,63 @@ export async function getServerSideProps(context) {
 // NOTE NEED TO ADD FUNCTIONALITY THAT ADDS A USER TO THE USER COLLECTION IN FIRESTORE SO THAT I CAN SET SELECT USERS AS ADMIN: TRUE, AND ONLY WHEN ADMIN === TRUE WILL THE INTERFACE SHOW THE EDIT FEATURES.
 
 export default function Home(props) {
-  const [isLoading, setIsLoading] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const [modalContent, setModalContent] = useState({});
-  const [isDeleted, setIsDeleted] = useState([]);
-  // const [posts, setPosts] = useState(props.posts);
-  // const [newSessions, setNewSessions] = useState([]);
-  // const [isValid, setIsValid] = useState(true);
+  // const [modalContent, setModalContent] = useState({});
 
   const { user } = useContext(UserContext);
-  const { newSessions, setNewSessions } = useContext(SessionsContext);
+  const {
+    newSessions,
+    setNewSessions,
+    setIsLoading,
+    isLoading,
+    showModal,
+    setShowModal,
+    setIsDeleted,
+    modalContent,
+    setModalContent,
+  } = useContext(SessionsContext);
+  const sessionCtx = useContext(SessionsContext);
 
   const posts = props.posts;
   // server communication
 
+  // FIXME: DELETE handler
+
+  console.log("Modal content in index", modalContent);
+
   const deleteSessionsHandler = (e) => {
     setIsLoading(true);
-    const id = modalContent.session;
-    if (useDeleteSession(id)) {
-      setIsLoading(false);
-      setShowModal(false);
-      setIsDeleted([...isDeleted, id]);
-      return toast.success(`${id} was successfully removed from the database`);
-    } else {
-      return toast.error(`${id} was not from the database`);
-    }
+    setIsDeleted((prevState) => {
+      return [...prevState, modalContent.session];
+    });
+    sessionCtx.delete(modalContent.session);
+    setShowModal(false);
+    setIsLoading(false);
+  };
+  const submitEditHandler = (e) => {
+    setIsLoading(true);
+    e.preventDefault();
+    sessionCtx.edit(e, modalContent.session);
+    setIsLoading(false);
   };
 
-  // Look into useReducer! Maybe use it for all of these submitHandlers, where i can set the type of action (edit, delete, cancel) then it always triggers one fn, will setLoading and modal content regardless, then specific fn for action
-
-  const batchSubmitHandler = async (e) => {
-    e.preventDefault();
+  const addSessionHandler = (e) => {
     setIsLoading(true);
     setIsSubmit(true);
-
-    const batch = firestore.batch();
-
-    for (let i = 0; i < newSessions.length; i++) {
-      const docRef = firestore.collection("agSched").doc();
-      batch.set(docRef, newSessions[i]);
-    }
-
-    toast.success("Sucussfully submitted to the server!");
+    const s = e.target;
+    // useBatchSubmitHandler(e, newSessions);
+    // s.subject.value = "";
+    // s.course.value = "";
+    // s.dayTime.value = "";
+    // s.host.value = "";
+    // s.link.value = "";
+    // s.mode.value = "";
+    sessionCtx.add(e, newSessions);
     setIsLoading(false);
-    await batch.commit();
     return setNewSessions([]);
   };
+
+  // FIXME: MODAL handler
   // The reducer would house this modal trigger as well
   const modalTrigger = (e) => {
     setShowModal(true);
@@ -92,97 +101,14 @@ export default function Home(props) {
     setShowModal(false);
   };
 
-  // const isCancelled = () => {
-  //   const session = posts.filter((session) => session.docId === target);
-  //   return session.cancel;
-  // };
-
-  // const checkIsCancelled = (target) => {
-  //   const session = posts.filter((session) => {
-  //     return session.docId === target;
-  //   });
-  //   return session[0].cancel;
-  // };
-  // console.log("checkIsCancelled", checkIsCancelled());
-
-  const triggerEdit = (e) => {
-    setShowModal(true);
-    // const sessionCancel = checkIsCancelled(e.target.id);
-    // console.log("sessionCancel in triggerEdit()", sessionCancel);
-    console.log(e.target.id);
-    setModalContent({
-      action: e.target.innerHTML,
-      session: e.target.id,
-      id: e.target.parentElement.getAttribute("data-id"),
-      // isCancelled: sessionCancel,
-      name: e.target.session,
-    });
-  };
-
-  const submitEditHandler = async (e) => {
-    const editRefArr = ["subject", "course", "dayTime", "host", "link", "mode"];
-    // Prevent Reload
-    e.preventDefault();
-    setIsLoading(true);
-    // const formRef = e.target;
-    const batch = firestore.batch();
-    try {
-      const newArr = [];
-
-      // Create array from target form (Editor)
-
-      Array.from(e.target.elements).forEach((session) => {
-        newArr.push(session.value);
-      });
-
-      const docRef = firestore.collection("agSched").doc(modalContent.session);
-
-      // CONVERT DATA INTO OBJECT - NOTE keep getting error that firestore wont take an array, however, the edit is being transfered perfectly fine even with the thrown error message
-      // const convToObj = newArr.map((obj) => {
-      //   return Object.assign({}, obj);
-      // });
-      // const sessionToEdit: Project = {
-      //   id: modalContent.session,
-      //   name: modalContent.id,
-      //   newData: convToObj,
-      // };
-
-      // Iterate through array looking for only valid feilds
-
-      batch.set(
-        newArr.forEach((session, index) => {
-          if (session.length > 0) {
-            const updateData = docRef.update(editRefArr[index], session);
-            // console.log("updatedData", updateData);
-          } else {
-            null;
-          }
-        })
-      );
-      await batch.commit();
-      toast.success("Success!");
-    } catch (error) {
-      toast.error(error.message);
-    }
-
-    setIsLoading(false);
-    // location.reload();
-  };
-
-  const radioHandler = (e) => {
-    setRadioArr((prevData) => [...prevData, e.target.id]);
-  };
+  // FIXME: CANCEL handler
 
   const cancelSubmitHandler = (e) => {
-    e.preventDefault();
     setIsLoading(true);
-    const id = e.target.id;
-    const docRef = db.collection("agSched").doc(id);
-    // docRef.update("cancel", true);
-    docRef.update("initCancel", e.target.initCancel.value);
-    docRef.update("revertCancel", e.target.revertCancel.value);
+    e.preventDefault();
+    useCancelSubmitHandler(e);
+    // sessionCtx.cancel(e);
     setIsLoading(false);
-    toast.success("Session was successfully cancelled");
   };
 
   return (
@@ -219,9 +145,9 @@ export default function Home(props) {
                   posts={posts}
                   // deleteSessionsHandler={deleteSessionsHandler}
                   triggerModal={modalTrigger}
-                  idDeleted={isDeleted}
-                  triggerEdit={triggerEdit}
-                  radioHandler={radioHandler}
+                  // idDeleted={isDeleted}
+                  triggerEdit={modalTrigger}
+                  // radioHandler={radioHandler}
                 />
               </div>
               {user && (
@@ -231,12 +157,12 @@ export default function Home(props) {
                   <Table posts={newSessions} key={String(Math.random())} />
                 </>
               )}
-              {newSessions.length && !isSubmit ? (
-                <button className="btn btn-login" onClick={batchSubmitHandler}>
+              {newSessions.length && !sessionCtx.isSubmit ? (
+                <button className="btn btn-login" onClick={addSessionHandler}>
                   Submit Data to Server
                 </button>
               ) : null}
-              {isLoading && <Loader show />}
+              {sessionCtx.isLoading && <Loader show />}
               {/* <Loader show /> */}
             </div>
           </div>

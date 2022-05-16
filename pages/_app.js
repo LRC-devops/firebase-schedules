@@ -1,5 +1,10 @@
 import NavBar from "../components/NavBar";
-import { UserContext, ShowModal, SessionsContext } from "../lib/context";
+import {
+  UserContext,
+  ShowModal,
+  SessionsContext,
+  SessionsProvider,
+} from "../lib/context";
 import "../styles/globals.css";
 import { Toaster } from "react-hot-toast";
 import { useAddSession, useUserData } from "../lib/hooks";
@@ -14,9 +19,11 @@ function MyApp({ Component, pageProps }) {
     <UserContext.Provider value={userData}>
       <NavBar />
       <ShowModal.Provider value={false}>
-        <SessionsContext.Provider value={{ newSessions, setNewSessions }}>
+        {/* <SessionsContext.Provider value={{ newSessions, setNewSessions }}> */}
+        <SessionsProvider>
           <Component {...pageProps} />
-        </SessionsContext.Provider>
+        </SessionsProvider>
+        {/* </SessionsContext.Provider> */}
       </ShowModal.Provider>
       <Toaster />
     </UserContext.Provider>

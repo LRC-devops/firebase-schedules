@@ -4,6 +4,7 @@ import Modal from "../components/Modal";
 import TableRow from "../components/TableRow";
 
 export default function Table(props) {
+  // console.log(props.posts);
   return (
     <table key={String(Math.random())}>
       <tbody key={String(Math.random())}>

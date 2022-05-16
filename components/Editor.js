@@ -1,18 +1,21 @@
-import { useAddSession } from "../lib/hooks";
+import { useAddSession, useEditSession } from "../lib/hooks";
 import { SessionsContext } from "../lib/context";
 import { useContext } from "react";
 import toast from "react-hot-toast";
 
 export default function Editor(props) {
-  const { setNewSessions } = useContext(SessionsContext);
-  let optionUpdate = props.isCancelled;
+  const { setNewSessions, newSessions, modalContent } =
+    useContext(SessionsContext);
+  // let optionUpdate = props.isCancelled;
   // const updateOption = () => {
   //   return !optionUpdate;
   // };
   const submitHandler = (e) => {
     e.preventDefault();
+    // console.log("enter editor submitHandler");
     let s = e.target;
     if (props.action === `add`) {
+      // console.log("enter add in submitHandler");
       if (
         s.subject.value.length === 0 ||
         s.course.value.length === 0 ||
@@ -20,15 +23,34 @@ export default function Editor(props) {
         s.host.value.length === 0 ||
         s.mode.value.length === 0
       ) {
+        // console.log("incom session data");
         return toast.error("session data is incomplete");
       } else {
-        const newSessions = useAddSession(e);
-        setNewSessions(newSessions);
+        // console.log("enter useAddSession call");
+        const newSess = useAddSession(e);
+        // console.log(newSess);
+
+        // setNewSessions([...newSessions, newSess]);
+        setNewSessions((prevState) => {
+          return [...prevState, newSess];
+        });
+
+        // console.log(newSessions);
         return newSessions;
       }
     } else {
+      console.log("enter else in SubmitHandler -- Editor");
+      console.log(modalContent);
       props.onSubmit(e);
+      // useEditSession(e, modalContent.session);
     }
+    // s.subject.value = "";
+    // s.course.value = "";
+    // s.dayTime.value = "";
+    // s.host.value = "";
+    // s.link.value = "";
+    // s.mode.value = "";
+    // return toast.success(`Yay!`);
   };
 
   return (

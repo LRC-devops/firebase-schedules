@@ -12,6 +12,9 @@
 /.next/
 /out/
 
+# scrap file
+scrap.js
+
 # production
 /build
 

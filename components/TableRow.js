@@ -1,50 +1,15 @@
 import { useState, useContext } from "react";
-import { UserContext } from "../lib/context";
+import { SessionsContext, UserContext } from "../lib/context";
 import { AiOutlineArrowRight } from "react-icons/ai";
+import { useCheckCancel } from "../lib/hooks";
 
 function TableRow(props) {
-  const [sessionToEdit, setSessionToEdit] = useState("");
-  const [showModal, setShowModal] = useState(true);
-
   const { user } = useContext(UserContext);
+  const { isDeleted } = useContext(SessionsContext);
 
   let trClass;
 
-  // console.log(props.post.revertCancel);
-  const dataTest = String(props.post.revertCancel);
-  // console.log(dataTest.slice(5));
-
-  const returnCancelSession = (initCancel, revertCancel) => {
-    const today = new Date();
-    const todayMonth =
-      today.getMonth() < 10 ? `0${today.getMonth() + 1}` : today.getMonth() + 1;
-    const todayDay =
-      today.getDate() < 10 ? `0${today.getDate()}` : today.getDate();
-
-    // REMOVE FIRST 5 LETTERS FROM STRING (Typically year + '-')
-    const stringInit = String(initCancel);
-    const stringRevert = String(revertCancel);
-    const dataStrInit = stringInit.slice(5);
-    const dataStrRevert = stringRevert.slice(5);
-
-    // console.log("dataStrInit", dataStrInit);
-    // console.log("dataStrRevert", dataStrRevert);
-
-    if (Number(dataStrInit.slice(0, 2)) === Number(todayMonth)) {
-      if (
-        Number(todayDay) >= Number(dataStrInit.slice(3)) &&
-        Number(todayDay) < Number(dataStrRevert.slice(3))
-      ) {
-        // console.log("Session Should be Cancelled!");
-        return true;
-      } else {
-        // console.log("Session should not be cancelled");
-        return false;
-      }
-    }
-  };
-
-  if (returnCancelSession(props.post.initCancel, props.post.revertCancel)) {
+  if (useCheckCancel(props.post.initCancel, props.post.revertCancel)) {
     trClass = "cancel-session";
   } else if (props.post.mode === "Zoom") {
     trClass = "zoom-session";
@@ -53,10 +18,7 @@ function TableRow(props) {
   }
 
   if (props.post.initCancel) {
-    returnCancelSession(props.post.initCancel);
-    let trCancelClassDate = props.post.initCancel;
-    let trCancelClass = props.post.docId;
-    // console.log("trCancelClass", trCancelClass, trCancelClassDate);
+    useCheckCancel(props.post.initCancel);
   }
 
   let mode;
