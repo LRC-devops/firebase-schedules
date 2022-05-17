@@ -6,10 +6,12 @@ import toast from "react-hot-toast";
 export default function Editor(props) {
   const { setNewSessions, newSessions, modalContent } =
     useContext(SessionsContext);
+
   // let optionUpdate = props.isCancelled;
   // const updateOption = () => {
   //   return !optionUpdate;
   // };
+
   const submitHandler = (e) => {
     e.preventDefault();
     // console.log("enter editor submitHandler");
@@ -38,9 +40,10 @@ export default function Editor(props) {
         // console.log(newSessions);
         return newSessions;
       }
-    } else {
-      console.log("enter else in SubmitHandler -- Editor");
-      console.log(modalContent);
+    }
+    if (props.action === "edit") {
+      // console.log("enter else in SubmitHandler -- Editor");
+      // console.log(modalContent);
       props.onSubmit(e);
       // useEditSession(e, modalContent.session);
     }
@@ -60,7 +63,12 @@ export default function Editor(props) {
       {/* <form onSubmit={props.onSubmit} className="form-basic"> */}
       <form onSubmit={submitHandler} className="form-basic">
         {/* <label htmlFor="course">Course</label> */}
-        <input type="text" placeholder="Subject" name="subject" />
+
+        <input
+          type="text"
+          placeholder={props.action === "edit" ? `Edit Field` : "Subject"}
+          name="subject"
+        />
         <input type="text" placeholder="Course" name="course" />
         <input type="text" placeholder="Day/Time" name="dayTime" />
         <input type="text" placeholder="host" name="host" />

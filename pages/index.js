@@ -30,7 +30,7 @@ export async function getServerSideProps(context) {
 // NOTE NEED TO ADD FUNCTIONALITY THAT ADDS A USER TO THE USER COLLECTION IN FIRESTORE SO THAT I CAN SET SELECT USERS AS ADMIN: TRUE, AND ONLY WHEN ADMIN === TRUE WILL THE INTERFACE SHOW THE EDIT FEATURES.
 
 export default function Home(props) {
-  const [isSubmit, setIsSubmit] = useState(false);
+  // const [isSubmit, setIsSubmit] = useState(false);
   // const [modalContent, setModalContent] = useState({});
 
   const { user } = useContext(UserContext);
@@ -52,7 +52,7 @@ export default function Home(props) {
 
   // FIXME: DELETE handler
 
-  console.log("Modal content in index", modalContent);
+  // console.log("Modal content in index", modalContent);
 
   const deleteSessionsHandler = (e) => {
     setIsLoading(true);
@@ -72,7 +72,7 @@ export default function Home(props) {
 
   const addSessionHandler = (e) => {
     setIsLoading(true);
-    setIsSubmit(true);
+    // setIsSubmit(true);
     const s = e.target;
     // useBatchSubmitHandler(e, newSessions);
     // s.subject.value = "";
@@ -93,9 +93,10 @@ export default function Home(props) {
     setModalContent({
       action: e.target.innerHTML,
       session: e.target.id,
-      id: e.target.parentElement.getAttribute("data-id"),
-      name: e.target.subject,
+      // id: e.target.parentElement.getAttribute("data-id"),
+      name: e.target.name,
     });
+    // console.log(modalContent);
   };
   const onCloseModal = () => {
     setShowModal(false);
@@ -111,30 +112,64 @@ export default function Home(props) {
     setIsLoading(false);
   };
 
-  return (
-    <main>
-      {showModal && (
-        <Modal
-          onClose={onCloseModal}
-          action={modalContent.action}
-          session={modalContent.session}
-          name={modalContent.name}
-          modalContent={modalContent}
-          onConfirm={deleteSessionsHandler}
-          cancelSubmitHandler={cancelSubmitHandler}
-          submitEditHandler={submitEditHandler}
-          posts={posts}
-        />
-      )}
-      <div className="flex-col">
-        <div className="flex">
-          {/* <SimpleTable /> */}
-          {user && (
-            // <Editor submitHandler={submitHandler} setIsValid={setIsValid} />
+  // EDITOR (if User)
+  if (user) {
+    return (
+      <main>
+        {showModal && (
+          <Modal
+            onClose={onCloseModal}
+            action={modalContent.action}
+            session={modalContent.session}
+            name={modalContent.name}
+            modalContent={modalContent}
+            onConfirm={deleteSessionsHandler}
+            cancelSubmitHandler={cancelSubmitHandler}
+            submitEditHandler={submitEditHandler}
+            // posts={posts}
+          />
+        )}
+        <div className="flex-col">
+          <div className="flex">
             <Editor action={`add`} />
-          )}
 
-          <div>
+            <div>
+              <div className="table--box">
+                <h1>Guided Study Groups</h1>
+                <div>
+                  <h2>Current (server) Data</h2>
+
+                  <Table
+                    key={String(Math.random())}
+                    posts={posts}
+                    triggerModal={modalTrigger}
+                    triggerEdit={modalTrigger}
+                  />
+                </div>
+
+                <h2>New (local) Data</h2>
+
+                <Table posts={newSessions} key={String(Math.random())} />
+
+                {newSessions.length > 0 ? (
+                  <button className="btn btn-login" onClick={addSessionHandler}>
+                    Submit Data to Server
+                  </button>
+                ) : null}
+                {sessionCtx.isLoading && <Loader show />}
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    );
+
+    // USER (if !User)
+  } else {
+    return (
+      <main>
+        <div className="flex-col">
+          <div className="flex">
             <div className="table--box">
               <h1>Guided Study Groups</h1>
               <div>
@@ -143,31 +178,71 @@ export default function Home(props) {
                 <Table
                   key={String(Math.random())}
                   posts={posts}
-                  // deleteSessionsHandler={deleteSessionsHandler}
                   triggerModal={modalTrigger}
-                  // idDeleted={isDeleted}
                   triggerEdit={modalTrigger}
-                  // radioHandler={radioHandler}
                 />
               </div>
-              {user && (
-                <>
-                  <h2>New (local) Data</h2>
-
-                  <Table posts={newSessions} key={String(Math.random())} />
-                </>
-              )}
-              {newSessions.length && !sessionCtx.isSubmit ? (
-                <button className="btn btn-login" onClick={addSessionHandler}>
-                  Submit Data to Server
-                </button>
-              ) : null}
-              {sessionCtx.isLoading && <Loader show />}
-              {/* <Loader show /> */}
             </div>
           </div>
         </div>
-      </div>
-    </main>
-  );
+      </main>
+    );
+  }
+
+  // return (
+  //   <main>
+  //     {showModal && (
+  //       <Modal
+  //         onClose={onCloseModal}
+  //         action={modalContent.action}
+  //         session={modalContent.session}
+  //         name={modalContent.name}
+  //         modalContent={modalContent}
+  //         onConfirm={deleteSessionsHandler}
+  //         cancelSubmitHandler={cancelSubmitHandler}
+  //         submitEditHandler={submitEditHandler}
+  //         // posts={posts}
+  //       />
+  //     )}
+  //     <div className="flex-col">
+  //       <div className="flex">
+  //         {/* <SimpleTable /> */}
+  //         {user && (
+  //           // <Editor submitHandler={submitHandler} setIsValid={setIsValid} />
+  //           <Editor action={`add`} />
+  //         )}
+
+  //         <div>
+  //           <div className="table--box">
+  //             <h1>Guided Study Groups</h1>
+  //             <div>
+  //               {user && <h2>Current (server) Data</h2>}
+
+  //               <Table
+  //                 key={String(Math.random())}
+  //                 posts={posts}
+  //                 triggerModal={modalTrigger}
+  //                 triggerEdit={modalTrigger}
+  //               />
+  //             </div>
+  //             {user && (
+  //               <>
+  //                 <h2>New (local) Data</h2>
+
+  //                 <Table posts={newSessions} key={String(Math.random())} />
+  //               </>
+  //             )}
+  //             {newSessions.length && !sessionCtx.isSubmit ? (
+  //               <button className="btn btn-login" onClick={addSessionHandler}>
+  //                 Submit Data to Server
+  //               </button>
+  //             ) : null}
+  //             {sessionCtx.isLoading && <Loader show />}
+  //             {/* <Loader show /> */}
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   </main>
+  // );
 }

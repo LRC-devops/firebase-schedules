@@ -27,6 +27,8 @@ const Modal = (props) => {
       return toast.success(`${id} was not from the database`);
     }
   };
+
+  console.log("in modal", props.name);
   // const modalFill = () => {};
   if (props.action === "DELETE") {
     modalContent = (
@@ -39,18 +41,19 @@ const Modal = (props) => {
     modalContent = (
       <>
         <Editor
-          value={props.session}
+          value={props.name}
           onSubmit={props.submitEditHandler}
           posts={props.posts}
           isCancelled={props.modalContent.isCancelled}
           action={`edit`}
+          nameRef={props.name}
         />
       </>
     );
   } else if (props.action === "CANCEL") {
     modalContent = (
       <>
-        <h2>{`You are attempting to cancel session: ${props.session}`}</h2>
+        <h2>{`You are attempting to cancel session: ${props.name}`}</h2>
         <form
           className="form-basic"
           onSubmit={props.cancelSubmitHandler}
@@ -70,7 +73,8 @@ const Modal = (props) => {
       <div className="modal__background"></div>
       <div className="modal">
         <div className="modal__title">
-          <h2>{props.action}</h2>
+          <h2>{props.action}:</h2>
+          <h2>{props.name}</h2>
         </div>
         <div className="modal__content">{modalContent}</div>
 

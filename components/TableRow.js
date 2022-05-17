@@ -42,24 +42,27 @@ function TableRow(props) {
               onClick={props.triggerModal}
               id={props.post.docId}
               session={`${props.post.host}-${props.post.course}`}
+              name={`${props.post.host}'s ${props.post.course} ${props.post.dayTime} session`}
             >
               CANCEL
             </a>
           </td>
-          <td id="props.dataId">
+          <td id={props.dataId}>
             <a
               className="danger-link"
               onClick={props.triggerModal}
               id={props.post.docId}
+              name={`${props.post.host}'s ${props.post.course} ${props.post.dayTime} session`}
             >
               DELETE
             </a>
           </td>
-          <td id="props.dataId">
+          <td id={props.dataId}>
             <a
               className="danger-link"
               onClick={props.triggerEdit}
               id={props.post.docId}
+              name={`${props.post.host}'s ${props.post.course} ${props.post.dayTime} session`}
             >
               EDIT
             </a>
