@@ -1,0 +1,15 @@
+.sched-btn__box {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+.sched-btn__btn {
+  padding: 0.5rem 1rem;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  border: 3px solid orange;
+  font-size: 1.7rem;
+  box-shadow: 0.5rem 0.5rem 0 rgba(0, 0, 0, 0.2);
+}

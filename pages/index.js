@@ -5,6 +5,9 @@ import { useContext, useState } from "react";
 import { SessionsContext, UserContext } from "../lib/context";
 import Modal from "../components/Modal";
 import { useBatchSubmitHandler, useCancelSubmitHandler } from "../lib/hooks";
+import UiCard from "../components/UiCard";
+import ScheduleBtns from "../components/ScheduleBtns";
+import User from "./User";
 
 import { firestore, sessionToJSON } from "../lib/firebase";
 
@@ -113,81 +116,83 @@ export default function Home(props) {
   };
 
   // EDITOR (if User)
-  if (user) {
-    return (
-      <main>
-        {showModal && (
-          <Modal
-            onClose={onCloseModal}
-            action={modalContent.action}
-            session={modalContent.session}
-            name={modalContent.name}
-            modalContent={modalContent}
-            onConfirm={deleteSessionsHandler}
-            cancelSubmitHandler={cancelSubmitHandler}
-            submitEditHandler={submitEditHandler}
-            // posts={posts}
-          />
-        )}
-        <div className="flex-col">
-          <div className="flex">
-            <Editor action={`add`} />
+  // if (user) {
+  //   return (
+  //     <main>
+  //       {showModal && (
+  //         <Modal
+  //           onClose={onCloseModal}
+  //           action={modalContent.action}
+  //           session={modalContent.session}
+  //           name={modalContent.name}
+  //           modalContent={modalContent}
+  //           onConfirm={deleteSessionsHandler}
+  //           cancelSubmitHandler={cancelSubmitHandler}
+  //           submitEditHandler={submitEditHandler}
+  //           // posts={posts}
+  //         />
+  //       )}
+  //       <div className="flex-col">
+  //         <div className="flex">
+  //           <Editor action={`add`} />
 
-            <div>
-              <div className="table--box">
-                <h1>Guided Study Groups</h1>
-                <div>
-                  <h2>Current (server) Data</h2>
+  //           <div>
+  //             <div className="table--box">
+  //               <h1>Guided Study Groups</h1>
+  //               <div>
+  //                 <h2>Current (server) Data</h2>
 
-                  <Table
-                    key={String(Math.random())}
-                    posts={posts}
-                    triggerModal={modalTrigger}
-                    triggerEdit={modalTrigger}
-                  />
-                </div>
+  //                 <Table
+  //                   key={String(Math.random())}
+  //                   posts={posts}
+  //                   triggerModal={modalTrigger}
+  //                   triggerEdit={modalTrigger}
+  //                 />
+  //               </div>
 
-                <h2>New (local) Data</h2>
+  //               <h2>New (local) Data</h2>
 
-                <Table posts={newSessions} key={String(Math.random())} />
+  //               <Table posts={newSessions} key={String(Math.random())} />
 
-                {newSessions.length > 0 ? (
-                  <button className="btn btn-login" onClick={addSessionHandler}>
-                    Submit Data to Server
-                  </button>
-                ) : null}
-                {sessionCtx.isLoading && <Loader show />}
-              </div>
-            </div>
-          </div>
-        </div>
-      </main>
-    );
+  //               {newSessions.length > 0 ? (
+  //                 <button className="btn btn-login" onClick={addSessionHandler}>
+  //                   Submit Data to Server
+  //                 </button>
+  //               ) : null}
+  //               {sessionCtx.isLoading && <Loader show />}
+  //             </div>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </main>
+  //   );
 
-    // USER (if !User)
-  } else {
-    return (
-      <main>
-        <div className="flex-col">
-          <div className="flex">
-            <div className="table--box">
-              <h1>Guided Study Groups</h1>
-              <div>
-                {user && <h2>Current (server) Data</h2>}
+  //   // USER (if !User)
+  // } else {
+  //   return (
+  //     <main>
+  //       <div className="flex-col">
+  //         <div className="flex">
+  //           <div className="table--box">
+  //             <h1>Guided Study Groups</h1>
+  //             <div>
+  //               {user && <h2>Current (server) Data</h2>}
 
-                <Table
-                  key={String(Math.random())}
-                  posts={posts}
-                  triggerModal={modalTrigger}
-                  triggerEdit={modalTrigger}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </main>
-    );
-  }
+  //               {/* <Table
+  //                 key={String(Math.random())}
+  //                 posts={posts}
+  //                 triggerModal={modalTrigger}
+  //                 triggerEdit={modalTrigger}
+  //               /> */}
+  //               <UiCard />
+  //               <ScheduleBtns />
+  //             </div>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </main>
+  //   );
+  // }
 
   // return (
   //   <main>
@@ -245,4 +250,9 @@ export default function Home(props) {
   //     </div>
   //   </main>
   // );
+  return (
+    <>
+      <User posts={posts} />
+    </>
+  );
 }
