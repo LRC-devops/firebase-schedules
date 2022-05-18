@@ -4,7 +4,7 @@ import Modal from "../components/Modal";
 import TableRow from "../components/TableRow";
 
 export default function Table(props) {
-  // console.log(props.posts);
+  console.log(props.posts);
   return (
     <table key={String(Math.random())}>
       <tbody key={String(Math.random())}>
@@ -17,6 +17,7 @@ export default function Table(props) {
             isDeleted={props.isDeleted}
             triggerEdit={props.triggerEdit}
             radioHandler={props.radioHandler}
+            action={props.action}
           />
         ))}
       </tbody>

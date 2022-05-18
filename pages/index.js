@@ -10,6 +10,7 @@ import ScheduleBtns from "../components/ScheduleBtns";
 import User from "./User";
 
 import { firestore, sessionToJSON } from "../lib/firebase";
+import Edit from "./Edit";
 
 // /////////////////////////
 // READ FROM DATABASE (GET)
@@ -47,10 +48,13 @@ export default function Home(props) {
     setIsDeleted,
     modalContent,
     setModalContent,
+    posts,
+    setPosts,
   } = useContext(SessionsContext);
   const sessionCtx = useContext(SessionsContext);
 
-  const posts = props.posts;
+  setPosts(props.posts);
+  // const posts = props.posts;
   // server communication
 
   // FIXME: DELETE handler
@@ -115,7 +119,7 @@ export default function Home(props) {
     setIsLoading(false);
   };
 
-  // EDITOR (if User)
+  // // EDITOR (if User)
   // if (user) {
   //   return (
   //     <main>
@@ -253,6 +257,7 @@ export default function Home(props) {
   return (
     <>
       <User posts={posts} />
+      {/* {user && <Edit />} */}
     </>
   );
 }

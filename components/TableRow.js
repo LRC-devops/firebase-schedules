@@ -34,7 +34,7 @@ function TableRow(props) {
 
   return (
     <tr key={props.post.docId} className={trClass}>
-      {user && (
+      {props.action === "edit" && (
         <>
           <td>
             <a

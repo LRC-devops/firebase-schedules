@@ -5,6 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: space-evenly;
+  margin-bottom: 5rem;
 }
 .ui-card {
   display: flex;
@@ -15,5 +16,5 @@
   backdrop-filter: blur(5px);
   padding: 2rem 3rem;
   border-radius: 20px;
-  box-shadow: 0 2rem 2rem rgba(0, 0, 0, 0.3);
+  box-shadow: 1rem 1rem 0rem rgba(0, 0, 0, 0.2);
 }
