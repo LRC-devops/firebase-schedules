@@ -4,6 +4,7 @@ import Editor from "./Editor";
 import { useDeleteSession } from "../lib/hooks";
 import { toast } from "react-hot-toast";
 import { SessionsProvider } from "../lib/context";
+import classes from "./Modal.module.css";
 const Modal = (props) => {
   // const { setIsLoading, setShowModal, setIsDeleted } =
   //   useContext(SessionsContext);
@@ -70,15 +71,18 @@ const Modal = (props) => {
   }
   return (
     <SessionsProvider>
-      <div className="modal__background"></div>
-      <div className="modal">
-        <div className="modal__title">
+      <div className={classes["modal__background"]}></div>
+      <div className={classes.modal}>
+        <div className={classes["modal__title"]}>
           <h2>{props.action}:</h2>
           <h2>{props.name}</h2>
         </div>
-        <div className="modal__content">{modalContent}</div>
+        <div className={classes["modal__content"]}>{modalContent}</div>
 
-        <AiOutlineCloseCircle className="modal__icon" onClick={props.onClose} />
+        <AiOutlineCloseCircle
+          className={classes["modal__icon"]}
+          onClick={props.onClose}
+        />
       </div>
     </SessionsProvider>
   );

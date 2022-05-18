@@ -4,7 +4,7 @@ import Modal from "../components/Modal";
 import Editor from "../components/Editor";
 import Table from "../components/Table";
 import Loader from "../components/Loader";
-import { firestore, sessionToJSON, db } from "../lib/firebase";
+import { firestore, sessionToJSON } from "../lib/firebase";
 
 // import { getServerSideProps } from "./index";
 
@@ -13,24 +13,7 @@ import { firestore, sessionToJSON, db } from "../lib/firebase";
 
 export async function getServerSideProps(context) {
   const postsQuery = firestore.collection("agSched").orderBy("subject");
-  // return postsQuery;
   const posts = (await postsQuery.get()).docs.map(sessionToJSON);
-  // let posts = [];
-  // postsQuery.onSnapshot((snapshot) => {
-  //   let changes = snapshot.docChanges();
-  //   changes.forEach((change) => {
-  //     console.log(changes);
-  //     if (change.type === "added") {
-  //       [posts.push(change)];
-  //     }
-  //   });
-  // });
-  // const posts = postsQuery.onSnapshot((snapshot) => {
-  //   let changes = snapshot.docChanges();
-  //   changes.forEach();
-  // console.log("changes", changes);
-  // });
-  // const docIds = {await postsQuery.get(doc.id)}
   return {
     props: { posts },
   };
@@ -38,9 +21,7 @@ export async function getServerSideProps(context) {
 
 const Edit = (props) => {
   const { user } = useContext(UserContext);
-  if (!user) {
-    return null;
-  }
+  // if no user, render nothing
   const {
     newSessions,
     setNewSessions,
@@ -55,38 +36,22 @@ const Edit = (props) => {
   const sessionCtx = useContext(SessionsContext);
 
   const posts = props.posts;
-
-  // const addedPosts = [];
-  // const posts = db
-  //   .collection("agSched")
-  //   .orderBy("subject")
-  //   .onSnapshot((snapshot) => {
-  //     let changes = snapshot.docChanges();
-  //     changes.forEach((change) => {
-  //       if (change.type === "added") {
-  //         addedPosts.push(change.doc);
-  //       } else if (change.type === "removed") {
-  //         addedPosts;
-  //       }
-  //     });
-  //   });
-
-  // console.log(addedPosts);
+  if (!user) {
+    return null;
+  }
 
   const modalTrigger = (e) => {
     setShowModal(true);
     setModalContent({
       action: e.target.innerHTML,
       session: e.target.id,
-      // id: e.target.parentElement.getAttribute("data-id"),
       name: e.target.name,
     });
-    // console.log(modalContent);
   };
   const onCloseModal = () => {
     setShowModal(false);
   };
-
+  // write submit handlers
   const deleteSessionsHandler = (e) => {
     setIsLoading(true);
     setIsDeleted((prevState) => {

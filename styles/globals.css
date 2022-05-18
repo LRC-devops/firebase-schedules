@@ -5,6 +5,7 @@
   --clr-teal-var: #5b7a82;
   --clr-gold: #cfb87c;
   --clr-pink: #cf7291;
+  --clr-cancel: rgba(182, 52, 52, 0.5);
   --clr-warn: orangered;
   --clr-white: #fff;
   --clr-black: #000;
@@ -207,54 +208,6 @@ th {
 .danger-link:hover {
   color: #000;
   border-bottom: 1px solid #000;
-}
-
-.modal__background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 100vw;
-  background-color: rgba(0, 0, 0, 0.2);
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  min-height: 15rem;
-  min-width: 24rem;
-  backdrop-filter: blur(5px);
-  padding: 2rem 3rem;
-  border-radius: 20px;
-  box-shadow: 0.5rem 0.5rem 3rem rgba(0, 0, 0, 0.3);
-  display: flex;
-  flex-direction: column;
-  z-index: 10000;
-}
-.modal__content {
-  display: flex;
-  flex-direction: column;
-}
-.modal__title {
-  width: 100%;
-}
-.modal__icon {
-  font-size: 2rem;
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  cursor: pointer;
-  transition: var(--transition);
-}
-.modal__icon:hover {
-  color: red;
 }
 
 .is-deleted {
