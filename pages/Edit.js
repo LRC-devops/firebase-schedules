@@ -69,8 +69,9 @@ const Edit = (props) => {
   };
   const addSessionHandler = (e) => {
     setIsLoading(true);
-    const s = e.target;
-    sessionCtx.add(e, newSessions);
+    const newArr = [...newSessions];
+    console.log(newArr);
+    sessionCtx.add(e, newArr);
     setIsLoading(false);
     return setNewSessions([]);
   };
