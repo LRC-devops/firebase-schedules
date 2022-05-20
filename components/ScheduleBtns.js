@@ -1,18 +1,19 @@
 import classes from "../components/ScheduleBtns.module.css";
 
 const ScheduleBtns = (props) => {
-  const filterDataBySubject = [
-    ...new Set(props.posts.map((session) => session.subject)),
-  ];
+  // const filterDataBySubject = [
+  //   ...new Set(props.posts.map((session) => session.subject)),
+  // ];
   // const btnClickHandler = (e) => {
   //   const btnName = e.target.innerHTML;
   //   console.log(btnName);
   //   return btnName;
   // };
   // console.log(filterDataBySubject);
+  const data = ["Chemistry", "Music", "Psych"];
   return (
     <div className={classes["sched-btn__box"]}>
-      {filterDataBySubject.map((session) => (
+      {data.map((session) => (
         <button
           className={classes["sched-btn__btn"]}
           onClick={props.btnClickHandler}

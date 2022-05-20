@@ -1,4 +1,4 @@
-import { useAddSession, useEditSession } from "../lib/hooks";
+import { addSession, useEditSession } from "../lib/hooks";
 import { SessionsContext } from "../lib/context";
 import { useContext } from "react";
 import toast from "react-hot-toast";
@@ -29,7 +29,7 @@ export default function Editor(props) {
         return toast.error("session data is incomplete");
       } else {
         // console.log("enter useAddSession call");
-        const newSess = useAddSession(e);
+        const newSess = addSession(e);
         // console.log(newSess);
 
         // setNewSessions([...newSessions, newSess]);
