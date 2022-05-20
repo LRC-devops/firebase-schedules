@@ -5,7 +5,6 @@ import Editor from "../components/Editor";
 import Table from "../components/Table";
 import Loader from "../components/Loader";
 import { firestore, sessionToJSON } from "../lib/firebase";
-import { useCancelSession } from "../lib/hooks";
 
 // import { getServerSideProps } from "./index";
 
@@ -79,7 +78,7 @@ const Edit = (props) => {
   const cancelSubmitHandler = (e) => {
     setIsLoading(true);
     e.preventDefault();
-    // useCancelSession(e);
+    useCancelSubmitHandler(e);
     // sessionCtx.cancel(e);
     setIsLoading(false);
   };

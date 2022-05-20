@@ -4,27 +4,25 @@ import classes from "./Modal.module.css";
 
 const ScheduleModal = (props) => {
   // FILTER DATA GET
-  // const filterDataBySubject = (data, btnName) => {
-  //   // const filtArr = new Set(data.map((session)))
-  //   const filteredData = data.filter((session) => {
-  //     return session.subject === btnName;
-  //   });
-  //   const filteredCourses = [
-  //     ...new Set(filteredData.map((session) => session.course)),
-  //   ];
-  //   const dataOut = [];
-  //   for (let i = 0; i < filteredCourses.length; i++) {
-  //     const filteredDataByCourse = filteredData.filter((session) => {
-  //       return session.course === filteredCourses[i];
-  //     });
-  //     dataOut.push(filteredDataByCourse);
-  //   }
-  //   return dataOut;
-  // };
+  const filterDataBySubject = (data, btnName) => {
+    // const filtArr = new Set(data.map((session)))
+    const filteredData = data.filter((session) => {
+      return session.subject === btnName;
+    });
+    const filteredCourses = [
+      ...new Set(filteredData.map((session) => session.course)),
+    ];
+    const dataOut = [];
+    for (let i = 0; i < filteredCourses.length; i++) {
+      const filteredDataByCourse = filteredData.filter((session) => {
+        return session.course === filteredCourses[i];
+      });
+      dataOut.push(filteredDataByCourse);
+    }
+    return dataOut;
+  };
 
-  // const posts = filterDataBySubject(props.posts, props.modalContent.btnName);
-  const posts = [props.modalContent.sessions];
-  console.log(posts);
+  const posts = filterDataBySubject(props.posts, props.modalContent.btnName);
 
   return (
     <>
