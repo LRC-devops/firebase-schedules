@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import Editor from "./Editor";
-import { deleteSession } from "../lib/hooks";
+import { useDeleteSession } from "../lib/hooks";
 import { toast } from "react-hot-toast";
 import { SessionsProvider } from "../lib/context";
 import classes from "./Modal.module.css";
@@ -9,25 +9,25 @@ const Modal = (props) => {
   // const { setIsLoading, setShowModal, setIsDeleted } =
   //   useContext(SessionsContext);
 
-  // let modalContent;
+  let modalContent;
 
-  // const btnClickHandler = () => {
-  //   setIsLoading(true);
+  const btnClickHandler = () => {
+    setIsLoading(true);
 
-  //   if (deleteSession()) {
-  //     const objRet = {
-  //       isLoading: false,
-  //       showModal: false,
-  //       isDeleted: [...isDeleted, id],
-  //     };
-  //     setIsLoading(false);
-  //     setShowModal(false);
-  //     setIsDeleted([...isDeleted, id]);
-  //     return toast.success(`${id} was successfully removed from the database`);
-  //   } else {
-  //     return toast.success(`${id} was not from the database`);
-  //   }
-  // };
+    if (useDeleteSession()) {
+      const objRet = {
+        isLoading: false,
+        showModal: false,
+        isDeleted: [...isDeleted, id],
+      };
+      setIsLoading(false);
+      setShowModal(false);
+      setIsDeleted([...isDeleted, id]);
+      return toast.success(`${id} was successfully removed from the database`);
+    } else {
+      return toast.success(`${id} was not from the database`);
+    }
+  };
 
   console.log("in modal", props.name);
   // const modalFill = () => {};

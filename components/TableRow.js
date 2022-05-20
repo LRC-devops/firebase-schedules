@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import { SessionsContext, UserContext } from "../lib/context";
 import { AiOutlineArrowRight } from "react-icons/ai";
-import { checkCancel } from "../lib/hooks";
+import { useCheckCancel } from "../lib/hooks";
 
 function TableRow(props) {
   const { user } = useContext(UserContext);
@@ -9,7 +9,7 @@ function TableRow(props) {
 
   let trClass;
 
-  if (checkCancel(props.post.initCancel, props.post.revertCancel)) {
+  if (useCheckCancel(props.post.initCancel, props.post.revertCancel)) {
     trClass = "cancel-session";
   } else if (props.post.mode === "Zoom") {
     trClass = "zoom-session";
@@ -18,7 +18,7 @@ function TableRow(props) {
   }
 
   if (props.post.initCancel) {
-    checkCancel(props.post.initCancel);
+    useCheckCancel(props.post.initCancel);
   }
 
   let mode;
