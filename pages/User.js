@@ -24,7 +24,7 @@ const User = (props) => {
         .where("subject", "==", btnName);
       const sessions = (await docRef.get()).docs.map(sessionToJSON);
       // console.log("inside getData fn", sessions);
-      setModalContent({
+      await setModalContent({
         sessions: sessions,
       });
       return {
