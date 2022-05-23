@@ -1,5 +1,3 @@
-import { useState, useContext } from "react";
-import { SessionsContext, UserContext } from "../lib/context";
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { checkCancel } from "../lib/hooks";
 
@@ -28,8 +26,6 @@ function TableRow(props) {
   } else {
     mode = props.post.mode;
   }
-
-  // console.log(typeof props.post.initCancel);
 
   return (
     <tr key={props.post.docId} className={trClass}>
@@ -84,11 +80,3 @@ function TableRow(props) {
 }
 
 export default TableRow;
-
-// {checkCancel(props.post)
-//   ? `Cancelled ${props.post.initCancel} - ${props.post.revertCancel}`
-//   : props.post.mode}
-
-// {checkCancel(props.post.initCancel, props.post.revertCancel)
-//   ? `Cancelled ${props.post.initCancel} - ${props.post.revertCancel}`
-//   : props.post.mode}

@@ -9,57 +9,14 @@ import { db, firestore, sessionToJSON } from "../lib/firebase";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 
 const User = (props) => {
-  const {
-    showModal,
-    setShowModal,
-    setModalContent,
-    modalContent,
-    setIsLoading,
-  } = useContext(SessionsContext);
+  const { showModal, setShowModal, setModalContent, modalContent } =
+    useContext(SessionsContext);
 
   const onCloseModal = () => {
     setShowModal(false);
   };
 
   const posts = props.posts;
-
-  // const postRef = firestore.collection("agSched").docs;
-  // const [realtimePost] = useDocumentData(postRef);
-
-  // const posts = realtimePost || props.posts;
-
-  // const btnClickHandler = async (e) => {
-  //   setIsLoading(true);
-  //   const queryData = async (name) => {
-  //     try {
-  //       const docRef = db
-  //         .collection("agSched")
-  //         .where("subject", "==", name)
-  //         .limit(20);
-
-  //       const data = (await docRef.get()).docs.map(sessionToJSON);
-  //       await setModalContent({ sessions: data, btnName: name });
-  //       console.log(data);
-
-  //       return data;
-  //     } catch (err) {
-  //       console.error("Uh Oh!");
-  //     }
-  //   };
-  //   const btnName = e.target.innerHTML;
-  //   // queryData(btnName).then((result) =>
-  //   //   setModalContent({ sessions: result, btnName: btnName })
-  //   // ),
-  //   await queryData(btnName);
-  //   setShowModal(true);
-  //   // setModalContent({
-  //   //   btnName: btnName,
-  //   // });
-  //   console.log(modalContent.sessions);
-
-  //   setIsLoading(false);
-  //   return btnName;
-  // };
 
   const btnClickHandler = (e) => {
     const btnName = e.target.innerHTML;
@@ -86,7 +43,6 @@ const User = (props) => {
               />
             )}
             <UiCard />
-            {/* FIXME SHIT! How can I render the buttons based on db data if I'm only fetching the data on btn clicks??? */}
             <ScheduleBtns btnClickHandler={btnClickHandler} posts={posts} />
           </div>
         </div>

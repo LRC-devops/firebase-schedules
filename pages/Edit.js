@@ -81,8 +81,6 @@ const Edit = (props) => {
     e.preventDefault();
     await sessionCtx.cancel(e);
     setIsLoading(false);
-    // useCancelSession(e);
-    // sessionCtx.cancel(e);
   };
 
   return (

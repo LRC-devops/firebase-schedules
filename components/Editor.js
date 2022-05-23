@@ -47,10 +47,7 @@ export default function Editor(props) {
     <div>
       <h1>EDITOR</h1>
       {props.value ? <h2>{props.value}</h2> : null}
-      {/* <form onSubmit={props.onSubmit} className="form-basic"> */}
       <form onSubmit={submitHandler} className="form-basic">
-        {/* <label htmlFor="course">Course</label> */}
-
         <input
           type="text"
           placeholder={props.action === "edit" ? `Edit Field` : "Subject"}

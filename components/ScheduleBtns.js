@@ -9,7 +9,6 @@ const ScheduleBtns = (props) => {
     console.log(btnName);
     return btnName;
   };
-  // console.log(filterDataBySubject);
   const data = ["Chemistry", "Music", "Psych"];
   return (
     <div className={classes["sched-btn__box"]}>
