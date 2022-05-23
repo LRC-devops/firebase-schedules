@@ -33,7 +33,7 @@ const UiCard = (props) => {
   return (
     <div className={classes["ui-card__box"]}>
       {uiCardArr.map((card) => (
-        <div className={classes["ui-card"]}>
+        <div key={`uiCard-${Math.random()}`} className={classes["ui-card"]}>
           <h1 className={classes["ui-card__heading"]}>{card.title}</h1>
           <div className={classes["ui-card__icon"]}>{card.icon}</div>
           <div className={classes["ui-card__description"]}>
