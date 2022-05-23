@@ -1,7 +1,9 @@
 .sched-btn__box {
+  padding: 2rem 3rem;
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
+  gap: 1.5rem;
 }
 
 .sched-btn__btn {

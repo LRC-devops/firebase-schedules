@@ -76,12 +76,13 @@ const Edit = (props) => {
     setIsLoading(false);
     return setNewSessions([]);
   };
-  const cancelSubmitHandler = (e) => {
+  const cancelSubmitHandler = async (e) => {
     setIsLoading(true);
     e.preventDefault();
+    await sessionCtx.cancel(e);
+    setIsLoading(false);
     // useCancelSession(e);
     // sessionCtx.cancel(e);
-    setIsLoading(false);
   };
 
   return (

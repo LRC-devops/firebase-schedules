@@ -27,7 +27,7 @@ export async function getStaticProps({ params }) {
   const posts = (await postsQuery.get()).docs.map(sessionToJSON);
   return {
     props: { posts },
-    revalidate: false,
+    revalidate: 43200, //revalidate every 43200s = 12 hours NOTE if revalidate occurs on timmed interval, if revalidate on demand with sercret API key, then revalidate is set to false ... ? or on callback function ...
     // fallback: "blocking",
   };
 }

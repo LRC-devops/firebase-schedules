@@ -5,7 +5,7 @@ import TableRow from "../components/TableRow";
 
 export default function Table(props) {
   const { posts, action } = props;
-  console.log("posts in Table", posts);
+  // console.log("posts in Table", posts);
   // return mapped;
 
   // if (action === "filteredAgSched") {

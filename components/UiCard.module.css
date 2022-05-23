@@ -8,13 +8,84 @@
   margin-bottom: 5rem;
 }
 .ui-card {
+  padding: 0.5rem 1rem;
+  /* background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.5)
+  ); */
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  box-shadow: 1rem 1rem 0 rgba(0, 0, 0, 0.26);
+  aspect-ratio: 1/1;
+  height: 15rem;
   display: flex;
   flex-direction: column;
-  height: 20rem;
-  width: 20rem;
-  background-color: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(5px);
-  padding: 2rem 3rem;
+  justify-content: space-evenly;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+.ui-card:nth-child(1) {
+  background: linear-gradient(to right, var(--clr-green), var(--clr-Lgreen));
+}
+.ui-card:nth-child(2) {
+  background: linear-gradient(to right, var(--clr-Lgreen), var(--clr-teal));
+}
+.ui-card:nth-child(3) {
+  background: linear-gradient(to right, var(--clr-gold), var(--clr-pink));
+}
+.ui-card:nth-child(4) {
+  background: linear-gradient(to right, var(--clr-teal-var), var(--clr-teal));
+}
+.ui-card__heading {
+  background: linear-gradient(
+    to bottom right,
+    rgba(0, 0, 0, 0.3),
+    rgba(0, 0, 0, 0.5)
+  );
   border-radius: 20px;
-  box-shadow: 1rem 1rem 0rem rgba(0, 0, 0, 0.2);
+  padding: 0.5rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  font-size: 2rem;
+  font-weight: 300;
+  text-transform: uppercase;
+  color: var(--clr-white);
+}
+.ui-card__icon {
+  align-self: flex-end;
+}
+.ui-card__icon--icon {
+  font-size: 2rem;
+  color: var(--clr-black);
+}
+.ui-card__description {
+  padding: 0.5rem;
+}
+.ui-card__description p {
+  font-size: 0.9rem;
+}
+
+/* ===================== MEDIA QUERIES (SMALL DEVICES)  ===================== */
+@media screen and (max-width: 1024px) {
+  .ui-card {
+    width: 90%;
+    align-items: flex-start;
+    height: 10rem;
+  }
+  .ui-card:last-child {
+    margin-bottom: 2rem;
+  }
+}
+@media screen and (max-width: 600px) {
+  .ui-card {
+    width: 100%;
+    gap: 1rem;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  .ui-card__heading {
+    height: 100%;
+  }
 }

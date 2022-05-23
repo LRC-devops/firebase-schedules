@@ -9,7 +9,7 @@ const Modal = (props) => {
   // const { setIsLoading, setShowModal, setIsDeleted } =
   //   useContext(SessionsContext);
 
-  // let modalContent;
+  let modalContent;
 
   // const btnClickHandler = () => {
   //   setIsLoading(true);

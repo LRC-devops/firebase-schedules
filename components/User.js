@@ -75,21 +75,19 @@ const User = (props) => {
     <main>
       <div className="flex-col">
         <div className="flex">
-          <div className="table--box">
-            <div>
-              {showModal && (
-                <ScheduleModal
-                  onClose={onCloseModal}
-                  action="USER_ACCESS"
-                  posts={posts}
-                  btnName={btnClickHandler}
-                  modalContent={modalContent}
-                />
-              )}
-              <UiCard />
-              {/* FIXME SHIT! How can I render the buttons based on db data if I'm only fetching the data on btn clicks??? */}
-              <ScheduleBtns btnClickHandler={btnClickHandler} posts={posts} />
-            </div>
+          <div>
+            {showModal && (
+              <ScheduleModal
+                onClose={onCloseModal}
+                action="USER_ACCESS"
+                posts={posts}
+                btnName={btnClickHandler}
+                modalContent={modalContent}
+              />
+            )}
+            <UiCard />
+            {/* FIXME SHIT! How can I render the buttons based on db data if I'm only fetching the data on btn clicks??? */}
+            <ScheduleBtns btnClickHandler={btnClickHandler} posts={posts} />
           </div>
         </div>
       </div>

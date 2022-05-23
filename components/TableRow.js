@@ -4,9 +4,6 @@ import { AiOutlineArrowRight } from "react-icons/ai";
 import { checkCancel } from "../lib/hooks";
 
 function TableRow(props) {
-  const { user } = useContext(UserContext);
-  const { isDeleted } = useContext(SessionsContext);
-
   let trClass;
 
   if (checkCancel(props.post.initCancel, props.post.revertCancel)) {
@@ -31,6 +28,8 @@ function TableRow(props) {
   } else {
     mode = props.post.mode;
   }
+
+  // console.log(typeof props.post.initCancel);
 
   return (
     <tr key={props.post.docId} className={trClass}>
@@ -73,9 +72,23 @@ function TableRow(props) {
       <td>{props.post.course}</td>
       <td>{props.post.subject}</td>
       <td>{props.post.dayTime}</td>
-      <td>{mode}</td>
+      <td>
+        {trClass === "cancel-session"
+          ? `Cancelled (${props.post.initCancel.slice(
+              5
+            )} - ${props.post.revertCancel.slice(5)})`
+          : mode}
+      </td>
     </tr>
   );
 }
 
 export default TableRow;
+
+// {checkCancel(props.post)
+//   ? `Cancelled ${props.post.initCancel} - ${props.post.revertCancel}`
+//   : props.post.mode}
+
+// {checkCancel(props.post.initCancel, props.post.revertCancel)
+//   ? `Cancelled ${props.post.initCancel} - ${props.post.revertCancel}`
+//   : props.post.mode}

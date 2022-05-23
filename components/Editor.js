@@ -7,17 +7,10 @@ export default function Editor(props) {
   const { setNewSessions, newSessions, modalContent } =
     useContext(SessionsContext);
 
-  // let optionUpdate = props.isCancelled;
-  // const updateOption = () => {
-  //   return !optionUpdate;
-  // };
-
   const submitHandler = (e) => {
     e.preventDefault();
-    // console.log("enter editor submitHandler");
     let s = e.target;
     if (props.action === `add`) {
-      // console.log("enter add in submitHandler");
       if (
         s.subject.value.length === 0 ||
         s.course.value.length === 0 ||
@@ -25,35 +18,29 @@ export default function Editor(props) {
         s.host.value.length === 0 ||
         s.mode.value.length === 0
       ) {
-        // console.log("incom session data");
         return toast.error("session data is incomplete");
-      } else {
-        // console.log("enter useAddSession call");
+      } else if (s.mode.value === "Zoom" || s.mode.value === "In-Person") {
         const newSess = addSession(e);
-        // console.log(newSess);
 
-        // setNewSessions([...newSessions, newSess]);
         setNewSessions((prevState) => {
           return [...prevState, newSess];
         });
 
-        // console.log(newSessions);
         return newSessions;
+      } else {
+        if (s.mode.value !== "Zoom" || s.mode.value !== "In-Person") {
+          return toast.error(
+            `${s.mode.value} is not a valid Mode. Please enter "Zoom" or "In-Person" only. (case-sensitive)`
+          );
+        } else {
+          return toast.error("Some other error occured");
+        }
       }
     }
+
     if (props.action === "edit") {
-      // console.log("enter else in SubmitHandler -- Editor");
-      // console.log(modalContent);
       props.onSubmit(e);
-      // useEditSession(e, modalContent.session);
     }
-    // s.subject.value = "";
-    // s.course.value = "";
-    // s.dayTime.value = "";
-    // s.host.value = "";
-    // s.link.value = "";
-    // s.mode.value = "";
-    // return toast.success(`Yay!`);
   };
 
   return (
