@@ -81,7 +81,7 @@ const User = (props) => {
                 <ScheduleModal
                   onClose={onCloseModal}
                   action="USER_ACCESS"
-                  // posts={posts}
+                  posts={posts}
                   btnName={btnClickHandler}
                   modalContent={modalContent}
                 />
