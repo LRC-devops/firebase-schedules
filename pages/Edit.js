@@ -1,11 +1,12 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { SessionsContext, UserContext } from "../lib/context";
 import Modal from "../components/Modal";
 import Editor from "../components/Editor";
 import Table from "../components/Table";
 import Loader from "../components/Loader";
-import { firestore, sessionToJSON } from "../lib/firebase";
+import { firestore, sessionToJSON, sswSessionToJSON } from "../lib/firebase";
 import { useCancelSession } from "../lib/hooks";
+import toast from "react-hot-toast";
 
 // import { getServerSideProps } from "./index";
 
@@ -19,9 +20,27 @@ export async function getServerSideProps(context) {
     props: { posts },
   };
 }
+// export function addSnapshot(filter) {
+//   // let dataQuery;
+//   console.log("enter addSnapshot fn");
+//   console.log("filter passed into addSnapshot fn", filter);
+//   try {
+//     const dataQuery = firestore.collection(`${filter}`).orderBy("subject");
+//     const posts = dataQuery.get().docs.map(sessionToJSON);
+//     // setData(posts);
+//     return {
+//       props: { posts },
+//     };
+//   } catch (err) {
+//     toast.error("An error occured");
+//   }
+// }
 
 const Edit = (props) => {
+  const [filter, setFilter] = useState(null);
   const { user } = useContext(UserContext);
+  const [data, setData] = useState();
+
   // if no user, render nothing
   const {
     newSessions,
@@ -37,6 +56,8 @@ const Edit = (props) => {
   const sessionCtx = useContext(SessionsContext);
 
   const posts = props.posts;
+  console.log("posts", posts);
+  console.log("data", data);
   if (!user) {
     return null;
   }
@@ -82,57 +103,155 @@ const Edit = (props) => {
     await sessionCtx.cancel(e);
     setIsLoading(false);
   };
+  const filterChangeHandler = (e) => {
+    setFilter(e.target.value);
+    // if (filter === "gsg") {
+    //   const posts = addSnapshot("agSched");
+    // } else if (filter === "ssw") {
+    //   const posts = addSnapshot("sswSched");
+    // }
+    // console.log("updated filter state", e.target.value);
+    // console.log(posts);
+  };
 
-  return (
-    <main>
-      {showModal && (
-        <Modal
-          onClose={onCloseModal}
-          action={modalContent.action}
-          session={modalContent.session}
-          name={modalContent.name}
-          modalContent={modalContent}
-          onConfirm={deleteSessionsHandler}
-          cancelSubmitHandler={cancelSubmitHandler}
-          submitEditHandler={submitEditHandler}
-          posts={posts}
-        />
-      )}
-      <div className="flex-col">
-        <div className="flex">
-          <Editor action={`add`} />
+  // const dataToTable = data;
 
-          <div>
-            <div className="table--box">
-              <h1>Guided Study Groups</h1>
-              <div>
-                <h2>Current (server) Data</h2>
+  // if (!dataToTable) {
+  //   toast.error("no data retrieved from db");
+  // }
 
-                <Table
-                  key={String(Math.random())}
-                  posts={posts}
-                  triggerModal={modalTrigger}
-                  triggerEdit={modalTrigger}
-                  action="edit"
-                />
+  if (!filter || filter === null) {
+    return (
+      <main>
+        <select value={filter} onChange={filterChangeHandler}>
+          <option value={null} defaultValue>
+            Select a schedule to edit
+          </option>
+          <option value={"gsg"}>GSG</option>
+          <option value={"ssw"}>SSW</option>
+          <option value={"si"}>SI</option>
+          <option value={"iprep"}>iPrep</option>
+        </select>
+      </main>
+    );
+  } else {
+    return (
+      <main>
+        <select value={filter} onChange={filterChangeHandler}>
+          <option value={null} defaultValue>
+            Select a schedule to edit
+          </option>
+          <option value={"gsg"}>GSG</option>
+          <option value={"ssw"}>SSW</option>
+          <option value={"si"}>SI</option>
+          <option value={"iprep"}>iPrep</option>
+        </select>
+        {showModal && (
+          <Modal
+            onClose={onCloseModal}
+            action={modalContent.action}
+            session={modalContent.session}
+            name={modalContent.name}
+            modalContent={modalContent}
+            onConfirm={deleteSessionsHandler}
+            cancelSubmitHandler={cancelSubmitHandler}
+            submitEditHandler={submitEditHandler}
+            posts={posts}
+          />
+        )}
+        <div className="flex-col">
+          <div className="flex">
+            <Editor action={`add`} />
+
+            <div>
+              <div className="table--box">
+                <h1>Guided Study Groups</h1>
+                <div>
+                  <h2>Current (server) Data</h2>
+
+                  <Table
+                    key={String(Math.random())}
+                    posts={posts}
+                    triggerModal={modalTrigger}
+                    triggerEdit={modalTrigger}
+                    action="edit"
+                  />
+                </div>
+
+                <h2>New (local) Data</h2>
+
+                <Table posts={newSessions} key={String(Math.random())} />
+
+                {newSessions.length > 0 ? (
+                  <button className="btn btn-login" onClick={addSessionHandler}>
+                    Submit Data to Server
+                  </button>
+                ) : null}
+                {sessionCtx.isLoading && <Loader show />}
               </div>
-
-              <h2>New (local) Data</h2>
-
-              <Table posts={newSessions} key={String(Math.random())} />
-
-              {newSessions.length > 0 ? (
-                <button className="btn btn-login" onClick={addSessionHandler}>
-                  Submit Data to Server
-                </button>
-              ) : null}
-              {sessionCtx.isLoading && <Loader show />}
             </div>
           </div>
         </div>
-      </div>
-    </main>
-  );
+      </main>
+    );
+  }
+
+  // return (
+  //   <main>
+  //     <select value={filter} onChange={filterChangeHandler}>
+  //       <option value={"gsg"}>GSG</option>
+  //       <option value={"ssw"}>SSW</option>
+  //       <option value={"si"}>SI</option>
+  //       <option value={"iprep"}>iPrep</option>
+  //     </select>
+  //     {showModal && (
+  //       <Modal
+  //         onClose={onCloseModal}
+  //         action={modalContent.action}
+  //         session={modalContent.session}
+  //         name={modalContent.name}
+  //         modalContent={modalContent}
+  //         onConfirm={deleteSessionsHandler}
+  //         cancelSubmitHandler={cancelSubmitHandler}
+  //         submitEditHandler={submitEditHandler}
+  //         posts={posts}
+  //       />
+  //     )}
+  //     <div className="flex-col">
+  //       <div className="flex">
+  //         <Editor action={`add`} />
+
+  //         <div>
+  //           <div className="table--box">
+  //             <h1>Guided Study Groups</h1>
+  //             <div>
+  //               <h2>Current (server) Data</h2>
+
+  //               <Table
+  //                 key={String(Math.random())}
+  //                 posts={posts}
+  //                 triggerModal={modalTrigger}
+  //                 triggerEdit={modalTrigger}
+  //                 action="edit"
+  //               />
+  //             </div>
+
+  //             <h2>New (local) Data</h2>
+
+  //             <Table posts={newSessions} key={String(Math.random())} />
+
+  //             {newSessions.length > 0 ? (
+  //               <button className="btn btn-login" onClick={addSessionHandler}>
+  //                 Submit Data to Server
+  //               </button>
+  //             ) : null}
+  //             {sessionCtx.isLoading && <Loader show />}
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   </main>
+  // );
 };
 
 export default Edit;

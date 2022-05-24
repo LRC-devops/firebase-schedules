@@ -13,6 +13,26 @@ export default function NavBar() {
             <button className="btn btn-logo">LRC</button>
           </Link>
         </li>
+        <li>
+          <Link href="/gsg">
+            <button className="nav-link">GSG</button>
+          </Link>
+        </li>
+        <li>
+          <Link href="/ssw">
+            <button className="nav-link">SSW</button>
+          </Link>
+        </li>
+        <li>
+          <Link href="/">
+            <button className="nav-link">SI</button>
+          </Link>
+        </li>
+        <li>
+          <Link href="/">
+            <button className="nav-link">iPrep</button>
+          </Link>
+        </li>
         {user && (
           <div className="push-left">
             <li>

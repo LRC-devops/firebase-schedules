@@ -40,10 +40,21 @@ const User = (props) => {
                 posts={posts}
                 btnName={btnClickHandler}
                 modalContent={modalContent}
+                type={props.type}
               />
             )}
-            <UiCard />
-            <ScheduleBtns btnClickHandler={btnClickHandler} posts={posts} />
+            {props.type === "gsg" ? (
+              <>
+                <UiCard />
+                <ScheduleBtns btnClickHandler={btnClickHandler} posts={posts} />
+              </>
+            ) : null}
+            {props.type === "ssw" ? (
+              <ScheduleBtns
+                posts={["Schedule"]}
+                btnClickHandler={btnClickHandler}
+              />
+            ) : null}
           </div>
         </div>
       </div>

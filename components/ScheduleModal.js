@@ -21,10 +21,26 @@ const ScheduleModal = (props) => {
     }
     return dataOut;
   };
-
-  const posts = filterDataBySubject(props.posts, props.modalContent.btnName);
+  let posts;
+  let action;
+  if (props.type === "gsg") {
+    posts = filterDataBySubject(props.posts, props.modalContent.btnName);
+    action = "filteredAgSched";
+  } else if (props.type === "ssw") {
+    posts = props.posts;
+    action = "ssw";
+  } else if (props.type === "EDIT") {
+    action = "EDIT";
+  }
   // const posts = [props.modalContent.sessions];
-  console.log(posts);
+  // console.log(posts);
+
+  let modalTitle;
+  if (props.modalContent.btnName) {
+    modalTitle = props.modalContent.btnName;
+  } else {
+    modalTitle = props.type;
+  }
 
   return (
     <>
@@ -35,10 +51,10 @@ const ScheduleModal = (props) => {
           onClick={props.onClose}
         />
         <div className={classes["modal__title"]}>
-          <h2>{props.modalContent.btnName}</h2>
+          <h2>{modalTitle}</h2>
         </div>
         <div className={classes["modal__content"]}>
-          <Table posts={posts} action={"filteredAgSched"} />
+          <Table posts={posts} action={action} type={props.type} />
         </div>
         <div className={classes["modal__footer"]}>
           <p>
