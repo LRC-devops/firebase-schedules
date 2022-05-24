@@ -52,6 +52,7 @@ const User = (props) => {
             {props.type === "ssw" ? (
               <ScheduleBtns
                 posts={["Schedule"]}
+                type={props.type}
                 btnClickHandler={btnClickHandler}
               />
             ) : null}

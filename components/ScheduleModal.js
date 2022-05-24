@@ -21,6 +21,7 @@ const ScheduleModal = (props) => {
     }
     return dataOut;
   };
+
   let posts;
   let action;
   if (props.type === "gsg") {
@@ -32,8 +33,6 @@ const ScheduleModal = (props) => {
   } else if (props.type === "EDIT") {
     action = "EDIT";
   }
-  // const posts = [props.modalContent.sessions];
-  // console.log(posts);
 
   let modalTitle;
   if (props.modalContent.btnName) {
