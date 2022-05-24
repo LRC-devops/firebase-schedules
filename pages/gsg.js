@@ -9,7 +9,7 @@ export async function getStaticProps({ params }) {
   console.log("REVAL in GSG FETCH");
   return {
     props: { posts },
-    revalidate: 3600, // revalidate every hour NOTE need to check with analytics to see if this = a read every hour, or if it only counts as a read if there is new data to retrieve. Even if it is a read, = 24 reads every day, not hundreds.
+    revalidate: 60, // revalidate every hour NOTE need to check with analytics to see if this = a read every hour, or if it only counts as a read if there is new data to retrieve. Even if it is a read, = 24 reads every day, not hundreds.
   };
 }
 
