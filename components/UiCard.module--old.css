@@ -1,0 +1,20 @@
+.ui-card__box {
+  padding: 2rem 5rem;
+  width: 100vw;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-bottom: 5rem;
+}
+.ui-card {
+  display: flex;
+  flex-direction: column;
+  height: 20rem;
+  width: 20rem;
+  background-color: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(5px);
+  padding: 2rem 3rem;
+  border-radius: 20px;
+  box-shadow: 1rem 1rem 0rem rgba(0, 0, 0, 0.2);
+}

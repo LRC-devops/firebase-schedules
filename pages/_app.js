@@ -1,15 +1,30 @@
 import NavBar from "../components/NavBar";
-import { UserContext } from "../lib/context";
+import {
+  UserContext,
+  ShowModal,
+  SessionsContext,
+  SessionsProvider,
+} from "../lib/context";
 import "../styles/globals.css";
 import { Toaster } from "react-hot-toast";
-import { useUserData } from "../lib/hooks";
+import { useAddSession, useUserData } from "../lib/hooks";
+import Modal from "../components/Modal";
+import { useState } from "react";
 
 function MyApp({ Component, pageProps }) {
+  const [newSessions, setNewSessions] = useState([]);
   const userData = useUserData();
+  // const addSessions = useAddSession(;
   return (
     <UserContext.Provider value={userData}>
       <NavBar />
-      <Component {...pageProps} />
+      <ShowModal.Provider value={false}>
+        {/* <SessionsContext.Provider value={{ newSessions, setNewSessions }}> */}
+        <SessionsProvider>
+          <Component {...pageProps} />
+        </SessionsProvider>
+        {/* </SessionsContext.Provider> */}
+      </ShowModal.Provider>
       <Toaster />
     </UserContext.Provider>
   );
