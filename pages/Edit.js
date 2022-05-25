@@ -8,13 +8,12 @@ import { firestore, sessionToJSON, sswSessionToJSON } from "../lib/firebase";
 import { useCancelSession } from "../lib/hooks";
 import toast from "react-hot-toast";
 
-// import { getServerSideProps } from "./index";
-
-// const posts = getServerSideProps();
-// getServerSideProps is only called on index load, so on first load of this page, there is no data to be displayed!
-
 export async function getServerSideProps(context) {
-  const postsQuery = firestore.collection("agSched").orderBy("subject");
+  const postsQuery = firestore
+    .collection("LRC")
+    .doc("schedules")
+    .collection("agSched")
+    .orderBy("subject");
   const posts = (await postsQuery.get()).docs.map(sessionToJSON);
   return {
     props: { posts },
