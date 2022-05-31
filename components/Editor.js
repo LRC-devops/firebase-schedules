@@ -25,7 +25,7 @@ export default function Editor(props) {
         setNewSessions((prevState) => {
           return [...prevState, newSess];
         });
-
+        console.log(newSessions);
         return newSessions;
       } else {
         if (s.mode.value !== "Zoom" || s.mode.value !== "In-Person") {

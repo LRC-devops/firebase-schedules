@@ -8,17 +8,17 @@ import { firestore, sessionToJSON, sswSessionToJSON } from "../lib/firebase";
 import { useCancelSession } from "../lib/hooks";
 import toast from "react-hot-toast";
 
-export async function getServerSideProps(context) {
-  const postsQuery = firestore
-    .collection("LRC")
-    .doc("schedules")
-    .collection("agSched")
-    .orderBy("subject");
-  const posts = (await postsQuery.get()).docs.map(sessionToJSON);
-  return {
-    props: { posts },
-  };
-}
+// export async function getServerSideProps(context) {
+//   const postsQuery = firestore
+//     .collection("LRC")
+//     .doc("schedules")
+//     .collection("agSched")
+//     .orderBy("subject");
+//   const posts = (await postsQuery.get()).docs.map(sessionToJSON);
+//   return {
+//     props: { posts },
+//   };
+// }
 
 // export function addSnapshot(filter) {
 //   // let dataQuery;

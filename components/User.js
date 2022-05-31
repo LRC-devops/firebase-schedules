@@ -29,37 +29,35 @@ const User = (props) => {
   };
 
   return (
-    <main>
-      <div className="flex-col">
-        <div className="flex">
-          <div>
-            {showModal && (
-              <ScheduleModal
-                onClose={onCloseModal}
-                action="USER_ACCESS"
-                posts={posts}
-                btnName={btnClickHandler}
-                modalContent={modalContent}
-                type={props.type}
-              />
-            )}
-            {props.type === "gsg" ? (
-              <>
-                <UiCard />
-                <ScheduleBtns btnClickHandler={btnClickHandler} posts={posts} />
-              </>
-            ) : null}
-            {props.type === "ssw" ? (
-              <ScheduleBtns
-                posts={["Schedule"]}
-                type={props.type}
-                btnClickHandler={btnClickHandler}
-              />
-            ) : null}
-          </div>
+    <div className="flex-col">
+      <div className="flex">
+        <div>
+          {showModal && (
+            <ScheduleModal
+              onClose={onCloseModal}
+              action="USER_ACCESS"
+              posts={posts}
+              btnName={btnClickHandler}
+              modalContent={modalContent}
+              type={props.type}
+            />
+          )}
+          {props.type === "gsg" ? (
+            <>
+              <UiCard />
+              <ScheduleBtns btnClickHandler={btnClickHandler} posts={posts} />
+            </>
+          ) : null}
+          {props.type === "ssw" ? (
+            <ScheduleBtns
+              posts={["Schedule"]}
+              type={props.type}
+              btnClickHandler={btnClickHandler}
+            />
+          ) : null}
         </div>
       </div>
-    </main>
+    </div>
   );
 };
 
