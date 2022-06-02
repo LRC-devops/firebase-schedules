@@ -64,7 +64,7 @@ export async function getServerSideProps({ params }) {
 }
 
 export default function ServicePage({ service, posts }) {
-  console.log(posts, service);
+  // console.log(posts, service);
   return (
     <main>
       {!posts.length ? (

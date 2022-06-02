@@ -21,6 +21,7 @@ const Edit = (props) => {
   const sessionCtx = useContext(SessionsContext);
 
   const posts = props.posts;
+  const service = props.service;
 
   // if no user, render nothing
   if (!user) {
@@ -46,7 +47,7 @@ const Edit = (props) => {
     setIsDeleted((prevState) => {
       return [...prevState, modalContent.session];
     });
-    sessionCtx.delete(modalContent.session);
+    sessionCtx.delete(modalContent.session, service);
     setShowModal(false);
     setIsLoading(false);
   };
@@ -54,14 +55,14 @@ const Edit = (props) => {
   const submitEditHandler = (e) => {
     setIsLoading(true);
     e.preventDefault();
-    sessionCtx.edit(e, modalContent.session);
+    sessionCtx.edit(e, modalContent.session, service);
     setIsLoading(false);
   };
 
   const addSessionHandler = (e) => {
     setIsLoading(true);
     const newArr = [...newSessions];
-    sessionCtx.add(e, newArr);
+    sessionCtx.add(e, newArr, service);
     setIsLoading(false);
     return setNewSessions([]);
   };
@@ -69,7 +70,7 @@ const Edit = (props) => {
   const cancelSubmitHandler = async (e) => {
     setIsLoading(true);
     e.preventDefault();
-    await sessionCtx.cancel(e);
+    await sessionCtx.cancel(e, service);
     setIsLoading(false);
   };
 
