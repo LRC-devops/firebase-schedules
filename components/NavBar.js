@@ -35,13 +35,13 @@ export default function NavBar() {
         </li>
         {user && (
           <div className="push-left">
-            <li>
+            {/* <li>
               {user && (
                 <Link href="/Edit">
                   <button className="btn">Edit</button>
                 </Link>
               )}
-            </li>
+            </li> */}
             <li>
               <Link href="/enter">
                 {/* <button className="btn btn-login">Profile</button> */}
