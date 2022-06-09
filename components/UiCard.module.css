@@ -69,23 +69,46 @@
 /* ===================== MEDIA QUERIES (SMALL DEVICES)  ===================== */
 @media screen and (max-width: 1024px) {
   .ui-card {
-    width: 90%;
+    /* width: 90%; */
     align-items: flex-start;
-    height: 10rem;
+    /* height: 10rem; */
   }
-  .ui-card:last-child {
-    margin-bottom: 2rem;
+  .ui-card__box {
+    /* flex-direction: column; */
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+  .ui-card__icon {
+    align-self: flex-start;
+  }
+  .ui-card__heading {
+    height: 100%;
+    background: none;
+    border: none;
   }
 }
 @media screen and (max-width: 600px) {
+  .ui-card__box {
+    flex-direction: column;
+  }
   .ui-card {
     width: 100%;
+    align-items: center;
+    justify-content: center;
+    height: 7rem;
+    padding: 0.5rem;
     gap: 1rem;
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    /* padding: 2rem 3rem; */
+  }
+  .ui-card__icon {
+    align-self: center;
   }
   .ui-card__heading {
-    height: 100%;
+    height: 5rem;
+    background: none;
+    border: none;
   }
 }
