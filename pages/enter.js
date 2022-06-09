@@ -2,6 +2,8 @@ import React, { useContext } from "react";
 import { auth, googleAuthProvider } from "../lib/firebase";
 import { UserContext } from "../lib/context";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 // export async function getServerSideProps(context) {
 //   const postsQuery = firestore
@@ -16,12 +18,35 @@ import Image from "next/image";
 //   };
 // }
 
+// <section className="enter-page">
+// {user ? (
+//   <div className="flex">
+//     <Link href="/agSched/edit">
+//       <button className="btn">edit agSched</button>
+//     </Link>
+//     <SignOutButton />
+//   </div>
+// ) : (
+//   <SignInButton />
+// )}
+// </section>
+
 export default function Enter(props) {
   const { user } = useContext(UserContext);
+  const router = useRouter();
 
   return (
     <section className="enter-page">
-      {user ? <SignOutButton /> : <SignInButton />}
+      {user ? (
+        <div className="flex">
+          {/* <Link href="/agSched/edit">
+            <button className="btn">edit agSched</button>
+          </Link> */}
+          <SignOutButton />
+        </div>
+      ) : (
+        <SignInButton />
+      )}
     </section>
   );
 }

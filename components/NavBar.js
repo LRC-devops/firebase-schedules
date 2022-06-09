@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { useContext } from "react";
 import { UserContext } from "../lib/context";
+import { auth, googleAuthProvider } from "../lib/firebase";
 
 export default function NavBar() {
   const { user } = useContext(UserContext);
-
+  // const { service } = params;
   return (
     <nav className="navbar">
       <ul>
@@ -16,32 +17,37 @@ export default function NavBar() {
         {/* <li> */}
         {/* <Link href="/gsg">
             <button className="nav-link">GSG</button>
-          </Link>
-        </li>
-        <li>
-          <Link href="/ssw">
+            </Link>
+            </li>
+            <li>
+            <Link href="/ssw">
             <button className="nav-link">SSW</button>
-          </Link>
-        </li>
-        <li>
-          <Link href="/">
+            </Link>
+            </li>
+            <li>
+            <Link href="/">
             <button className="nav-link">SI</button>
-          </Link>
-        </li>
-        <li>
-          <Link href="/">
+            </Link>
+            </li>
+            <li>
+            <Link href="/">
             <button className="nav-link">iPrep</button>
-          </Link>
-        </li> */}
+            </Link>
+          </li> */}
         {user && (
           <div className="push-left">
             {/* <li>
               {user && (
                 <Link href="/Edit">
-                  <button className="btn">Edit</button>
+                <button className="btn">Edit</button>
                 </Link>
-              )}
-            </li> */}
+                )}
+              </li> */}
+            <li>
+              <Link href={`/agSched/edit`}>
+                <button>Edit agSched service</button>
+              </Link>
+            </li>
             <li>
               <Link href="/enter">
                 {/* <button className="btn btn-login">Profile</button> */}
@@ -50,7 +56,7 @@ export default function NavBar() {
             </li>
             {/* <li>
               <Link href="/enter">
-                <button className="btn btn-login">Sign Out</button>
+              <button className="btn btn-login">Sign Out</button>
               </Link>
             </li> */}
           </div>
@@ -58,12 +64,28 @@ export default function NavBar() {
 
         {!user && (
           <li>
-            <Link href="/enter">
+            {/* <Link href="/enter">
               <button className="btn btn-login">Admin log in</button>
-            </Link>
+            </Link> */}
+            {/* <button onClick={SignInButton()} className="btn btn-login">
+              Admin log in
+            </button> */}
+            <SignInButton />
           </li>
         )}
       </ul>
     </nav>
+  );
+}
+
+function SignInButton() {
+  const signInWithGoogle = async () => {
+    await auth.signInWithPopup(googleAuthProvider);
+  };
+
+  return (
+    <button className="btn btn-login" onClick={signInWithGoogle}>
+      Admin log in
+    </button>
   );
 }
