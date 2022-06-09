@@ -38,6 +38,12 @@
 }
 .modal__title {
   width: 100%;
+  text-align: center;
+}
+.modal__title h2 {
+  font-weight: 100;
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
 }
 .modal__icon {
   font-size: 2rem;
@@ -69,4 +75,21 @@
 }
 .modal__footer--cancel-span {
   background-color: var(--clr-cancel);
+}
+
+/* ===================== MEDIA QUERIES (SMALL DEVICES)  ===================== */
+@media screen and (max-width: 1024px) {
+  .modal {
+    max-height: 75vh;
+    padding: 0.5rem 1rem;
+  }
+  .modal__content {
+    overflow: scroll;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .modal__footer {
+    font-size: 0.7rem;
+  }
 }

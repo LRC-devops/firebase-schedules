@@ -90,12 +90,14 @@
 @media screen and (max-width: 600px) {
   .ui-card__box {
     flex-direction: column;
+    padding: 0.5rem 2rem;
   }
   .ui-card {
     width: 100%;
     align-items: center;
     justify-content: center;
-    height: 7rem;
+    height: 10rem;
+    /* height: auto; */
     padding: 0.5rem;
     gap: 1rem;
     flex-direction: row;
@@ -107,8 +109,9 @@
     align-self: center;
   }
   .ui-card__heading {
-    height: 5rem;
+    /* height: 5rem; */
     background: none;
     border: none;
+    font-size: 1.7rem;
   }
 }

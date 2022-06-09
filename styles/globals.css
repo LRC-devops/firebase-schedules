@@ -282,3 +282,15 @@ td:not(:last-child) {
   color: blue;
   border-bottom: 1px solid blue;
 }
+
+/* ===================== MEDIA QUERIES (SMALL DEVICES)  ===================== */
+@media screen and (max-width: 600px) {
+  table {
+    overflow: scroll;
+    height: auto;
+  }
+  td,
+  th {
+    padding: 0.5rem;
+  }
+}
