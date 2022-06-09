@@ -9,7 +9,7 @@ export default function NavBar() {
     <nav className="navbar">
       <ul>
         <li>
-          <Link href="/">
+          <Link href="/agSched">
             <button className="btn btn-logo">LRC</button>
           </Link>
         </li>
