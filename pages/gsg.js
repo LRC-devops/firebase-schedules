@@ -4,7 +4,11 @@ import { firestore, sessionToJSON } from "../lib/firebase";
 // GET STATIC GSG DATA
 
 export async function getStaticProps({ params }) {
-  const postsQuery = firestore.collection("agSched").orderBy("subject");
+  const postsQuery = firestore
+    .collection("LRC")
+    .doc("schedules")
+    .collection("agSched")
+    .orderBy("subject");
   const posts = (await postsQuery.get()).docs.map(sessionToJSON);
   // console.log("REVAL in GSG FETCH");
   return {

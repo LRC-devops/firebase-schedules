@@ -1,5 +1,7 @@
 import { sessionToJSON, firestore } from "../../lib/firebase";
 import Edit from "../../components/Edit";
+import { UserContext } from "../../lib/context";
+import React, { useContext } from "React";
 
 export async function getServerSideProps({ params }) {
   const { service } = params;
@@ -16,6 +18,12 @@ export async function getServerSideProps({ params }) {
   };
 }
 export default function EditServicePage({ posts, service }) {
+  // const { user } = useContext(UserContext);
+
+  // const isAdmin = async () => {
+  //   const docRef = firestore.collection("users");
+  // };
+
   return (
     <main>
       <h1>Edit Service Page {service}</h1>
