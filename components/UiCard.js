@@ -8,7 +8,7 @@ import { GrPersonalComputer } from "react-icons/gr";
 const UiCard = (props) => {
   const uiCardArr = [
     {
-      title: "sign-up or show up!",
+      title: "just show up!",
       icon: <MdInput className={classes["ui-card__icon--icon"]} />,
       description: "at anytime during the session",
     },
@@ -16,7 +16,7 @@ const UiCard = (props) => {
       title: "your class",
       icon: <AiOutlineCheck className={classes["ui-card__icon--icon"]} />,
       description:
-        "Study with classmates and have an Academic Guide there to answer questions.",
+        "Work with an Academic Guide and others to answer questions.",
     },
     {
       title: "Check-in",

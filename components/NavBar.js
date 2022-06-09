@@ -13,8 +13,8 @@ export default function NavBar() {
             <button className="btn btn-logo">LRC</button>
           </Link>
         </li>
-        <li>
-          <Link href="/gsg">
+        {/* <li> */}
+        {/* <Link href="/gsg">
             <button className="nav-link">GSG</button>
           </Link>
         </li>
@@ -32,7 +32,7 @@ export default function NavBar() {
           <Link href="/">
             <button className="nav-link">iPrep</button>
           </Link>
-        </li>
+        </li> */}
         {user && (
           <div className="push-left">
             {/* <li>
