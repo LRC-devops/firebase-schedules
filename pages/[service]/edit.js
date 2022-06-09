@@ -1,7 +1,7 @@
 import { sessionToJSON, firestore } from "../../lib/firebase";
 import Edit from "../../components/Edit";
 import { UserContext } from "../../lib/context";
-import React, { useContext } from "React";
+import React, { useContext } from "react";
 
 export async function getServerSideProps({ params }) {
   const { service } = params;
