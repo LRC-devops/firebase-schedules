@@ -18,25 +18,10 @@ export async function getServerSideProps({ params }) {
   };
 }
 export default function EditServicePage({ posts, service }) {
-  // const { user } = useContext(UserContext);
-
-  // const isAdmin = async () => {
-  //   const docRef = firestore.collection("users");
-  // };
-
   return (
     <main>
       <h1>Edit Service Page {service}</h1>
       <Edit posts={posts} service={service} />
-      {/* FIXME CONDITIONAL RENDER LOGIC BELOW  */}
-      {/* {!posts.length ? (
-        <h1>There is no data to edit</h1>
-      ) : (
-        <>
-          <h1>Edit Service Page {service}</h1>
-          <Edit posts={posts} />
-        </>
-      )} */}
     </main>
   );
 }
