@@ -21,13 +21,14 @@ const ScheduleModal = (props) => {
     }
     return dataOut;
   };
+  // const service = props.service.slice(-5);
 
   let posts;
   let action;
-  if (props.type === "gsg") {
+  if (props.service.slice(-5) === "Sched") {
     posts = filterDataBySubject(props.posts, props.modalContent.btnName);
     action = "filteredAgSched";
-  } else if (props.type === "ssw") {
+  } else if (props.service === "ssw") {
     posts = props.posts;
     action = "ssw";
   } else if (props.type === "EDIT") {
@@ -38,8 +39,10 @@ const ScheduleModal = (props) => {
   if (props.modalContent.btnName) {
     modalTitle = props.modalContent.btnName;
   } else {
-    modalTitle = props.type;
+    modalTitle = props.service;
   }
+
+  console.log(posts);
 
   return (
     <>

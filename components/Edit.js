@@ -66,7 +66,7 @@ const Edit = (props) => {
     setIsLoading(false);
     return setNewSessions([]);
   };
-
+  // setIsLoading(true);
   const cancelSubmitHandler = async (e) => {
     setIsLoading(true);
     e.preventDefault();
@@ -91,7 +91,7 @@ const Edit = (props) => {
       )}
       <div className="flex-col">
         <div className="flex">
-          <Editor action={`add`} />
+          <Editor action={`add`} service={service} />
 
           <div>
             <div className="table--box">

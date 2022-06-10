@@ -10,17 +10,37 @@ export default function Editor(props) {
   const submitHandler = (e) => {
     e.preventDefault();
     let s = e.target;
+    // build arr from data input
+    const dataArr = [];
+    Array.from(e.target.elements).forEach((input) => {
+      dataArr.push(input.value);
+    });
+
+    const checkMode = (mode) => {
+      if (mode === "Zoom" || mode === "In-Person") {
+        return true;
+      } else {
+        return false;
+      }
+    };
+    const checkLength = (inputArr) => {
+      let check = true;
+      //arr.length - 1 becuase button counts as an element of the form
+      for (let i = 0; i < inputArr.length - 1; i++) {
+        if (inputArr[i].length === 0) {
+          check = false;
+        }
+      }
+      console.log(check);
+      return check;
+    };
+
     if (props.action === `add`) {
-      if (
-        s.subject.value.length === 0 ||
-        s.course.value.length === 0 ||
-        s.dayTime.value.length === 0 ||
-        s.host.value.length === 0 ||
-        s.mode.value.length === 0
-      ) {
+      console.log(checkLength(dataArr));
+      if (!checkLength(dataArr)) {
         return toast.error("session data is incomplete");
-      } else if (s.mode.value === "Zoom" || s.mode.value === "In-Person") {
-        const newSess = addSession(e);
+      } else if (checkMode(s.mode.value)) {
+        const newSess = addSession(e, props.service);
 
         setNewSessions((prevState) => {
           return [...prevState, newSess];
@@ -28,7 +48,7 @@ export default function Editor(props) {
         console.log(newSessions);
         return newSessions;
       } else {
-        if (s.mode.value !== "Zoom" || s.mode.value !== "In-Person") {
+        if (!checkMode(s.mode.value)) {
           return toast.error(
             `${s.mode.value} is not a valid Mode. Please enter "Zoom" or "In-Person" only. (case-sensitive)`
           );
@@ -37,29 +57,57 @@ export default function Editor(props) {
         }
       }
     }
-
     if (props.action === "edit") {
-      props.onSubmit(e);
+      if (!checkMode(s.mode.value) && s.mode.value.length > 0) {
+        return toast.error(
+          `${s.mode.value} is not a valid Mode. Please enter "Zoom" or "In-Person" only. (case-sensitive)`
+        );
+      } else {
+        props.onSubmit(e, service);
+      }
+    }
+  };
+  const serviceCheck = (service) => {
+    if (service.slice(-5) === "Sched") {
+      return (
+        <>
+          <input
+            type="text"
+            placeholder={props.action === "edit" ? `Edit Field` : "Subject"}
+            name="subject"
+          />
+          <input type="text" placeholder="Course" name="course" />
+          <input type="text" placeholder="Day/Time" name="dayTime" />
+          <input type="text" placeholder="host" name="host" />
+          <input type="text" placeholder="link" name="link" />
+          <input type="text" placeholder="mode" name="mode" />
+        </>
+      );
+    } else if (service.slice(-5) === "Calen") {
+      return (
+        <>
+          <input type="text" placeholder="Subject" name="subject" />
+          {/* <input type="text" placeholder="dayTime" name="course" /> */}
+          <input type="text" placeholder="Mode" name="mode" />
+          <input type="date" placeholder="Date" name="date" />
+        </>
+      );
     }
   };
 
+  console.log(serviceCheck(props.service));
+
   return (
-    <div>
-      <h1>EDITOR</h1>
-      {props.value ? <h2>{props.value}</h2> : null}
-      <form onSubmit={submitHandler} className="form-basic">
-        <input
-          type="text"
-          placeholder={props.action === "edit" ? `Edit Field` : "Subject"}
-          name="subject"
-        />
-        <input type="text" placeholder="Course" name="course" />
-        <input type="text" placeholder="Day/Time" name="dayTime" />
-        <input type="text" placeholder="host" name="host" />
-        <input type="text" placeholder="link" name="link" />
-        <input type="text" placeholder="mode" name="mode" />
-        <button>Submit</button>
-      </form>
-    </div>
+    <>
+      <div>
+        <h1>EDITOR</h1>
+        {props.value ? <h2>{props.value}</h2> : null}
+        <form onSubmit={submitHandler} className="form-basic">
+          {serviceCheck(props.service)}
+
+          <button>Submit</button>
+        </form>
+      </div>
+    </>
   );
 }
