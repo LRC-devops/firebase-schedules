@@ -175,8 +175,9 @@ th {
   height: 50px;
   cursor: pointer;
 } */
-.navBar--img {
-  height: 3rem;
+.navBar__img {
+  height: 0.5rem;
+  /* width: 1rem !important; */
   width: auto;
   /* aspect-ratio: 1/1; */
   border-radius: 0;

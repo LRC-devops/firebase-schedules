@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { useContext, useState } from "react";
 import { UserContext } from "../lib/context";
 import { auth, googleAuthProvider } from "../lib/firebase";
@@ -24,7 +25,14 @@ export default function NavBar() {
         <ul>
           <li>
             <Link href="/agSched">
-              <img className="navBar--img" src={logo} alt="LRC Logo" />
+              <Image
+                className="navBar__img"
+                src={logo}
+                alt="LRC Logo"
+                width={130}
+                height={50}
+              />
+              {/* <img className="navBar--img" src={logo} alt="LRC Logo" /> */}
             </Link>
           </li>
           {/* <li> */}
