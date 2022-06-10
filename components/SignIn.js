@@ -39,9 +39,9 @@ const SignIn = () => {
       {!forgotPassword && (
         <>
           <form onSubmit={signInWithEmail} className={classes["form"]}>
-            <label for="email">email</label>
+            <label htmlFor="email">email</label>
             <input placeholder="Email" name="email" type="text" required />
-            <label for="pwd">password</label>
+            <label htmlFor="pwd">password</label>
             <input
               name="password"
               placeholder="Password"
@@ -60,7 +60,7 @@ const SignIn = () => {
       )}
       {forgotPassword && (
         <form onSubmit={forgotPasswordSubmit} className={classes["form"]}>
-          <label for="email">email</label>
+          <label htmlFor="email">email</label>
           <input placeholder="Email" name="email" type="text" required />
           <button>Send Password Reset Email</button>
         </form>
