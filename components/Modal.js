@@ -5,29 +5,9 @@ import { deleteSession } from "../lib/hooks";
 import { toast } from "react-hot-toast";
 import { SessionsProvider } from "../lib/context";
 import classes from "./Modal.module.css";
+import SignIn from "./SignIn";
 const Modal = (props) => {
-  // const { setIsLoading, setShowModal, setIsDeleted } =
-  //   useContext(SessionsContext);
-
   let modalContent;
-
-  // const btnClickHandler = () => {
-  //   setIsLoading(true);
-
-  //   if (deleteSession()) {
-  //     const objRet = {
-  //       isLoading: false,
-  //       showModal: false,
-  //       isDeleted: [...isDeleted, id],
-  //     };
-  //     setIsLoading(false);
-  //     setShowModal(false);
-  //     setIsDeleted([...isDeleted, id]);
-  //     return toast.success(`${id} was successfully removed from the database`);
-  //   } else {
-  //     return toast.success(`${id} was not from the database`);
-  //   }
-  // };
 
   console.log("in modal", props.name);
   // const modalFill = () => {};
@@ -69,6 +49,7 @@ const Modal = (props) => {
       </>
     );
   }
+
   return (
     <SessionsProvider>
       <div className={classes["modal__background"]}></div>
@@ -77,7 +58,9 @@ const Modal = (props) => {
           <h2>{props.action}:</h2>
           <h2>{props.name}</h2>
         </div>
-        <div className={classes["modal__content"]}>{modalContent}</div>
+        <div className={classes["modal__content"]}>
+          {props.action === "sign-in" ? <SignIn /> : modalContent}
+        </div>
 
         <AiOutlineCloseCircle
           className={classes["modal__icon"]}

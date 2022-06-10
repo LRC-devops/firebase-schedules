@@ -3,7 +3,8 @@
   --clr-Lgreen: #91cfb9;
   --clr-teal: #86c0cf;
   --clr-teal-var: #5b7a82;
-  --clr-gold: #cfb87c;
+  --clr-gold: rgb(207, 184, 124);
+  --clr-gold-trans: rgba(207, 184, 124, 0.5);
   --clr-pink: #cf7291;
   --clr-cancel: rgba(182, 52, 52, 0.5);
   --clr-warn: orangered;
@@ -168,10 +169,37 @@ th {
   flex-direction: column;
   gap: 1rem;
 }
-.navbar img {
+/* .navbar img {
   border-radius: 50%;
   width: 50px;
   height: 50px;
+  cursor: pointer;
+} */
+.navBar--img {
+  height: 3rem;
+  width: auto;
+  /* aspect-ratio: 1/1; */
+  border-radius: 0;
+}
+.navBar__user-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-evenly;
+}
+.navBar__holds-two {
+  /* width: 100%; */
+  display: flex;
+  gap: 1rem;
+  /* flex-direction: column; */
+}
+.navBar--user {
+  font-size: 0.7rem;
+  cursor: pointer;
+}
+.navBar--icon {
+  align-self: flex-end;
+  font-size: 1.5rem;
   cursor: pointer;
 }
 .btn-login {
@@ -180,6 +208,9 @@ th {
   /* border-radius: 10px; */
   font-size: 1rem;
   border: none;
+  outline: none;
+  padding: 0.5rem 0.7rem;
+  border-radius: 20px;
 }
 .btn-logo {
   font-size: 1.5rem;
@@ -191,7 +222,7 @@ th {
 .btn {
   cursor: pointer;
   box-shadow: var(--box-shadow);
-  padding: 0.5rem;
+  /* padding: 0.5rem; */
 }
 
 .nav-link {

@@ -1,5 +1,7 @@
 import { firestore, sessionToJSON } from "../../lib/firebase";
 import User from "../../components/User";
+import { UserContext } from "../../lib/context";
+import { useContext } from "react";
 
 // export async function getStaticProps({ params }) {
 //   const { service } = params;
@@ -64,6 +66,7 @@ export async function getServerSideProps({ params }) {
 }
 
 export default function ServicePage({ service, posts }) {
+  const { user } = useContext(UserContext);
   // console.log(posts, service);
   return (
     <main>
