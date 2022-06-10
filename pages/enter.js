@@ -4,6 +4,9 @@ import { UserContext } from "../lib/context";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import toast from "react-hot-toast";
+import SignIn from "../components/SignIn";
 
 // export async function getServerSideProps(context) {
 //   const postsQuery = firestore
@@ -45,7 +48,7 @@ export default function Enter(props) {
           <SignOutButton />
         </div>
       ) : (
-        <SignInButton />
+        <>{<SignIn />}</>
       )}
     </section>
   );
