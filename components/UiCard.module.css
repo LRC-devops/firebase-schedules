@@ -26,10 +26,10 @@
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
 .ui-card:nth-child(1) {
-  background: linear-gradient(to right, var(--clr-green), var(--clr-Lgreen));
+  background: linear-gradient(to right, var(--clr-green), var(--clr-green-var));
 }
 .ui-card:nth-child(2) {
-  background: linear-gradient(to right, var(--clr-Lgreen), var(--clr-teal));
+  background: linear-gradient(to right, var(--clr-green-var), var(--clr-teal));
 }
 .ui-card:nth-child(3) {
   background: linear-gradient(to right, var(--clr-gold), var(--clr-pink));

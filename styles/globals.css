@@ -1,6 +1,6 @@
 :root {
   --clr-green: #91cf96;
-  --clr-Lgreen: #91cfb9;
+  --clr-green-var: #91cfb9;
   --clr-teal: #86c0cf;
   --clr-teal-var: #5b7a82;
   --clr-gold: rgb(207, 184, 124);
@@ -175,8 +175,9 @@ th {
   height: 50px;
   cursor: pointer;
 } */
-.navBar--img {
-  height: 3rem;
+.navBar__img {
+  height: 0.5rem;
+  /* width: 1rem !important; */
   width: auto;
   /* aspect-ratio: 1/1; */
   border-radius: 0;

@@ -52,21 +52,23 @@ const Modal = (props) => {
 
   return (
     <SessionsProvider>
-      <div className={classes["modal__background"]}></div>
-      <div className={classes.modal}>
-        <div className={classes["modal__title"]}>
-          <h2>{props.action}:</h2>
-          <h2>{props.name}</h2>
-        </div>
-        <div className={classes["modal__content"]}>
-          {props.action === "sign-in" ? <SignIn /> : modalContent}
-        </div>
+      <>
+        <div className={classes["modal__background"]}></div>
+        <div className={classes.modal}>
+          <div className={classes["modal__title"]}>
+            <h2>{props.action}:</h2>
+            <h2>{props.name}</h2>
+          </div>
+          <div className={classes["modal__content"]}>
+            {props.action === "sign-in" ? <SignIn /> : modalContent}
+          </div>
 
-        <AiOutlineCloseCircle
-          className={classes["modal__icon"]}
-          onClick={props.onClose}
-        />
-      </div>
+          <AiOutlineCloseCircle
+            className={classes["modal__icon"]}
+            onClick={props.onClose}
+          />
+        </div>
+      </>
     </SessionsProvider>
   );
 };

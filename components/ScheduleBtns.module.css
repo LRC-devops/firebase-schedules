@@ -6,7 +6,7 @@
   gap: 1.5rem;
 }
 
-.sched-btn__btn {
+.schedBtn {
   padding: 0.5rem 1rem;
   outline: none;
   border: none;
@@ -20,12 +20,76 @@
   transition: all 0.2s;
 }
 
-.sched-btn__btn:hover {
+.schedBtn:hover {
   transform: translateY(-0.5rem);
   box-shadow: 0.75rem 0.75rem 0 rgba(0, 0, 0, 0.2);
 }
 
-.sched-btn__btn--teal {
-  border: 3px solid var(--clr-teal);
-  color: var(--clr-teal);
+.schedBtn:nth-child(1) {
+  color: var(--clr-black);
+  background-color: var(--clr-teal);
+}
+.schedBtn:nth-child(2) {
+  color: var(--clr-black);
+  /* border: 3px solid var(--clr-teal); */
+  background-color: var(--clr-green);
+}
+.schedBtn:nth-child(3) {
+  color: var(--clr-white);
+  /* border: 3px solid var(--clr-teal); */
+  background-color: var(--clr-teal-var);
+}
+.schedBtn:nth-child(4) {
+  color: var(--clr-black);
+  /* border: 3px solid var(--clr-teal); */
+  background-color: var(--clr-teal);
+}
+.schedBtn:nth-child(5) {
+  color: var(--clr-black);
+  /* border: 3px solid var(--clr-teal); */
+  background-color: var(--clr-green);
+}
+.schedBtn:nth-child(6) {
+  color: var(--clr-white);
+  /* border: 3px solid var(--clr-teal); */
+  background-color: var(--clr-teal-var);
+}
+.schedBtn:nth-child(8) {
+  color: var(--clr-black);
+  /* border: 3px solid var(--clr-teal); */
+  background-color: var(--clr-teal);
+}
+.schedBtn:nth-child(9) {
+  color: var(--clr-black);
+  background-color: var(--clr-teal);
+}
+.schedBtn:nth-child(10) {
+  color: var(--clr-black);
+  /* border: 3px solid var(--clr-teal); */
+  background-color: var(--clr-green);
+}
+.schedBtn:nth-child(11) {
+  color: var(--clr-white);
+  /* border: 3px solid var(--clr-teal); */
+  background-color: var(--clr-teal-var);
+}
+.schedBtn:nth-child(12) {
+  color: var(--clr-black);
+  /* border: 3px solid var(--clr-teal); */
+  background-color: var(--clr-teal);
+}
+.schedBtn:nth-child(13) {
+  color: var(--clr-black);
+  /* border: 3px solid var(--clr-teal); */
+  background-color: var(--clr-green);
+}
+.schedBtn:nth-child(14) {
+  color: var(--clr-white);
+  /* border: 3px solid var(--clr-teal); */
+  background-color: var(--clr-teal-var);
+}
+.schedBtn:nth-child(15) {
+  color: var(--clr-black);
+  /* border: 3px solid var(--clr-teal); */
+  background-color: var(--clr-teal);
 }

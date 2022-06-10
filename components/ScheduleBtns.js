@@ -4,6 +4,16 @@ const ScheduleBtns = (props) => {
   const filterDataBySubject = [
     ...new Set(props.posts.map((session) => session.subject)),
   ];
+  const randColorGen = (index) => {
+    const colorClassArr = [
+      "schedBtnTeal",
+      "sched-btn__green",
+      "sched-btn__teal-var",
+      "sched-btn__green-var",
+    ];
+    console.log(colorClassArr[index]);
+    return colorClassArr[index];
+  };
 
   if (props.type === "ssw") {
     return (
@@ -18,9 +28,9 @@ const ScheduleBtns = (props) => {
   } else {
     return (
       <div className={classes["sched-btn__box"]}>
-        {filterDataBySubject.map((session) => (
+        {filterDataBySubject.map((session, index) => (
           <button
-            className={classes["sched-btn__btn"]}
+            className={classes.schedBtn}
             onClick={props.btnClickHandler}
             key={Math.random()}
           >

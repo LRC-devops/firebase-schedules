@@ -1,0 +1,31 @@
+.sched-btn__box {
+  padding: 2rem 3rem;
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.sched-btn {
+  padding: 0.5rem 1rem;
+  outline: none;
+  border: none;
+  background-color: transparent;
+
+  font-size: 1.5rem;
+  box-shadow: 0.5rem 0.5rem 0 rgba(0, 0, 0, 0.2);
+
+  /* border: 1px solid rgba(0, 0, 0, 0.2); */
+  border-radius: 20px;
+  transition: all 0.2s;
+}
+
+.sched-btn:hover {
+  transform: translateY(-0.5rem);
+  box-shadow: 0.75rem 0.75rem 0 rgba(0, 0, 0, 0.2);
+}
+
+.sched-btn--teal {
+  color: var(--clr-black);
+  background-color: var(--clr-teal);
+}

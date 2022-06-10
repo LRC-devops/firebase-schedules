@@ -17,6 +17,7 @@ const User = (props) => {
   };
 
   const posts = props.posts;
+  console.log(posts);
 
   const btnClickHandler = (e) => {
     const btnName = e.target.innerHTML;
@@ -26,6 +27,27 @@ const User = (props) => {
       btnName: btnName,
     });
     return btnName;
+  };
+
+  console.log(props.service);
+
+  const serviceCheck = () => {
+    if (props.service === "agSched") {
+      return (
+        <>
+          <UiCard />
+          <ScheduleBtns btnClickHandler={btnClickHandler} posts={posts} />
+        </>
+      );
+    } else if (props.service === "ssw") {
+      return (
+        <ScheduleBtns
+          posts={["Schedule"]}
+          type={props.type}
+          btnClickHandler={btnClickHandler}
+        />
+      );
+    }
   };
 
   return (
@@ -39,22 +61,24 @@ const User = (props) => {
               posts={posts}
               btnName={btnClickHandler}
               modalContent={modalContent}
-              type={props.type}
+              service={props.service}
             />
           )}
-          {props.type === "gsg" ? (
+          {serviceCheck()}
+
+          {/* {props.service.length > 3 && props.service.slice(-5) === "Sched" ? (
             <>
               <UiCard />
               <ScheduleBtns btnClickHandler={btnClickHandler} posts={posts} />
             </>
-          ) : null}
-          {props.type === "ssw" ? (
+            : null}
+          {props.serivce === "ssw" ? (
             <ScheduleBtns
               posts={["Schedule"]}
               type={props.type}
               btnClickHandler={btnClickHandler}
             />
-          ) : null}
+          ) : null} */}
         </div>
       </div>
     </div>
