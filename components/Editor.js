@@ -31,12 +31,12 @@ export default function Editor(props) {
           check = false;
         }
       }
-      console.log(check);
+      // console.log(check);
       return check;
     };
 
     if (props.action === `add`) {
-      console.log(checkLength(dataArr));
+      // console.log(checkLength(dataArr));
       if (!checkLength(dataArr)) {
         return toast.error("session data is incomplete");
       } else if (checkMode(s.mode.value)) {
@@ -89,13 +89,16 @@ export default function Editor(props) {
           <input type="text" placeholder="Subject" name="subject" />
           {/* <input type="text" placeholder="dayTime" name="course" /> */}
           <input type="text" placeholder="Mode" name="mode" />
-          <input type="date" placeholder="Date" name="date" />
+          <input type="datetime-local" placeholder="Date" name="date" />
+          {/* <input type="date" placeholder="Date" name="date" /> */}
         </>
       );
     }
   };
 
-  console.log(serviceCheck(props.service));
+  // BUG in timestamp input
+
+  // console.log(serviceCheck(props.service));
 
   return (
     <>
@@ -104,7 +107,6 @@ export default function Editor(props) {
         {props.value ? <h2>{props.value}</h2> : null}
         <form onSubmit={submitHandler} className="form-basic">
           {serviceCheck(props.service)}
-
           <button>Submit</button>
         </form>
       </div>
