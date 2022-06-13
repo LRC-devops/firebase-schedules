@@ -47,7 +47,7 @@ const Edit = (props) => {
     setIsDeleted((prevState) => {
       return [...prevState, modalContent.session];
     });
-    sessionCtx.delete(modalContent.session, service);
+    sessionCtx.delete(modalContent.session, service, type);
     setShowModal(false);
     setIsLoading(false);
   };
@@ -55,7 +55,7 @@ const Edit = (props) => {
   const submitEditHandler = (e) => {
     setIsLoading(true);
     e.preventDefault();
-    sessionCtx.edit(e, modalContent.session, service);
+    sessionCtx.edit(e, modalContent.session, service, type);
     setIsLoading(false);
   };
 
@@ -70,7 +70,7 @@ const Edit = (props) => {
   const cancelSubmitHandler = async (e) => {
     setIsLoading(true);
     e.preventDefault();
-    await sessionCtx.cancel(e, service);
+    await sessionCtx.cancel(e, service, type);
     setIsLoading(false);
   };
 
@@ -95,9 +95,12 @@ const Edit = (props) => {
 
           <div>
             <div className="table--box">
-              <h1>Guided Study Groups</h1>
               <div>
-                <h2>Current (server) Data</h2>
+                {posts.length < 1 ? (
+                  <h2>This service does not yet exist</h2>
+                ) : (
+                  <h2>Current (server) Data</h2>
+                )}
 
                 <Table
                   key={String(Math.random())}
@@ -108,7 +111,7 @@ const Edit = (props) => {
                 />
               </div>
 
-              <h2>New (local) Data</h2>
+              {newSessions.length < 1 ? null : <h2>New (local) Data</h2>}
 
               <Table
                 posts={newSessions}

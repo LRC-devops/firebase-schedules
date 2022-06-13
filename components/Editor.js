@@ -43,7 +43,7 @@ export default function Editor(props) {
       if (!checkLength(dataArr)) {
         return toast.error("session data is incomplete");
       } else if (checkMode(s.mode.value)) {
-        const newSess = addSession(e, props.service);
+        const newSess = addSession(e, service, type);
 
         setNewSessions((prevState) => {
           return [...prevState, newSess];
