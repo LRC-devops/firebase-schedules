@@ -1,7 +1,9 @@
 import { sessionToJSON, firestore, getDoc } from "../../lib/firebase";
 import Edit from "../../components/Edit";
-import React from "react";
+import { useContext } from "react";
 import AuthCheck from "../../components/AuthCheck";
+import Loader from "../../components/Loader";
+import { SessionsContext } from "../../lib/context";
 
 export async function getServerSideProps({ params }) {
   const { service } = params;
@@ -18,8 +20,12 @@ export async function getServerSideProps({ params }) {
   };
 }
 export default function EditServicePage({ posts, service }) {
+  const { isLoading } = useContext(SessionsContext);
   return (
     <main>
+      {isLoading && <Loader />}
+      {/* <Loader /> */}
+
       <AuthCheck>
         <h1>Edit {service}</h1>
         <Edit posts={posts} service={service} />
