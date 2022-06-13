@@ -21,7 +21,7 @@ export default function EditServicePage({ posts, service }) {
   return (
     <main>
       <AuthCheck>
-        <h1>Edit Service Page {service}</h1>
+        <h1>Edit {service}</h1>
         <Edit posts={posts} service={service} />
       </AuthCheck>
     </main>

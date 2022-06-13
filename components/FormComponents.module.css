@@ -1,0 +1,30 @@
+.form-input {
+  border: none;
+  background-color: #eee;
+  padding: 0.5rem 0.7rem;
+  border-radius: 20px;
+  width: 100%;
+  text-align: center;
+  box-shadow: var(--box-shadow);
+}
+
+.form-button {
+  padding: 0.5rem 0.7rem;
+  border: none;
+  outline: none;
+  background-color: rgb(158, 158, 158);
+  border-radius: 20px;
+  width: 100%;
+  box-shadow: var(--box-shadow);
+  cursor: pointer;
+}
+
+.form-button,
+.form-input {
+  transition: all 0.2s;
+}
+
+.form-button:hover,
+.form-input:hover {
+  transform: translateY(-0.1rem);
+}

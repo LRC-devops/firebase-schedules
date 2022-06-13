@@ -2,10 +2,13 @@ import { addSession, useEditSession } from "../lib/hooks";
 import { SessionsContext } from "../lib/context";
 import { useContext } from "react";
 import toast from "react-hot-toast";
+import { FormInput, FormButton } from "./FormComponents";
+import GlassCard from "../components/GlassCard";
 
 export default function Editor(props) {
   const { setNewSessions, newSessions, modalContent } =
     useContext(SessionsContext);
+  const service = props.service;
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -67,49 +70,97 @@ export default function Editor(props) {
       }
     }
   };
-  const serviceCheck = (service) => {
-    if (service.slice(-5) === "Sched") {
-      return (
-        <>
-          <input
-            type="text"
-            placeholder={props.action === "edit" ? `Edit Field` : "Subject"}
-            name="subject"
-          />
-          <input type="text" placeholder="Course" name="course" />
-          <input type="text" placeholder="Day/Time" name="dayTime" />
-          <input type="text" placeholder="host" name="host" />
-          <input type="text" placeholder="link" name="link" />
-          <input type="text" placeholder="mode" name="mode" />
-        </>
-      );
-    } else if (service.slice(-5) === "Calen") {
-      return (
-        <>
-          <input type="text" placeholder="Subject" name="subject" />
-          {/* <input type="text" placeholder="dayTime" name="course" /> */}
-          <input type="text" placeholder="Mode" name="mode" />
-          <input type="datetime-local" placeholder="Date" name="date" />
-          {/* <input type="date" placeholder="Date" name="date" /> */}
-        </>
-      );
-    }
-  };
 
-  // BUG in timestamp input
+  // // console.log(props.service.slice(-5));
+  // const serviceCheck = () => {
+  //   // const serviceSlice = service.toString().slice(-5);
+  //   const serviceSlice = service;
+  //   // console.log(typeof serviceSlice, serviceSlice, serviceSlice.slice(-5));
+  //   let content;
+  //   console.log(serviceSlice, serviceSlice === "siSched");
+  //   if (serviceSlice === "siSched" || serviceSlice === "agSched") {
+  //     console.log("enter 1st if check");
+  //     content = (
+  //       <>
+  //         <FormInput
+  //           type="text"
+  //           placeholder={props.action === "edit" ? `Edit Field` : "Subject"}
+  //           name="subject"
+  //         />
+  //         <FormInput type="text" placeholder="Course" name="course" />
+  //         <FormInput type="text" placeholder="Day/Time" name="dayTime" />
+  //         <FormInput type="text" placeholder="host" name="host" />
+  //         <FormInput type="text" placeholder="link" name="link" />
+  //         <FormInput type="text" placeholder="mode" name="mode" />
+  //       </>
+  //     );
+  //   } else if (serviceSlice === "sswCalen") {
+  //     console.log("enter else if check");
 
-  // console.log(serviceCheck(props.service));
+  //     content = (
+  //       <>
+  //         <FormInput type="text" placeholder="Subject" name="subject" />
+  //         {/* <FormInput type="text" placeholder="dayTime" name="course" /> */}
+  //         <FormInput type="text" placeholder="Mode" name="mode" />
+  //         <FormInput type="datetime-local" placeholder="Date" name="date" />
+  //         {/* <FormInput type="date" placeholder="Date" name="date" /> */}
+  //       </>
+  //     );
+  //   }
+  //   return content;
+  // };
+
+  // const editorContent = serviceCheck();
+
+  // BUG in timestamp FormInput
+
+  // console.log(editorContent);
+  // console.log(serviceCheck());
 
   return (
     <>
-      <div>
-        <h1>EDITOR</h1>
-        {props.value ? <h2>{props.value}</h2> : null}
-        <form onSubmit={submitHandler} className="form-basic">
-          {serviceCheck(props.service)}
-          <button>Submit</button>
-        </form>
-      </div>
+      <GlassCard>
+        <div>
+          <h1>{props.action} sessions</h1>
+          {props.value ? <h2>{props.value}</h2> : null}
+          <form onSubmit={submitHandler} className="form-basic">
+            {service === "agSched" || service === "agSched" ? (
+              <>
+                <FormInput
+                  type="text"
+                  placeholder={
+                    props.action === "edit" ? `Edit Field` : "Subject"
+                  }
+                  name="subject"
+                />
+                {/* <FormInput
+                type="text"
+                placeholder={props.action === "edit" ? `Edit Field` : "Subject"}
+                name="subject"
+              /> */}
+                <FormInput type="text" placeholder="Course" name="course" />
+                <FormInput type="text" placeholder="Day/Time" name="dayTime" />
+                <FormInput type="text" placeholder="host" name="host" />
+                <FormInput type="text" placeholder="link" name="link" />
+                <FormInput type="text" placeholder="mode" name="mode" />
+              </>
+            ) : (
+              <>
+                <FormInput type="text" placeholder="Subject" name="subject" />
+                {/* <input type="text" placeholder="dayTime" name="course" /> */}
+                <FormInput type="text" placeholder="Mode" name="mode" />
+                <FormInput
+                  type="datetime-local"
+                  placeholder="Date"
+                  name="date"
+                />
+                {/* <input type="date" placeholder="Date" name="date" /> */}
+              </>
+            )}
+            <FormButton>Submit</FormButton>
+          </form>
+        </div>
+      </GlassCard>
     </>
   );
 }
