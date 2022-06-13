@@ -21,7 +21,7 @@
   min-height: 15rem;
   /* min-width: 24rem; */
   /* max-width: 90%; */
-  min-width: 30vw;
+  min-width: 50vw;
   max-width: 95vw;
   backdrop-filter: blur(5px);
   padding: 2rem 3rem;
@@ -35,6 +35,8 @@
 .modal__content {
   display: flex;
   flex-direction: column;
+  overflow: scroll;
+  padding: 0.7rem 1rem;
 }
 .modal__title {
   width: 100%;

@@ -17,7 +17,7 @@ const User = (props) => {
   };
 
   const posts = props.posts;
-  console.log(posts);
+  // console.log(posts);
 
   const btnClickHandler = (e) => {
     const btnName = e.target.innerHTML;
@@ -29,7 +29,7 @@ const User = (props) => {
     return btnName;
   };
 
-  console.log(props.service);
+  // console.log(props.service);
 
   const serviceCheck = () => {
     if (props.service === "agSched") {
@@ -39,7 +39,7 @@ const User = (props) => {
           <ScheduleBtns btnClickHandler={btnClickHandler} posts={posts} />
         </>
       );
-    } else if (props.service === "ssw") {
+    } else if (props.service === "sswCalen") {
       return (
         <ScheduleBtns
           posts={["Schedule"]}

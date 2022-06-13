@@ -1,8 +1,9 @@
 import { firestore, sessionToJSON } from "../../lib/firebase";
 import User from "../../components/User";
-import { UserContext } from "../../lib/context";
+import { UserContext, SessionsContext } from "../../lib/context";
 import { useContext } from "react";
 import toast from "react-hot-toast";
+import Loader from "../../components/Loader";
 
 // export async function getStaticProps({ params }) {
 //   const { service } = params;
@@ -72,9 +73,14 @@ export async function getServerSideProps({ params }) {
 
 export default function ServicePage({ service, posts }) {
   const { user } = useContext(UserContext);
+  const { isLoading, setIsLoading } = useContext(SessionsContext);
+  !posts ? setIsLoading(true) : setIsLoading(false);
+  // setIsLoading(true);
   console.log(posts, service);
   return (
     <main>
+      {isLoading && <Loader />}
+
       {!posts.length ? (
         <h1>This service does not seem to exits.</h1>
       ) : (

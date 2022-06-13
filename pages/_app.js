@@ -10,6 +10,7 @@ import { Toaster } from "react-hot-toast";
 import { useAddSession, useUserData } from "../lib/hooks";
 import Modal from "../components/Modal";
 import { useState } from "react";
+import Loader from "../components/Loader";
 
 function MyApp({ Component, pageProps }) {
   const [newSessions, setNewSessions] = useState([]);
@@ -19,11 +20,9 @@ function MyApp({ Component, pageProps }) {
     <UserContext.Provider value={userData}>
       <NavBar />
       <ShowModal.Provider value={false}>
-        {/* <SessionsContext.Provider value={{ newSessions, setNewSessions }}> */}
         <SessionsProvider>
           <Component {...pageProps} />
         </SessionsProvider>
-        {/* </SessionsContext.Provider> */}
       </ShowModal.Provider>
       <Toaster />
     </UserContext.Provider>
