@@ -54,16 +54,16 @@ import Loader from "../../components/Loader";
 
 export async function getServerSideProps({ params }) {
   try {
-    const { service } = params;
+    const { type, service } = params;
 
     const docRef = firestore
       .collection("LRC")
       .doc("schedules")
-      .collection(service);
+      .collection(`${service}${type}`);
     const posts = (await docRef.get()).docs.map(sessionToJSON);
 
     return {
-      props: { posts, service },
+      props: { posts, service, type },
       // revalidate: 60,
     };
   } catch (err) {
@@ -71,10 +71,12 @@ export async function getServerSideProps({ params }) {
   }
 }
 
-export default function ServicePage({ service, posts }) {
+export default function ServicePage({ service, posts, type }) {
   const { user } = useContext(UserContext);
   const { isLoading, setIsLoading } = useContext(SessionsContext);
   !posts ? setIsLoading(true) : setIsLoading(false);
+
+  console.log(`${service}${type}`);
   // setIsLoading(true);
   console.log(posts, service);
   return (
@@ -84,7 +86,7 @@ export default function ServicePage({ service, posts }) {
       {!posts.length ? (
         <h1>This service does not seem to exits.</h1>
       ) : (
-        <User posts={posts} service={service} />
+        <User posts={posts} service={service} type={type} />
       )}
     </main>
   );

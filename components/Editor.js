@@ -8,7 +8,7 @@ import GlassCard from "../components/GlassCard";
 export default function Editor(props) {
   const { setNewSessions, newSessions, modalContent } =
     useContext(SessionsContext);
-  const service = props.service;
+  const { service, type } = props;
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -71,52 +71,6 @@ export default function Editor(props) {
     }
   };
 
-  // // console.log(props.service.slice(-5));
-  // const serviceCheck = () => {
-  //   // const serviceSlice = service.toString().slice(-5);
-  //   const serviceSlice = service;
-  //   // console.log(typeof serviceSlice, serviceSlice, serviceSlice.slice(-5));
-  //   let content;
-  //   console.log(serviceSlice, serviceSlice === "siSched");
-  //   if (serviceSlice === "siSched" || serviceSlice === "agSched") {
-  //     console.log("enter 1st if check");
-  //     content = (
-  //       <>
-  //         <FormInput
-  //           type="text"
-  //           placeholder={props.action === "edit" ? `Edit Field` : "Subject"}
-  //           name="subject"
-  //         />
-  //         <FormInput type="text" placeholder="Course" name="course" />
-  //         <FormInput type="text" placeholder="Day/Time" name="dayTime" />
-  //         <FormInput type="text" placeholder="host" name="host" />
-  //         <FormInput type="text" placeholder="link" name="link" />
-  //         <FormInput type="text" placeholder="mode" name="mode" />
-  //       </>
-  //     );
-  //   } else if (serviceSlice === "sswCalen") {
-  //     console.log("enter else if check");
-
-  //     content = (
-  //       <>
-  //         <FormInput type="text" placeholder="Subject" name="subject" />
-  //         {/* <FormInput type="text" placeholder="dayTime" name="course" /> */}
-  //         <FormInput type="text" placeholder="Mode" name="mode" />
-  //         <FormInput type="datetime-local" placeholder="Date" name="date" />
-  //         {/* <FormInput type="date" placeholder="Date" name="date" /> */}
-  //       </>
-  //     );
-  //   }
-  //   return content;
-  // };
-
-  // const editorContent = serviceCheck();
-
-  // BUG in timestamp FormInput
-
-  // console.log(editorContent);
-  // console.log(serviceCheck());
-
   return (
     <>
       <GlassCard>
@@ -124,7 +78,7 @@ export default function Editor(props) {
           <h1>{props.action} sessions</h1>
           {props.value ? <h2>{props.value}</h2> : null}
           <form onSubmit={submitHandler} className="form-basic">
-            {service === "agSched" || service === "agSched" ? (
+            {type === "sched" ? (
               <>
                 <FormInput
                   type="text"

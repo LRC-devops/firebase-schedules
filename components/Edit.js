@@ -21,7 +21,7 @@ const Edit = (props) => {
   const sessionCtx = useContext(SessionsContext);
 
   const posts = props.posts;
-  const service = props.service;
+  const { service, type } = props;
 
   // if no user, render nothing
   if (!user) {
@@ -62,7 +62,7 @@ const Edit = (props) => {
   const addSessionHandler = (e) => {
     setIsLoading(true);
     const newArr = [...newSessions];
-    sessionCtx.add(e, newArr, service);
+    sessionCtx.add(e, newArr, service, type);
     setIsLoading(false);
     return setNewSessions([]);
   };
@@ -91,7 +91,7 @@ const Edit = (props) => {
       )}
       <div className="flex-col">
         <div className="flex">
-          <Editor action={`add`} service={service} />
+          <Editor action={`add`} service={service} type={type} />
 
           <div>
             <div className="table--box">

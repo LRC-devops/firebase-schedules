@@ -32,14 +32,14 @@ const User = (props) => {
   // console.log(props.service);
 
   const serviceCheck = () => {
-    if (props.service === "agSched") {
+    if (props.type === "sched") {
       return (
         <>
           <UiCard />
           <ScheduleBtns btnClickHandler={btnClickHandler} posts={posts} />
         </>
       );
-    } else if (props.service === "sswCalen") {
+    } else if (props.type === "calen") {
       return (
         <ScheduleBtns
           posts={["Schedule"]}
