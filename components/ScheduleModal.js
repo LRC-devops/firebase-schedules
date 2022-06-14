@@ -25,10 +25,10 @@ const ScheduleModal = (props) => {
 
   let posts;
   let action;
-  if (props.service.slice(-5) === "Sched") {
+  if (props.serviceType === "sched") {
     posts = filterDataBySubject(props.posts, props.modalContent.btnName);
     action = "filteredAgSched";
-  } else if (props.service === "ssw") {
+  } else if (props.serviceType === "calendar") {
     posts = props.posts;
     action = "ssw";
   } else if (props.type === "EDIT") {

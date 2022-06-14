@@ -4,37 +4,6 @@ import Modal from "../components/Modal";
 import Editor from "../components/Editor";
 import Table from "../components/Table";
 import Loader from "../components/Loader";
-import { firestore, sessionToJSON, sswSessionToJSON } from "../lib/firebase";
-import { useCancelSession } from "../lib/hooks";
-import toast from "react-hot-toast";
-
-// export async function getServerSideProps(context) {
-//   const postsQuery = firestore
-//     .collection("LRC")
-//     .doc("schedules")
-//     .collection("agSched")
-//     .orderBy("subject");
-//   const posts = (await postsQuery.get()).docs.map(sessionToJSON);
-//   return {
-//     props: { posts },
-//   };
-// }
-
-// export function addSnapshot(filter) {
-//   // let dataQuery;
-//   console.log("enter addSnapshot fn");
-//   console.log("filter passed into addSnapshot fn", filter);
-//   try {
-//     const dataQuery = firestore.collection(`${filter}`).orderBy("subject");
-//     const posts = dataQuery.get().docs.map(sessionToJSON);
-//     // setData(posts);
-//     return {
-//       props: { posts },
-//     };
-//   } catch (err) {
-//     toast.error("An error occured");
-//   }
-// }
 
 const Edit = (props) => {
   const [filter, setFilter] = useState(null);
@@ -111,81 +80,64 @@ const Edit = (props) => {
   //   toast.error("no data retrieved from db");
   // }
 
-  if (!filter || filter === null) {
-    return (
-      <main>
-        <select value={filter} onChange={filterChangeHandler}>
-          <option value={null} defaultValue>
-            Select a schedule to edit
-          </option>
-          <option value={"gsg"}>GSG</option>
-          <option value={"ssw"}>SSW</option>
-          <option value={"si"}>SI</option>
-          <option value={"iprep"}>iPrep</option>
-        </select>
-      </main>
-    );
-  } else {
-    return (
-      <main>
-        <select value={filter} onChange={filterChangeHandler}>
-          <option value={null} defaultValue>
-            Select a schedule to edit
-          </option>
-          <option value={"gsg"}>GSG</option>
-          <option value={"ssw"}>SSW</option>
-          <option value={"si"}>SI</option>
-          <option value={"iprep"}>iPrep</option>
-        </select>
-        {showModal && (
-          <Modal
-            onClose={onCloseModal}
-            action={modalContent.action}
-            session={modalContent.session}
-            name={modalContent.name}
-            modalContent={modalContent}
-            onConfirm={deleteSessionsHandler}
-            cancelSubmitHandler={cancelSubmitHandler}
-            submitEditHandler={submitEditHandler}
-            posts={posts}
-          />
-        )}
-        <div className="flex-col">
-          <div className="flex">
-            <Editor action={`add`} />
+  return (
+    <main>
+      <select value={filter} onChange={filterChangeHandler}>
+        <option value={null} defaultValue>
+          Select a schedule to edit
+        </option>
+        <option value={"gsg"}>GSG</option>
+        <option value={"ssw"}>SSW</option>
+        <option value={"si"}>SI</option>
+        <option value={"iprep"}>iPrep</option>
+      </select>
+      {showModal && (
+        <Modal
+          onClose={onCloseModal}
+          action={modalContent.action}
+          session={modalContent.session}
+          name={modalContent.name}
+          modalContent={modalContent}
+          onConfirm={deleteSessionsHandler}
+          cancelSubmitHandler={cancelSubmitHandler}
+          submitEditHandler={submitEditHandler}
+          posts={posts}
+        />
+      )}
+      <div className="flex-col">
+        <div className="flex">
+          <Editor action={`add`} />
 
-            <div>
-              <div className="table--box">
-                <h1>Guided Study Groups</h1>
-                <div>
-                  <h2>Current (server) Data</h2>
+          <div>
+            <div className="table--box">
+              <div>
+                <h2>Current (server) Data</h2>
 
-                  <Table
-                    key={String(Math.random())}
-                    posts={posts}
-                    triggerModal={modalTrigger}
-                    triggerEdit={modalTrigger}
-                    action="edit"
-                  />
-                </div>
-
-                <h2>New (local) Data</h2>
-
-                <Table posts={newSessions} key={String(Math.random())} />
-
-                {newSessions.length > 0 ? (
-                  <button className="btn btn-login" onClick={addSessionHandler}>
-                    Submit Data to Server
-                  </button>
-                ) : null}
-                {sessionCtx.isLoading && <Loader show />}
+                <Table
+                  key={String(Math.random())}
+                  posts={posts}
+                  triggerModal={modalTrigger}
+                  triggerEdit={modalTrigger}
+                  action="edit"
+                />
               </div>
+
+              <h2>New (local) Data</h2>
+
+              <Table posts={newSessions} key={String(Math.random())} />
+
+              {newSessions.length > 0 ? (
+                <button className="btn btn-login" onClick={addSessionHandler}>
+                  Submit Data to Server
+                </button>
+              ) : null}
+              {sessionCtx.isLoading && <Loader show />}
             </div>
           </div>
         </div>
-      </main>
-    );
-  }
+      </div>
+    </main>
+  );
 };
 
 export default Edit;

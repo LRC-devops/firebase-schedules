@@ -1,11 +1,13 @@
 import { addSession, useEditSession } from "../lib/hooks";
 import { SessionsContext } from "../lib/context";
-import { useContext } from "react";
+import { useContext, useReducer, useState } from "react";
 import toast from "react-hot-toast";
+import { FormInput, FormButton } from "./FormComponents";
+import GlassCard from "../components/GlassCard";
 
 export default function Editor(props) {
-  const { setNewSessions, newSessions, modalContent } =
-    useContext(SessionsContext);
+  const { setNewSessions, newSessions } = useContext(SessionsContext);
+  const { service, serviceType, sessionRef } = props;
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -31,21 +33,18 @@ export default function Editor(props) {
           check = false;
         }
       }
-      // console.log(check);
       return check;
     };
 
     if (props.action === `add`) {
-      // console.log(checkLength(dataArr));
       if (!checkLength(dataArr)) {
         return toast.error("session data is incomplete");
       } else if (checkMode(s.mode.value)) {
-        const newSess = addSession(e, props.service);
+        const newSess = addSession(e, service, serviceType);
 
         setNewSessions((prevState) => {
           return [...prevState, newSess];
         });
-        console.log(newSessions);
         return newSessions;
       } else {
         if (!checkMode(s.mode.value)) {
@@ -67,49 +66,77 @@ export default function Editor(props) {
       }
     }
   };
-  const serviceCheck = (service) => {
-    if (service.slice(-5) === "Sched") {
-      return (
-        <>
-          <input
-            type="text"
-            placeholder={props.action === "edit" ? `Edit Field` : "Subject"}
-            name="subject"
-          />
-          <input type="text" placeholder="Course" name="course" />
-          <input type="text" placeholder="Day/Time" name="dayTime" />
-          <input type="text" placeholder="host" name="host" />
-          <input type="text" placeholder="link" name="link" />
-          <input type="text" placeholder="mode" name="mode" />
-        </>
-      );
-    } else if (service.slice(-5) === "Calen") {
-      return (
-        <>
-          <input type="text" placeholder="Subject" name="subject" />
-          {/* <input type="text" placeholder="dayTime" name="course" /> */}
-          <input type="text" placeholder="Mode" name="mode" />
-          <input type="datetime-local" placeholder="Date" name="date" />
-          {/* <input type="date" placeholder="Date" name="date" /> */}
-        </>
-      );
-    }
-  };
-
-  // BUG in timestamp input
-
-  // console.log(serviceCheck(props.service));
 
   return (
     <>
-      <div>
-        <h1>EDITOR</h1>
-        {props.value ? <h2>{props.value}</h2> : null}
-        <form onSubmit={submitHandler} className="form-basic">
-          {serviceCheck(props.service)}
-          <button>Submit</button>
-        </form>
-      </div>
+      <GlassCard>
+        <div>
+          <h1>{props.action} sessions</h1>
+          {props.value ? <h2>{props.value}</h2> : null}
+          <form onSubmit={submitHandler} className="form-basic">
+            {serviceType === "sched" && (
+              <>
+                <FormInput
+                  type="text"
+                  placeholder={
+                    props.action === "edit"
+                      ? `${sessionRef.subject}`
+                      : "Subject"
+                  }
+                  name="subject"
+                />
+                <FormInput
+                  type="text"
+                  placeholder={sessionRef ? `${sessionRef.course}` : "Course"}
+                  name="course"
+                />
+                <FormInput
+                  type="text"
+                  placeholder={
+                    sessionRef ? `${sessionRef.dayTime}` : "Day/Time"
+                  }
+                  name="dayTime"
+                />
+                <FormInput
+                  type="text"
+                  placeholder={sessionRef ? `${sessionRef.host}` : "Host"}
+                  name="host"
+                />
+                <FormInput
+                  type="text"
+                  placeholder={sessionRef ? `${sessionRef.link}` : "Link"}
+                  name="link"
+                />
+                <FormInput
+                  type="text"
+                  placeholder={sessionRef ? `${sessionRef.mode}` : "Mode"}
+                  name="mode"
+                />
+              </>
+            )}{" "}
+            {serviceType === "calendar" && (
+              <>
+                <FormInput
+                  type="text"
+                  placeholder={sessionRef ? `${sessionRef.subject}` : "Subject"}
+                  name="subject"
+                />
+                <FormInput
+                  type="text"
+                  placeholder={sessionRef ? `${sessionRef.mode}` : "Mode"}
+                  name="mode"
+                />
+                <FormInput
+                  type="datetime-local"
+                  placeholder={sessionRef ? `${sessionRef.date}` : "date"}
+                  name="date"
+                />
+              </>
+            )}
+            <FormButton>Submit</FormButton>
+          </form>
+        </div>
+      </GlassCard>
     </>
   );
 }

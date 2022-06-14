@@ -24,51 +24,22 @@ export default function NavBar() {
       <nav className="navbar">
         <ul>
           <li>
-            <Link href="/agSched">
+            <Link href="/sched/ag">
               <Image
                 className="navBar__img"
                 src={logo}
                 alt="LRC Logo"
                 width={130}
-                height={50}
+                height={46}
               />
-              {/* <img className="navBar--img" src={logo} alt="LRC Logo" /> */}
             </Link>
           </li>
-          {/* <li> */}
-          {/* <Link href="/gsg">
-            <button className="nav-link">GSG</button>
-            </Link>
-            </li>
-            <li>
-            <Link href="/ssw">
-            <button className="nav-link">SSW</button>
-            </Link>
-            </li>
-            <li>
-            <Link href="/">
-            <button className="nav-link">SI</button>
-            </Link>
-            </li>
-            <li>
-            <Link href="/">
-            <button className="nav-link">iPrep</button>
-            </Link>
-          </li> */}
           {user && (
             <div className="push-left">
-              {/* <li>
-              {user && (
-                <Link href="/Edit">
-                <button className="btn">Edit</button>
-                </Link>
-                )}
-              </li> */}
               <div className="navBar__user-box">
                 <div className="navBar__holds-two">
                   <li>
-                    <Link href={`/agSched/edit`}>
-                      {/* <button className="btn btn-login"></button> */}
+                    <Link href={`/sched/ag/edit`}>
                       <FiEdit className="navBar--icon" title="edit" />
                     </Link>
                   </li>

@@ -1,7 +1,10 @@
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { checkCancel } from "../lib/hooks";
+import { SessionsContext } from "../lib/context";
+import { useContext } from "react";
 
 function TableRow(props) {
+  const { serviceType } = useContext(SessionsContext);
   const post = props.post;
   let trClass;
 
@@ -28,19 +31,13 @@ function TableRow(props) {
     mode = post.mode;
   }
 
-  // let date = post.date;
-  // if (date) {
-  //   const convDate = new Date(date);
-  // }
-
-  // console.log(typeof new Date(post.date));
   const convertDate = (timestamp) => {
     const dateObj = new Date(timestamp);
     const day = dateObj.getMonth() + 1;
     const month = dateObj.getDate();
     const time = dateObj.getHours();
 
-    return `${day} / ${month} | ${time}-${time + 1}`;
+    return `${day} / ${month} ${time}-${time + 1}`;
   };
 
   if (props.action === "edit") {
@@ -52,7 +49,8 @@ function TableRow(props) {
             onClick={props.triggerModal}
             id={post.docId}
             session={`${post.host}-${post.course}`}
-            name={`${post.host}'s ${post.course} ${post.dayTime} session`}
+            schedName={`${post.host}'s ${post.course} ${post.dayTime} session`}
+            calenName={`${post.subject} on ${post.date}`}
           >
             CANCEL
           </a>
@@ -62,7 +60,8 @@ function TableRow(props) {
             className="danger-link"
             onClick={props.triggerModal}
             id={post.docId}
-            name={`${post.host}'s ${post.course} ${post.dayTime} session`}
+            schedName={`${post.host}'s ${post.course} ${post.dayTime} session`}
+            calenName={`${post.subject} on ${post.date}`}
           >
             DELETE
           </a>
@@ -72,24 +71,35 @@ function TableRow(props) {
             className="danger-link"
             onClick={props.triggerEdit}
             id={post.docId}
-            name={`${post.host}'s ${post.course} ${post.dayTime} session`}
+            schedName={`${post.host}'s ${post.course} ${post.dayTime} session`}
+            calenName={`${post.subject} on ${post.date}`}
           >
             EDIT
           </a>
         </td>
-        <td>{post.host}</td>
-        <td>{post.course}</td>
-        <td>{post.subject}</td>
-        <td>{post.dayTime}</td>
-        <td>{post.initCancel}</td>
-        <td>{post.revertCancel}</td>
-        <td>
-          {trClass === "cancel-session"
-            ? `Cancelled (${post.initCancel.slice(
-                5
-              )} - ${post.revertCancel.slice(5)})`
-            : mode}
-        </td>
+        {serviceType === "sched" ? (
+          <>
+            <td>{post.host}</td>
+            <td>{post.course}</td>
+            <td>{post.subject}</td>
+            <td>{post.dayTime}</td>
+            <td>{post.initCancel}</td>
+            <td>{post.revertCancel}</td>
+            <td>
+              {trClass === "cancel-session"
+                ? `Cancelled (${post.initCancel.slice(
+                    5
+                  )} - ${post.revertCancel.slice(5)})`
+                : mode}
+            </td>
+          </>
+        ) : (
+          <>
+            <td>{post.subject}</td>
+            <td>{convertDate(post.date)}</td>
+            <td>{post.mode}</td>
+          </>
+        )}
       </tr>
     );
   } else if (props.action === "filteredAgSched") {
@@ -108,21 +118,22 @@ function TableRow(props) {
         </td>
       </tr>
     );
-  } else if (props.action === "ssw") {
-    return (
-      <tr key={post.docId} className={trClass}>
-        <td>{post.subject}</td>
-        <td>{convertDate(post.date)}</td>
-        <td>
-          {trClass === "cancel-session"
-            ? `Cancelled (${post.initCancel.slice(
-                5
-              )} - ${post.revertCancel.slice(5)})`
-            : mode}
-        </td>
-      </tr>
-    );
   }
+  // else if (props.action === "ssw") {
+  //   return (
+  //     <tr key={post.docId} className={trClass}>
+  //       <td>{post.subject}</td>
+  //       <td>{convertDate(post.date)}</td>
+  //       <td>
+  //         {trClass === "cancel-session"
+  //           ? `Cancelled (${post.initCancel.slice(
+  //               5
+  //             )} - ${post.revertCancel.slice(5)})`
+  //           : mode}
+  //       </td>
+  //     </tr>
+  //   );
+  // }
 }
 
 export default TableRow;

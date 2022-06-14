@@ -4,8 +4,6 @@ import TableRow from "../components/TableRow";
 export default function Table(props) {
   const { posts, action } = props;
 
-  // console.log(posts);
-
   if (action === "filteredAgSched") {
     return (
       <table key={String(Math.random())}>
@@ -31,17 +29,32 @@ export default function Table(props) {
       </table>
     );
   } else {
-    return posts.map((post) => (
+    return posts.length >= 1 ? (
+      posts.map((post) => (
+        <TableRow
+          key={doc.id}
+          post={post}
+          triggerModal={props.triggerModal}
+          dataId={doc.id}
+          isDeleted={props.isDeleted}
+          triggerEdit={props.triggerEdit}
+          radioHandler={props.radioHandler}
+          action={props.action}
+          serviceType={props.serviceType}
+        />
+      ))
+    ) : (
       <TableRow
         key={doc.id}
-        post={post}
+        post={posts}
         triggerModal={props.triggerModal}
         dataId={doc.id}
         isDeleted={props.isDeleted}
         triggerEdit={props.triggerEdit}
         radioHandler={props.radioHandler}
         action={props.action}
+        serviceType={props.serviceType}
       />
-    ));
+    );
   }
 }

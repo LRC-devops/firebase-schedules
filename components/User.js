@@ -16,8 +16,8 @@ const User = (props) => {
     setShowModal(false);
   };
 
-  const posts = props.posts;
-  console.log(posts);
+  const { posts, type } = props;
+  // console.log(posts);
 
   const btnClickHandler = (e) => {
     const btnName = e.target.innerHTML;
@@ -29,21 +29,21 @@ const User = (props) => {
     return btnName;
   };
 
-  console.log(props.service);
+  // console.log(props.service);
 
   const serviceCheck = () => {
-    if (props.service === "agSched") {
+    if (props.type === "sched") {
       return (
         <>
           <UiCard />
           <ScheduleBtns btnClickHandler={btnClickHandler} posts={posts} />
         </>
       );
-    } else if (props.service === "ssw") {
+    } else if (props.type === "calendar") {
       return (
         <ScheduleBtns
           posts={["Schedule"]}
-          type={props.type}
+          type={type}
           btnClickHandler={btnClickHandler}
         />
       );
@@ -61,7 +61,7 @@ const User = (props) => {
               posts={posts}
               btnName={btnClickHandler}
               modalContent={modalContent}
-              service={props.service}
+              serviceType={type}
             />
           )}
           {serviceCheck()}

@@ -9,12 +9,12 @@ import SignIn from "./SignIn";
 const Modal = (props) => {
   let modalContent;
 
-  console.log("in modal", props.name);
-  // const modalFill = () => {};
+  const sessionRef = props.modalContent.sessionRef[0];
+
   if (props.action === "DELETE") {
     modalContent = (
       <>
-        <p>{`Are you sure you want to ${props.action} "${props.name}"?`}</p>
+        <p>{`Are you sure you want to ${props.action} "${sessionRef.subject}"?`}</p>
         <button onClick={props.onConfirm}>Confirm {props.action}</button>
       </>
     );
@@ -28,6 +28,8 @@ const Modal = (props) => {
           isCancelled={props.modalContent.isCancelled}
           action={`edit`}
           nameRef={props.name}
+          serviceType={props.serviceType}
+          sessionRef={sessionRef}
         />
       </>
     );
@@ -50,14 +52,20 @@ const Modal = (props) => {
     );
   }
 
+  const schedHeader = `${sessionRef.host}'s ${sessionRef.course} on ${sessionRef.dayTime}`;
+  const calenHeader = `${sessionRef.subject} on ${sessionRef.date}`;
+
   return (
     <SessionsProvider>
       <>
-        <div className={classes["modal__background"]}></div>
+        <div
+          className={classes["modal__background"]}
+          onClick={props.onClose}
+        ></div>
         <div className={classes.modal}>
           <div className={classes["modal__title"]}>
             <h2>{props.action}:</h2>
-            <h2>{props.name}</h2>
+            <h2>{props.serviceType === "sched" ? schedHeader : calenHeader}</h2>
           </div>
           <div className={classes["modal__content"]}>
             {props.action === "sign-in" ? <SignIn /> : modalContent}
