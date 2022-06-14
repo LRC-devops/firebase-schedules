@@ -16,7 +16,7 @@ const User = (props) => {
     setShowModal(false);
   };
 
-  const posts = props.posts;
+  const { posts, type } = props;
   // console.log(posts);
 
   const btnClickHandler = (e) => {
@@ -39,11 +39,11 @@ const User = (props) => {
           <ScheduleBtns btnClickHandler={btnClickHandler} posts={posts} />
         </>
       );
-    } else if (props.type === "calen") {
+    } else if (props.type === "calendar") {
       return (
         <ScheduleBtns
           posts={["Schedule"]}
-          type={props.type}
+          type={type}
           btnClickHandler={btnClickHandler}
         />
       );
@@ -61,7 +61,7 @@ const User = (props) => {
               posts={posts}
               btnName={btnClickHandler}
               modalContent={modalContent}
-              service={props.service}
+              serviceType={type}
             />
           )}
           {serviceCheck()}

@@ -21,7 +21,8 @@ const Edit = (props) => {
   const sessionCtx = useContext(SessionsContext);
 
   const posts = props.posts;
-  const { service, type } = props;
+  const { service, serviceType } = props;
+  "serviceType in Edit component", serviceType;
 
   // if no user, render nothing
   if (!user) {
@@ -29,11 +30,21 @@ const Edit = (props) => {
   }
 
   const modalTrigger = (e) => {
+    console.log(e.target.id);
+    console.log(e.target.name);
+
+    const sessionRef = posts.filter((session) => {
+      return session.docId === e.target.id;
+    });
+
+    console.log(sessionRef);
+
     setShowModal(true);
     setModalContent({
       action: e.target.innerHTML,
       session: e.target.id,
-      name: e.target.name,
+      sessionRef: sessionRef,
+      serviceType: serviceType,
     });
   };
 
@@ -47,7 +58,7 @@ const Edit = (props) => {
     setIsDeleted((prevState) => {
       return [...prevState, modalContent.session];
     });
-    sessionCtx.delete(modalContent.session, service, type);
+    sessionCtx.delete(modalContent.session, service, serviceType);
     setShowModal(false);
     setIsLoading(false);
   };
@@ -55,14 +66,14 @@ const Edit = (props) => {
   const submitEditHandler = (e) => {
     setIsLoading(true);
     e.preventDefault();
-    sessionCtx.edit(e, modalContent.session, service, type);
+    sessionCtx.edit(e, modalContent.session, service, serviceType);
     setIsLoading(false);
   };
 
   const addSessionHandler = (e) => {
     setIsLoading(true);
     const newArr = [...newSessions];
-    sessionCtx.add(e, newArr, service, type);
+    sessionCtx.add(e, newArr, service, serviceType);
     setIsLoading(false);
     return setNewSessions([]);
   };
@@ -70,7 +81,7 @@ const Edit = (props) => {
   const cancelSubmitHandler = async (e) => {
     setIsLoading(true);
     e.preventDefault();
-    await sessionCtx.cancel(e, service, type);
+    await sessionCtx.cancel(e, service, serviceType);
     setIsLoading(false);
   };
 
@@ -87,11 +98,12 @@ const Edit = (props) => {
           cancelSubmitHandler={cancelSubmitHandler}
           submitEditHandler={submitEditHandler}
           posts={posts}
+          serviceType={serviceType}
         />
       )}
       <div className="flex-col">
         <div className="flex">
-          <Editor action={`add`} service={service} type={type} />
+          <Editor action={`add`} service={service} serviceType={serviceType} />
 
           <div>
             <div className="table--box">
@@ -108,6 +120,7 @@ const Edit = (props) => {
                   triggerModal={modalTrigger}
                   triggerEdit={modalTrigger}
                   action="edit"
+                  serviceType={serviceType}
                 />
               </div>
 

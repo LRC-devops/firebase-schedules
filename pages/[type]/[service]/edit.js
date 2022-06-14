@@ -1,7 +1,8 @@
 import { sessionToJSON, firestore, getDoc } from "../../../lib/firebase";
 import Edit from "../../../components/Edit";
-import React from "react";
+import { useContext, useEffect } from "react";
 import AuthCheck from "../../../components/AuthCheck";
+import { SessionsContext } from "../../../lib/context";
 
 export async function getServerSideProps({ params }) {
   const { service, type } = params;
@@ -14,15 +15,19 @@ export async function getServerSideProps({ params }) {
 
   return {
     props: { posts, service, type },
-    // revalidate: 60,
   };
 }
 export default function EditServicePage({ posts, service, type }) {
+  const { setServiceType, serviceType } = useContext(SessionsContext);
+  useEffect(() => {
+    setServiceType(type);
+  }, []);
+
   return (
     <main>
       <AuthCheck>
         <h1>Edit {service}</h1>
-        <Edit posts={posts} service={service} type={type} />
+        <Edit posts={posts} service={service} serviceType={serviceType} />
       </AuthCheck>
     </main>
   );

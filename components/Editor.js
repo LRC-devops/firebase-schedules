@@ -1,14 +1,13 @@
 import { addSession, useEditSession } from "../lib/hooks";
 import { SessionsContext } from "../lib/context";
-import { useContext } from "react";
+import { useContext, useReducer, useState } from "react";
 import toast from "react-hot-toast";
 import { FormInput, FormButton } from "./FormComponents";
 import GlassCard from "../components/GlassCard";
 
 export default function Editor(props) {
-  const { setNewSessions, newSessions, modalContent } =
-    useContext(SessionsContext);
-  const { service, type } = props;
+  const { setNewSessions, newSessions } = useContext(SessionsContext);
+  const { service, serviceType, sessionRef } = props;
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -34,21 +33,18 @@ export default function Editor(props) {
           check = false;
         }
       }
-      // console.log(check);
       return check;
     };
 
     if (props.action === `add`) {
-      // console.log(checkLength(dataArr));
       if (!checkLength(dataArr)) {
         return toast.error("session data is incomplete");
       } else if (checkMode(s.mode.value)) {
-        const newSess = addSession(e, service, type);
+        const newSess = addSession(e, service, serviceType);
 
         setNewSessions((prevState) => {
           return [...prevState, newSess];
         });
-        console.log(newSessions);
         return newSessions;
       } else {
         if (!checkMode(s.mode.value)) {
@@ -78,40 +74,66 @@ export default function Editor(props) {
           <h1>{props.action} sessions</h1>
           {props.value ? <h2>{props.value}</h2> : null}
           <form onSubmit={submitHandler} className="form-basic">
-            {type === "sched" ? (
+            {serviceType === "sched" && (
               <>
                 <FormInput
                   type="text"
                   placeholder={
-                    props.action === "edit" ? `Edit Field` : "Subject"
+                    props.action === "edit"
+                      ? `${sessionRef.subject}`
+                      : "Subject"
                   }
                   name="subject"
                 />
-                {/* <FormInput
-                type="text"
-                placeholder={props.action === "edit" ? `Edit Field` : "Subject"}
-                name="subject"
-              /> */}
-                <FormInput type="text" placeholder="Course" name="course" />
-                <FormInput type="text" placeholder="Day/Time" name="dayTime" />
-                <FormInput type="text" placeholder="host" name="host" />
-                <FormInput type="text" placeholder="link" name="link" />
-                <FormInput type="text" placeholder="mode" name="mode" />
+                <FormInput
+                  type="text"
+                  placeholder={sessionRef ? `${sessionRef.course}` : "Course"}
+                  name="course"
+                />
+                <FormInput
+                  type="text"
+                  placeholder={
+                    sessionRef ? `${sessionRef.dayTime}` : "Day/Time"
+                  }
+                  name="dayTime"
+                />
+                <FormInput
+                  type="text"
+                  placeholder={sessionRef ? `${sessionRef.host}` : "Host"}
+                  name="host"
+                />
+                <FormInput
+                  type="text"
+                  placeholder={sessionRef ? `${sessionRef.link}` : "Link"}
+                  name="link"
+                />
+                <FormInput
+                  type="text"
+                  placeholder={sessionRef ? `${sessionRef.mode}` : "Mode"}
+                  name="mode"
+                />
               </>
-            ) : (
+            )}{" "}
+            {serviceType === "calendar" && (
               <>
-                <FormInput type="text" placeholder="Subject" name="subject" />
-                {/* <input type="text" placeholder="dayTime" name="course" /> */}
-                <FormInput type="text" placeholder="Mode" name="mode" />
+                <FormInput
+                  type="text"
+                  placeholder={sessionRef ? `${sessionRef.subject}` : "Subject"}
+                  name="subject"
+                />
+                <FormInput
+                  type="text"
+                  placeholder={sessionRef ? `${sessionRef.mode}` : "Mode"}
+                  name="mode"
+                />
                 <FormInput
                   type="datetime-local"
-                  placeholder="Date"
+                  placeholder={sessionRef ? `${sessionRef.date}` : "date"}
                   name="date"
                 />
-                {/* <input type="date" placeholder="Date" name="date" /> */}
               </>
             )}
-            <FormButton>Submit</FormButton>
+            <FormButton formIsValid={formIsValid}>Submit</FormButton>
           </form>
         </div>
       </GlassCard>
