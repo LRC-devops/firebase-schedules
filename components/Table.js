@@ -29,7 +29,7 @@ export default function Table(props) {
       </table>
     );
   } else {
-    return posts.length > 1 ? (
+    return posts.length >= 1 ? (
       posts.map((post) => (
         <TableRow
           key={doc.id}

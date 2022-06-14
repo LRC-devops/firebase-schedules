@@ -1,7 +1,10 @@
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { checkCancel } from "../lib/hooks";
+import { SessionsContext } from "../lib/context";
+import { useContext } from "react";
 
 function TableRow(props) {
+  const { serviceType } = useContext(SessionsContext);
   const post = props.post;
   let trClass;
 
@@ -74,7 +77,7 @@ function TableRow(props) {
             EDIT
           </a>
         </td>
-        {props.serviceType === "sched" ? (
+        {serviceType === "sched" ? (
           <>
             <td>{post.host}</td>
             <td>{post.course}</td>

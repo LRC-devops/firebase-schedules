@@ -52,9 +52,6 @@ const Modal = (props) => {
     );
   }
 
-  console.log(props.schedName);
-  console.log(props.calenName);
-
   const schedHeader = `${sessionRef.host}'s ${sessionRef.course} on ${sessionRef.dayTime}`;
   const calenHeader = `${sessionRef.subject} on ${sessionRef.date}`;
 

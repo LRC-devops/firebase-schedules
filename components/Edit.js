@@ -30,14 +30,9 @@ const Edit = (props) => {
   }
 
   const modalTrigger = (e) => {
-    console.log(e.target.id);
-    console.log(e.target.name);
-
     const sessionRef = posts.filter((session) => {
       return session.docId === e.target.id;
     });
-
-    console.log(sessionRef);
 
     setShowModal(true);
     setModalContent({

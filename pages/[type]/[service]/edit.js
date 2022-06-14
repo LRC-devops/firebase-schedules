@@ -1,4 +1,4 @@
-import { sessionToJSON, firestore, getDoc } from "../../../lib/firebase";
+import { sessionToJSON, firestore } from "../../../lib/firebase";
 import Edit from "../../../components/Edit";
 import { useContext, useEffect } from "react";
 import AuthCheck from "../../../components/AuthCheck";
@@ -21,7 +21,7 @@ export default function EditServicePage({ posts, service, type }) {
   const { setServiceType, serviceType } = useContext(SessionsContext);
   useEffect(() => {
     setServiceType(type);
-  }, []);
+  }, [false]);
 
   return (
     <main>

@@ -133,7 +133,7 @@ export default function Editor(props) {
                 />
               </>
             )}
-            <FormButton formIsValid={formIsValid}>Submit</FormButton>
+            <FormButton>Submit</FormButton>
           </form>
         </div>
       </GlassCard>
