@@ -42,8 +42,6 @@ const ScheduleModal = (props) => {
     modalTitle = props.service;
   }
 
-  console.log(posts);
-
   return (
     <>
       <div className={classes["modal__background"]}></div>
