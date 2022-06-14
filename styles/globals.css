@@ -181,6 +181,7 @@ th {
   width: auto;
   /* aspect-ratio: 1/1; */
   border-radius: 0;
+  cursor: pointer;
 }
 .navBar__user-box {
   display: flex;
