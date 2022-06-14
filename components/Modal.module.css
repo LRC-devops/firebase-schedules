@@ -36,7 +36,9 @@
 .modal__content {
   display: flex;
   flex-direction: column;
-  overflow: scroll;
+  align-items: center;
+  justify-content: center;
+  /* overflow: scroll; */
   padding: 0.7rem 1rem;
 }
 .modal__title {

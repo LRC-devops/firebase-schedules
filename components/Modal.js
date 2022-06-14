@@ -8,8 +8,11 @@ import classes from "./Modal.module.css";
 import SignIn from "./SignIn";
 const Modal = (props) => {
   let modalContent;
-
-  const sessionRef = props.modalContent.sessionRef[0];
+  let sessionRef;
+  console.log(props.modalContent);
+  if (props.modalContent != undefined) {
+    sessionRef = props.modalContent.sessionRef[0];
+  }
 
   if (props.action === "DELETE") {
     modalContent = (
@@ -51,9 +54,12 @@ const Modal = (props) => {
       </>
     );
   }
-
-  const schedHeader = `${sessionRef.host}'s ${sessionRef.course} on ${sessionRef.dayTime}`;
-  const calenHeader = `${sessionRef.subject} on ${sessionRef.date}`;
+  let schedHeader;
+  let calenHeader;
+  if (sessionRef) {
+    schedHeader = `${sessionRef.host}'s ${sessionRef.course} on ${sessionRef.dayTime}`;
+    calenHeader = `${sessionRef.subject} on ${sessionRef.date}`;
+  }
 
   return (
     <SessionsProvider>
