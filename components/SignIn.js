@@ -7,12 +7,15 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import toast from "react-hot-toast";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { SessionsContext } from "../lib/context";
 
 const SignIn = () => {
   const [authType, setAuthType] = useState("LOG_IN");
+  const { setIsLoading } = useContext(SessionsContext);
 
   const requestAccess = (e) => {
+    setIsLoading(true);
     e.preventDefault();
     const auth = getAuth();
     createUserWithEmailAndPassword(
@@ -27,9 +30,11 @@ const SignIn = () => {
       .catch((err) => {
         toast.error(err.message);
       });
+    setIsLoading(false);
   };
 
   const signInWithEmail = (e) => {
+    setIsLoading(true);
     e.preventDefault();
     const auth = getAuth();
     signInWithEmailAndPassword(
@@ -43,6 +48,7 @@ const SignIn = () => {
       .catch((err) => {
         toast.error("An error occured! " + err.message);
       });
+    setIsLoading(false);
   };
   const forgotPasswordTrigger = () => {
     setAuthType("FORGOT_PASSWORD");
@@ -51,9 +57,11 @@ const SignIn = () => {
     setAuthType("REQUEST_ACCESS");
   };
   const forgotPasswordSubmit = () => {
+    setIsLoading(true);
     e.preventDefault();
     const auth = getAuth();
     sendPasswordResetEmail(auth, e.target.email.value);
+    setIsLoading(false);
   };
 
   return (
