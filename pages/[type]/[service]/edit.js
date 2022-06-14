@@ -4,6 +4,8 @@ import { useContext, useEffect } from "react";
 import AuthCheck from "../../../components/AuthCheck";
 import { SessionsContext } from "../../../lib/context";
 
+// Should eventually add snapshot listener for realtime data preview when editing
+
 export async function getServerSideProps({ params }) {
   const { service, type } = params;
 
