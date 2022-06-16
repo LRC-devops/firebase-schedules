@@ -9,7 +9,6 @@ import SignIn from "./SignIn";
 const Modal = (props) => {
   let modalContent;
   let sessionRef;
-  console.log(props.modalContent);
   if (props.modalContent != undefined) {
     sessionRef = props.modalContent.sessionRef[0];
   }
@@ -33,6 +32,7 @@ const Modal = (props) => {
           nameRef={props.name}
           serviceType={props.serviceType}
           sessionRef={sessionRef}
+          onClose={props.onClose}
         />
       </>
     );
@@ -70,7 +70,7 @@ const Modal = (props) => {
         ></div>
         <div className={classes.modal}>
           <div className={classes["modal__title"]}>
-            <h2>{props.action}:</h2>
+            {props.action === "sign-in" ? null : <h2>{props.action}:</h2>}
             <h2>{props.serviceType === "sched" ? schedHeader : calenHeader}</h2>
           </div>
           <div className={classes["modal__content"]}>

@@ -26,16 +26,20 @@
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
 .ui-card:nth-child(1) {
-  background: linear-gradient(to right, var(--clr-green), var(--clr-green-var));
+  /* background: linear-gradient(to right, var(--clr-green), var(--clr-green-var)); */
+  background-color: var(--clr-green);
 }
 .ui-card:nth-child(2) {
-  background: linear-gradient(to right, var(--clr-green-var), var(--clr-teal));
+  /* background: linear-gradient(to right, var(--clr-green-var), var(--clr-teal)); */
+  background-color: var(--clr-teal-var);
 }
 .ui-card:nth-child(3) {
-  background: linear-gradient(to right, var(--clr-gold), var(--clr-pink));
+  /* background: linear-gradient(to right, var(--clr-green-var), var(--clr-green)); */
+  background-color: var(--clr-green-var);
 }
 .ui-card:nth-child(4) {
-  background: linear-gradient(to right, var(--clr-teal-var), var(--clr-teal));
+  /* background: linear-gradient(to right, var(--clr-teal), var(--clr-green)); */
+  background-color: var(--clr-teal);
 }
 .ui-card__heading {
   background: linear-gradient(
@@ -109,7 +113,6 @@
     align-self: center;
   }
   .ui-card__heading {
-    /* height: 5rem; */
     background: none;
     border: none;
     font-size: 1.7rem;

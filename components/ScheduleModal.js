@@ -44,7 +44,10 @@ const ScheduleModal = (props) => {
 
   return (
     <>
-      <div className={classes["modal__background"]}></div>
+      <div
+        className={classes["modal__background"]}
+        onClick={props.onClose}
+      ></div>
       <div className={classes.modal}>
         <AiOutlineCloseCircle
           className={classes["modal__icon"]}
