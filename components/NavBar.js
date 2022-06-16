@@ -12,7 +12,6 @@ export default function NavBar() {
   const [signInModal, setSignInModal] = useState(false);
 
   const triggerSignInModal = () => {
-    console.log("signIn");
     setSignInModal(true);
   };
   const closeModal = () => {
@@ -53,29 +52,15 @@ export default function NavBar() {
                 </div>
                 <li>
                   <Link href="/enter">
-                    {/* <button className="btn btn-login">Profile</button> */}
                     <p className="navBar--user">signed in as: {user?.email}</p>
-                    {/* <img src={user?.photoURL || "/hacker/png"} alt="user photo" /> */}
                   </Link>
                 </li>
               </div>
-              {/* <li>
-              <Link href="/enter">
-              <button className="btn btn-login">Sign Out</button>
-              </Link>
-            </li> */}
             </div>
           )}
 
           {!user && (
             <li>
-              {/* <Link href="/enter">
-              <button className="btn btn-login">Admin log in</button>
-            </Link> */}
-              {/* <button onClick={SignInButton()} className="btn btn-login">
-              Admin log in
-            </button> */}
-              {/* <SignInButton /> */}
               <button className="btn btn-login" onClick={triggerSignInModal}>
                 Admin Sign In
               </button>
@@ -83,9 +68,7 @@ export default function NavBar() {
           )}
         </ul>
       </nav>
-      {signInModal && !user && (
-        <Modal action="sign-in" title="Sign In" onClose={closeModal} />
-      )}
+      {signInModal && !user && <Modal action="sign-in" onClose={closeModal} />}
     </>
   );
 }

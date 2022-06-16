@@ -35,9 +35,10 @@ function TableRow(props) {
     const dateObj = new Date(timestamp);
     const day = dateObj.getMonth() + 1;
     const month = dateObj.getDate();
-    const time = dateObj.getHours();
+    let time = dateObj.getHours();
 
-    return `${day} / ${month} ${time}-${time + 1}`;
+    return `${day}/${month} ${time}-${time + 1}p`;
+    // ${time + 1 < 12 ? "a" : "p"}
   };
 
   if (props.action === "edit") {
@@ -49,8 +50,8 @@ function TableRow(props) {
             onClick={props.triggerModal}
             id={post.docId}
             session={`${post.host}-${post.course}`}
-            schedName={`${post.host}'s ${post.course} ${post.dayTime} session`}
-            calenName={`${post.subject} on ${post.date}`}
+            // schedName={`${post.host}'s ${post.course} ${post.dayTime} session`}
+            // calenName={`${post.subject} on ${post.date}`}
           >
             CANCEL
           </a>
@@ -60,8 +61,8 @@ function TableRow(props) {
             className="danger-link"
             onClick={props.triggerModal}
             id={post.docId}
-            schedName={`${post.host}'s ${post.course} ${post.dayTime} session`}
-            calenName={`${post.subject} on ${post.date}`}
+            // schedName={`${post.host}'s ${post.course} ${post.dayTime} session`}
+            // calenName={`${post.subject} on ${post.date}`}
           >
             DELETE
           </a>
@@ -71,8 +72,8 @@ function TableRow(props) {
             className="danger-link"
             onClick={props.triggerEdit}
             id={post.docId}
-            schedName={`${post.host}'s ${post.course} ${post.dayTime} session`}
-            calenName={`${post.subject} on ${post.date}`}
+            // schedName={`${post.host}'s ${post.course} ${post.dayTime} session`}
+            // calenName={`${post.subject} on ${post.date}`}
           >
             EDIT
           </a>

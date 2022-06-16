@@ -1,4 +1,4 @@
-import { sessionToJSON, firestore } from "../../../lib/firebase";
+import { sessionToJSON, firestore, schedColl } from "../../../lib/firebase";
 import Edit from "../../../components/Edit";
 import { useContext, useEffect } from "react";
 import AuthCheck from "../../../components/AuthCheck";
@@ -9,10 +9,14 @@ import { SessionsContext } from "../../../lib/context";
 export async function getServerSideProps({ params }) {
   const { service, type } = params;
 
-  const docRef = firestore
-    .collection("LRC")
-    .doc("schedules")
-    .collection(`${service}${type}`);
+  let docRef = schedColl.collection(`${service}${type}`);
+  if (type === "calendar") {
+    const today = new Date();
+    docRef = docRef.where("date", ">=", today).orderBy("date");
+  } else if (type === "sched") {
+    docRef = docRef.orderBy("subject");
+  }
+
   const posts = (await docRef.get()).docs.map(sessionToJSON);
 
   return {

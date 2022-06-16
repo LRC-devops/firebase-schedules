@@ -15,7 +15,7 @@ const ScheduleBtns = (props) => {
     return colorClassArr[index];
   };
 
-  if (props.type === "ssw") {
+  if (props.type === "calendar") {
     return (
       <button
         className={classes["sched-btn__btn"]}

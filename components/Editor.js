@@ -63,6 +63,7 @@ export default function Editor(props) {
         );
       } else {
         props.onSubmit(e, service);
+        props.onClose();
       }
     }
   };
